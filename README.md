@@ -1,7 +1,7 @@
 # Web Scraping Project
 
 ## Overview
-This project is designed to scrape information from a specified website. It utilizes Python's powerful libraries to send HTTP requests, parse HTML content, and extract relevant data.
+This project is designed to scrape information from a specified website.
 
 ## Installation
 To set up the project, you need to have Python installed on your machine. Once you have Python, you can install the required packages using pip.

@@ -50,6 +50,6 @@ def main(url, save=False, use_cache=False, html_path='page.html', soup_path='sou
     return information
 
 if __name__ == "__main__":
-    url = 'https://example.com'  # Replace with the target website
+    url = 'https://soprisselfstorage.com/rent-storage/'  # Replace with the target website
     data = main(url, save=True, use_cache=True)
     print(data)
