@@ -25,19 +25,6 @@ def extract_information(soup):
     headings = soup.find_all('h1')
     return [heading.get_text() for heading in headings]
 
-def save_data(html, soup, html_path='page.html', soup_path='soup.pkl'):
-    with open(html_path, 'w', encoding='utf-8') as f:
-        f.write(html)
-    with open(soup_path, 'wb') as f:
-        pickle.dump(soup, f)
-
-def load_data(html_path='page.html', soup_path='soup.pkl'):
-    with open(html_path, 'r', encoding='utf-8') as f:
-        html = f.read()
-    with open(soup_path, 'rb') as f:
-        soup = pickle.load(f)
-    return html, soup
-
 def main(url, save=False, use_cache=False, html_path='page.html', soup_path='soup.pkl'):
     if use_cache and os.path.exists(html_path) and os.path.exists(soup_path):
         html, soup = load_data(html_path, soup_path)

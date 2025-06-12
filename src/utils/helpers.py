@@ -1,14 +1,12 @@
-def clean_text(text):
-    """Cleans the input text by stripping whitespace and removing unwanted characters."""
-    return text.strip()
+def save_data(html, soup, html_path='page.html', soup_path='soup.pkl'):
+    with open(html_path, 'w', encoding='utf-8') as f:
+        f.write(html)
+    with open(soup_path, 'wb') as f:
+        pickle.dump(soup, f)
 
-def format_data(data):
-    """Formats the extracted data into a desired structure, such as a dictionary."""
-    return {key: clean_text(value) for key, value in data.items()}
-
-def extract_links(html_content):
-    """Extracts all hyperlinks from the given HTML content."""
-    from bs4 import BeautifulSoup
-
-    soup = BeautifulSoup(html_content, 'html.parser')
-    return [a['href'] for a in soup.find_all('a', href=True)]
+def load_data(html_path='page.html', soup_path='soup.pkl'):
+    with open(html_path, 'r', encoding='utf-8') as f:
+        html = f.read()
+    with open(soup_path, 'rb') as f:
+        soup = pickle.load(f)
+    return html, soup
