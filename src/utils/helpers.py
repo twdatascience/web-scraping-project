@@ -20,9 +20,8 @@ def load_data(html_path='page.html'):
         html = f.read()
     return html
 
-import pandas as pd
 
-def write_multiple_results_to_excel(sopris_results, storquest_results, storage_mart_results, excel_path="storage_results.xlsx"):
+def write_multiple_results_to_excel(sopris_results, storquest_results, storage_mart_results, all_hours_results, carbondale_results, excel_path="storage_results.xlsx"):
     """
     Write Sopris and StorQuest results to different sheets in a single Excel file.
     """
@@ -37,6 +36,12 @@ def write_multiple_results_to_excel(sopris_results, storquest_results, storage_m
         # Storage Mart sheet
         df_storage_mart = pd.DataFrame.from_dict(storage_mart_results, orient='index', columns=['unit_name', 'price'])
         df_storage_mart.to_excel(writer, index=False, sheet_name=f"{today_str}_storage_mart_results")
+        # All Hours sheet
+        df_all_hours = pd.DataFrame.from_dict(all_hours_results, orient='index', columns=['unit_name', 'price'])
+        df_all_hours.to_excel(writer, index=False, sheet_name=f"{today_str}_all_hours_results")
+        # Carbondale sheet
+        df_carbondale = pd.DataFrame.from_dict(carbondale_results, orient='index', columns=['unit_name', 'price'])
+        df_carbondale.to_excel(writer, index=False, sheet_name=f"{today_str}_carbondale_results")
 
 def fetch_sopris_self_storage(url, html_path=None):
     if html_path is None:
@@ -300,5 +305,117 @@ def extract_storage_mart(storage_mart_soup):
             price = "Sold Out"
 
         results[idx] = (unit_name, price)
+
+    return results
+
+def fetch_all_hours(url, html_path=None):
+    if html_path is None:
+        today_str = datetime.date.today().isoformat()
+        html_path = f"./web_data/{today_str}_storage_mart.html"
+    # Ensure the directory exists
+    os.makedirs(os.path.dirname(html_path), exist_ok=True)
+    # Set up Selenium (Chrome)
+    options = webdriver.ChromeOptions()
+    options.add_argument('--headless')
+    options.add_argument('--disable-gpu')
+    driver = webdriver.Chrome(options=options)
+
+    # Navigate to the dynamic website
+    driver.get(url)
+    element = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, "//div[@class='unit-type-container-large']"))
+            )
+        
+    # Get the page source after the content is loaded
+    page_source = driver.page_source
+
+    # Parse the HTML with BeautifulSoup
+    soup = BeautifulSoup(page_source, "html.parser")
+
+    with open(html_path, 'w', encoding='utf-8') as f:
+        f.write(page_source)
+
+    
+
+    # Close the browser
+    driver.quit()
+
+    return soup
+
+def extract_all_hours(all_hours_soup):
+    """
+    Extracts unit name and price from storquest_soup and removes duplicate (unit_name, price) pairs.
+    """
+    units_tables = {}
+    for idx, div in enumerate(all_hours_soup.find_all("div", class_="unit-type")):
+        units_tables[f'unitsTable_{idx}'] = div.decode_contents()
+
+    results = {}
+    for idx, (key, table_html) in enumerate(units_tables.items()):
+
+        table_soup = BeautifulSoup(table_html, "html.parser")
+        unit_name_span = table_soup.find("h4", class_="primary-color")
+        unit_name = unit_name_span.get_text(strip=True) if unit_name_span else None
+        price_span = table_soup.find("div", class_="unit-menu")
+        price_text = price_span.get_text(strip=True) if price_span else None
+        price_text = price_text.split('\n')[0]
+
+        results[idx] = (unit_name, price_text)
+
+    return results
+
+def fetch_carbondale(url, html_path=None):
+    if html_path is None:
+        today_str = datetime.date.today().isoformat()
+        html_path = f"./web_data/{today_str}_storage_mart.html"
+    # Ensure the directory exists
+    os.makedirs(os.path.dirname(html_path), exist_ok=True)
+    # Set up Selenium (Chrome)
+    options = webdriver.ChromeOptions()
+    options.add_argument('--headless')
+    options.add_argument('--disable-gpu')
+    driver = webdriver.Chrome(options=options)
+
+    # Navigate to the dynamic website
+    driver.get(url)
+    element = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, "//div[@class='grid grid-cols-1 lg:grid-cols-2 gap-6']"))
+            )
+        
+    # Get the page source after the content is loaded
+    page_source = driver.page_source
+
+    # Parse the HTML with BeautifulSoup
+    soup = BeautifulSoup(page_source, "html.parser")
+
+    with open(html_path, 'w', encoding='utf-8') as f:
+        f.write(page_source)
+
+    
+
+    # Close the browser
+    driver.quit()
+
+    return soup
+
+def extract_carbondale(carbondale_soup):
+    """
+    Extracts unit name and price from storquest_soup and removes duplicate (unit_name, price) pairs.
+    """
+    units_tables = {}
+    for idx, div in enumerate(carbondale_soup.find_all("div", class_="bg-white rounded-xl shadow-xl border flex flex-col")):
+        units_tables[f'unitsTable_{idx}'] = div.decode_contents()
+
+
+    results = {}
+    for idx, (key, table_html) in enumerate(units_tables.items()):
+
+        table_soup = BeautifulSoup(table_html, "html.parser")
+        unit_name = table_soup.find("p", class_="text-xl font-bold")
+        unit_name_text = unit_name.get_text(strip=True) if unit_name else None
+        price = table_soup.find("dd", class_="text-xl font-bold")
+        price_text = price.get_text(strip=True) if price else None
+
+        results[idx] = (unit_name_text, price_text)
 
     return results
