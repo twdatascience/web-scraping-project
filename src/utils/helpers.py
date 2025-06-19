@@ -9,17 +9,8 @@ import datetime
 import pandas as pd
 import os
 import time
-
-
-def save_data(html, html_path='page.html'):
-    with open(html_path, 'w', encoding='utf-8') as f:
-        f.write(html)
-
-def load_data(html_path='page.html'):
-    with open(html_path, 'r', encoding='utf-8') as f:
-        html = f.read()
-    return html
-
+import sqlite3
+import re
 
 def write_multiple_results_to_excel(sopris_results, storquest_results, storage_mart_results, all_hours_results, carbondale_results, excel_path="storage_results.xlsx"):
     """
@@ -28,19 +19,19 @@ def write_multiple_results_to_excel(sopris_results, storquest_results, storage_m
     today_str = datetime.date.today().isoformat()
     with pd.ExcelWriter(excel_path) as writer:
         # Sopris sheet
-        df_sopris = pd.DataFrame.from_dict(sopris_results, orient='index', columns=['unit_name', 'price'])
+        df_sopris = pd.DataFrame.from_dict(sopris_results, orient='index', columns=['unit_size', 'unit_type', 'price'])
         df_sopris.to_excel(writer, index=False, sheet_name=f"{today_str}_sopris_results")
         # StorQuest sheet
-        df_storquest = pd.DataFrame.from_dict(storquest_results, orient='index', columns=['unit_name', 'price'])
+        df_storquest = pd.DataFrame.from_dict(storquest_results, orient='index', columns=['unit_size', 'unit_type', 'price'])
         df_storquest.to_excel(writer, index=False, sheet_name=f"{today_str}_storquest_results")
         # Storage Mart sheet
-        df_storage_mart = pd.DataFrame.from_dict(storage_mart_results, orient='index', columns=['unit_name', 'price'])
+        df_storage_mart = pd.DataFrame.from_dict(storage_mart_results, orient='index', columns=['unit_size', 'unit_type', 'price'])
         df_storage_mart.to_excel(writer, index=False, sheet_name=f"{today_str}_storage_mart_results")
         # All Hours sheet
-        df_all_hours = pd.DataFrame.from_dict(all_hours_results, orient='index', columns=['unit_name', 'price'])
+        df_all_hours = pd.DataFrame.from_dict(all_hours_results, orient='index', columns=['unit_size', 'unit_type', 'price'])
         df_all_hours.to_excel(writer, index=False, sheet_name=f"{today_str}_all_hours_results")
         # Carbondale sheet
-        df_carbondale = pd.DataFrame.from_dict(carbondale_results, orient='index', columns=['unit_name', 'price'])
+        df_carbondale = pd.DataFrame.from_dict(carbondale_results, orient='index', columns=['unit_size', 'unit_type', 'price'])
         df_carbondale.to_excel(writer, index=False, sheet_name=f"{today_str}_carbondale_results")
 
 def fetch_sopris_self_storage(url, html_path=None):
@@ -95,16 +86,19 @@ def extract_sopris(sopris_soup):
         # Extract unit name from <span class="candee_translate unitName">
         unit_name_span = table_soup.find("span", class_="candee_translate unitName")
         unit_name = unit_name_span.get_text(strip=True) if unit_name_span else None
+        parts = unit_name.split(" ", 1)
+        if len(parts) == 2:
+            unit_size, unit_type = parts
+        else:
+            unit_size = unit_name
+            unit_type = ""
 
         # Extract currentUnit-price (assuming in an element with class 'currentUnit-price')
         price = table_soup.find(class_="currentUnit-price")
         price_text = price.get_text(strip=True) if price else None
 
-        results[idx] = (unit_name, price_text)
+        results[idx] = (unit_size, unit_type, price_text)
 
-    # Write results to Excel file without index column and with specified sheet name
-    # df = pd.DataFrame.from_dict(results, orient='index', columns=['unit_name', 'price'])
-    # df.to_excel(excel_path, index=False, sheet_name=sheet_name)
     return results
 
 
@@ -165,13 +159,15 @@ def extract_storquest(storquest_soup):
         unit_name_span = table_soup.find("span", class_="UnitSize_name_21eud")
         unit_name = unit_name_span.get_text(strip=True) if unit_name_span else None
         price = table_soup.find(class_="UnitPrices_price_21Ss8")
-        price_text = price.get_text(strip=True) if price else None
+        price_text = price.get_text(strip=True).replace("$", "") + ".00" if price else None
+        unit_size = unit_name.replace(" ", "")
+        unit_type = ""
 
         
-        # Only add unique (unit_name, price_text) pairs
-        if (unit_name, price_text) not in seen:
-            results[idx] = (unit_name, price_text)
-            seen.add((unit_name, price_text))
+        # Only add unique (unit_size, unit_type, price_text)
+        if (unit_size, unit_type, price_text) not in seen:
+            results[idx] = (unit_size, unit_type, price_text)
+            seen.add((unit_size, unit_type, price_text))
 
     return results
 
@@ -280,7 +276,7 @@ def extract_storage_mart(storage_mart_soup):
         unit_name_div = table_soup.find("div", class_="qJmPGq06cwU2AuJemRUX-")
         # Extract all text from <span> tags inside this div and join with spaces
         span_texts = [span.get_text(strip=True) for span in unit_name_div.find_all("span")]
-        unit_name = "".join(span_texts)
+        unit_size = "".join(span_texts).replace("'", "")
 
         features = []
         feature_divs = table_soup.find_all("div", class_="_19pkLSfs8NgCWRnd7MtUO1 _1jTh_C-Ii0lUVWiCfhE0s3")
@@ -291,7 +287,7 @@ def extract_storage_mart(storage_mart_soup):
                 features.append(text)
     
         if len(features) > 0:
-            unit_name += " (" + ", ".join(features) + ")"
+            unit_type = " ".join(features)
 
 
         price = None
@@ -300,18 +296,18 @@ def extract_storage_mart(storage_mart_soup):
         if price_div:
             price_span = price_div.find("span")
             if price_span:
-                price = price_span.get_text(strip=True)
+                price = price_span.get_text(strip=True).replace("$", "")
         else:
             price = "Sold Out"
 
-        results[idx] = (unit_name, price)
+        results[idx] = (unit_size, unit_type, price)
 
     return results
 
 def fetch_all_hours(url, html_path=None):
     if html_path is None:
         today_str = datetime.date.today().isoformat()
-        html_path = f"./web_data/{today_str}_storage_mart.html"
+        html_path = f"./web_data/{today_str}_all_hours.html"
     # Ensure the directory exists
     os.makedirs(os.path.dirname(html_path), exist_ok=True)
     # Set up Selenium (Chrome)
@@ -358,16 +354,19 @@ def extract_all_hours(all_hours_soup):
         unit_name = unit_name_span.get_text(strip=True) if unit_name_span else None
         price_span = table_soup.find("div", class_="unit-menu")
         price_text = price_span.get_text(strip=True) if price_span else None
-        price_text = price_text.split('\n')[0]
+        price_text = price_text.split('\n')[0].replace("$", "") + ".00"
+        unit_size = re.search(r"\((.*?)\)", unit_name)
+        unit_size = unit_size.group(1).replace(" ", "") if unit_size else None
+        unit_type = unit_name.split(" (")[0] if unit_name else None
 
-        results[idx] = (unit_name, price_text)
+        results[idx] = (unit_size, unit_type, price_text)
 
     return results
 
 def fetch_carbondale(url, html_path=None):
     if html_path is None:
         today_str = datetime.date.today().isoformat()
-        html_path = f"./web_data/{today_str}_storage_mart.html"
+        html_path = f"./web_data/{today_str}_carbondale.html"
     # Ensure the directory exists
     os.makedirs(os.path.dirname(html_path), exist_ok=True)
     # Set up Selenium (Chrome)
@@ -414,8 +413,140 @@ def extract_carbondale(carbondale_soup):
         unit_name = table_soup.find("p", class_="text-xl font-bold")
         unit_name_text = unit_name.get_text(strip=True) if unit_name else None
         price = table_soup.find("dd", class_="text-xl font-bold")
-        price_text = price.get_text(strip=True) if price else None
+        price_text = price.get_text(strip=True).replace("$", "") if price else None
+        if len(unit_name_text.split(" ")) < 2:
+            unit_type = ""
+            unit_size = unit_name_text.split(" ")[0]
+        else:
+            unit_size = unit_name_text.split(" ")[0]
+            unit_type = " ".join(unit_name_text.split(" ")[1:])
 
-        results[idx] = (unit_name_text, price_text)
+
+        results[idx] = (unit_size, unit_type, price_text)
+
+    return results
+
+
+def combine_all_results(sopris_results, storquest_results, storage_mart_results, all_hours_results, carbondale_results):
+    """
+    Combines all results from extract functions into a single list of dictionaries.
+    Each dictionary contains: facility_name, date_acquired, unit_type, price
+    """
+    today_str = datetime.date.today().isoformat()
+    combined = []
+
+    for idx, (unit_size, unit_type, price) in sopris_results.items():
+        combined.append({
+            "facility_name": "Sopris Self Storage",
+            "date_acquired": today_str,
+            "unit_size": unit_size,
+            "unit_type": unit_type,
+            "price": price
+        })
+    for idx, (unit_size, unit_type, price) in storquest_results.items():
+        combined.append({
+            "facility_name": "StorQuest Self Storage",
+            "date_acquired": today_str,
+            "unit_size": unit_size,
+            "unit_type": unit_type,
+            "price": price
+        })
+    for idx, (unit_size, unit_type, price) in storage_mart_results.items():
+        combined.append({
+            "facility_name": "StorageMart",
+            "date_acquired": today_str,
+            "unit_size": unit_size,
+            "unit_type": unit_type,
+            "price": price
+        })
+    for idx, (unit_size, unit_type, price) in all_hours_results.items():
+        combined.append({
+            "facility_name": "All Hours Storage",
+            "date_acquired": today_str,
+            "unit_size": unit_size,
+            "unit_type": unit_type,
+            "price": price
+        })
+    for idx, (unit_size, unit_type, price) in carbondale_results.items():
+        combined.append({
+            "facility_name": "Carbondale Mini Storage",
+            "date_acquired": today_str,
+            "unit_size": unit_size,
+            "unit_type": unit_type,
+            "price": price
+        })
+
+    return combined
+
+def create_db_and_table(db_path="storage_data.db"):
+    """
+    Creates a SQLite database and a table for storage results if they do not exist.
+    """
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS storage_results (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            facility_name TEXT,
+            date_acquired TEXT,
+            unit_size TEXT,
+            unit_type TEXT,
+            price TEXT
+        )
+    """)
+    conn.commit()
+    conn.close()
+
+def insert_combined_results(results, db_path="storage_data.db"):
+    """
+    Inserts a list of combined results (list of dicts) into the storage_results table.
+    Checks to make sure all data is added.
+    """
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+    success_count = 0
+    for entry in results:
+        cursor.execute("""
+            INSERT INTO storage_results (facility_name, date_acquired, unit_size, unit_type, price)
+            VALUES (?, ?, ?, ?, ?)
+        """, (
+            entry.get("facility_name"),
+            entry.get("date_acquired"),
+            entry.get("unit_size"),
+            entry.get("unit_type"),
+            entry.get("price")
+        ))
+        success_count += 1
+    conn.commit()
+
+    # Check if all rows were inserted
+    if success_count == len(results):
+        print(f"All {success_count} records successfully added to the database.")
+    else:
+        print(f"Warning: Only {success_count} out of {len(results)} records were added.")
+
+    conn.close()
+
+def get_all_storage_results(db_path="storage_data.db"):
+    """
+    Retrieves all records from the storage_results table.
+    Returns a list of dictionaries.
+    """
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+    cursor.execute("SELECT facility_name, date_acquired, unit_size, unit_type, price FROM storage_results")
+    rows = cursor.fetchall()
+    conn.close()
+    # Convert to list of dicts
+    results = [
+        {
+            "facility_name": row[0],
+            "date_acquired": row[1],
+            "unit_size": row[2],
+            "unit_type": row[3],
+            "price": row[4]
+        }
+        for row in rows
+    ]
 
     return results
