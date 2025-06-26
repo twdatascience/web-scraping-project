@@ -1,4 +1,4 @@
-from utils.helpers import save_data, load_data
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -19,12 +19,14 @@ import pdb
 
 # storage_mart = 'https://www.storage-mart.com/basalt#unitstable'
 # all_hours = "https://www.aspenbasaltstorage.com/pages/rent"
-carbondale = "https://carbondaleministorage.ccstorage.com/find_units"
+# carbondale = "https://carbondaleministorage.ccstorage.com/find_units"
+url = 'https://www.storquest.com/self-storage/co/carbondale/9160/unit-sizes-prices#/'
 
-def fetch_carbondale(url, html_path=None):
+
+def fetch_storquest_self_storage(url, html_path=None):
     if html_path is None:
         today_str = datetime.date.today().isoformat()
-        html_path = f"./web_data/{today_str}_storage_mart.html"
+        html_path = f"./web_data/{today_str}_storquestselfstorage.html"
     # Ensure the directory exists
     os.makedirs(os.path.dirname(html_path), exist_ok=True)
     # Set up Selenium (Chrome)
@@ -35,43 +37,58 @@ def fetch_carbondale(url, html_path=None):
 
     # Navigate to the dynamic website
     driver.get(url)
-    element = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, "//div[@class='grid grid-cols-1 lg:grid-cols-2 gap-6']"))
-            )
+
+    delay = 20
+    try:
+        view_all_units = WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable((By.XPATH, "//a[span[text()='View All Units']]"))
+    )
+        view_all_units.click()
         
+    except TimeoutException:
+        print("Timed out waiting for page to load")
+
     # Get the page source after the content is loaded
     page_source = driver.page_source
-
-    # Parse the HTML with BeautifulSoup
-    soup = BeautifulSoup(page_source, "html.parser")
 
     with open(html_path, 'w', encoding='utf-8') as f:
         f.write(page_source)
 
-    
+    # Parse the HTML with BeautifulSoup
+    soup = BeautifulSoup(page_source, "html.parser")
 
     # Close the browser
     driver.quit()
 
     return soup
 
-stor = fetch_carbondale(url)
+def extract_storquest(storquest_soup):
+    """
+    Extracts unit name and price from storquest_soup and removes duplicate (unit_name, price) pairs.
+    """
+    units_tables = {}
+    for idx, div in enumerate(storquest_soup.find_all("div", class_="DesktopUnitTableCondensed_unit_3f_Tu Unit_unit_2YeZT")):
+        units_tables[f'unitsTable_{idx}'] = div.decode_contents()
 
-units_tables = {}
-for idx, div in enumerate(stor.find_all("div", class_="bg-white rounded-xl shadow-xl border flex flex-col")):
-    units_tables[f'unitsTable_{idx}'] = div.decode_contents()
+    results = {}
+    seen = set()
+  
+    for idx, (key, table_html) in enumerate(units_tables.items()):
+        table_soup = BeautifulSoup(table_html, "html.parser")
+        unit_name_span = table_soup.find("span", class_="UnitSize_name_21eud")
+        unit_name = unit_name_span.get_text(strip=True) if unit_name_span else None
+        price = table_soup.find(class_="UnitPrices_price_21Ss8")
+        price_text = price.get_text(strip=True).replace("$", "") + ".00" if price else None
+        unit_size = unit_name.replace(" ", "")
+        unit_type = table_soup.find(class_="DesktopUnitTableCondensed_amenities-list-container_2vbvz").get_text(strip=True) if table_soup.find("span", class_="DesktopUnitTableCondensed_amenities-list-container_2vbvz") else ""
+        pdb.set_trace()
+        
+        # Only add unique (unit_size, unit_type, price_text)
+        if (unit_size, unit_type, price_text) not in seen:
+            results[idx] = (unit_size, unit_type, price_text)
+            seen.add((unit_size, unit_type, price_text))
 
+    return results
 
-results = {}
-for idx, (key, table_html) in enumerate(units_tables.items()):
-
-    table_soup = BeautifulSoup(table_html, "html.parser")
-    unit_name = table_soup.find("p", class_="text-xl font-bold")
-    unit_name_text = unit_name.get_text(strip=True) if unit_name else None
-    price = table_soup.find("dd", class_="text-xl font-bold")
-    price_text = price.get_text(strip=True) if price else None
-
-    results[idx] = (unit_name_text, price_text)
-
-print(results)
-
+storquest_soup = fetch_storquest_self_storage(url)
+storquest_results = extract_storquest(storquest_soup)

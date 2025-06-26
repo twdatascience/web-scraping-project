@@ -161,7 +161,7 @@ def extract_storquest(storquest_soup):
         price = table_soup.find(class_="UnitPrices_price_21Ss8")
         price_text = price.get_text(strip=True).replace("$", "") + ".00" if price else None
         unit_size = unit_name.replace(" ", "")
-        unit_type = ""
+        unit_type = table_soup.find(class_="DesktopUnitTableCondensed_amenities-list-container_2vbvz").get_text(strip=True) if table_soup.find(class_="DesktopUnitTableCondensed_amenities-list-container_2vbvz") else ""
 
         
         # Only add unique (unit_size, unit_type, price_text)
@@ -415,11 +415,12 @@ def extract_carbondale(carbondale_soup):
         price = table_soup.find("dd", class_="text-xl font-bold")
         price_text = price.get_text(strip=True).replace("$", "") if price else None
         if len(unit_name_text.split(" ")) < 2:
-            unit_type = ""
+            unit_type = table_soup.find("p", class_="text-sm").get_text(strip=True) if table_soup.find("p", class_="text-sm") else ""
             unit_size = unit_name_text.split(" ")[0]
         else:
             unit_size = unit_name_text.split(" ")[0]
-            unit_type = " ".join(unit_name_text.split(" ")[1:])
+            unit_type = table_soup.find("p", class_="text-sm").get_text(strip=True) if table_soup.find("p", class_="text-sm") else ""
+            unit_type = unit_type.join(unit_name_text.split(" ")[1:])
 
 
         results[idx] = (unit_size, unit_type, price_text)
@@ -500,15 +501,16 @@ def create_db_and_table(db_path="storage_data.db"):
 def insert_combined_results(results, db_path="storage_data.db"):
     """
     Inserts a list of combined results (list of dicts) into the storage_results table.
-    Checks to make sure all data is added.
+    Checks to make sure all data is added and avoids inserting duplicates.
     """
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
     success_count = 0
     for entry in results:
+        # Check if this entry already exists in the database
         cursor.execute("""
-            INSERT INTO storage_results (facility_name, date_acquired, unit_size, unit_type, price)
-            VALUES (?, ?, ?, ?, ?)
+            SELECT 1 FROM storage_results
+            WHERE facility_name = ? AND date_acquired = ? AND unit_size = ? AND unit_type = ? AND price = ?
         """, (
             entry.get("facility_name"),
             entry.get("date_acquired"),
@@ -516,14 +518,22 @@ def insert_combined_results(results, db_path="storage_data.db"):
             entry.get("unit_type"),
             entry.get("price")
         ))
-        success_count += 1
+        exists = cursor.fetchone()
+        if not exists:
+            cursor.execute("""
+                INSERT INTO storage_results (facility_name, date_acquired, unit_size, unit_type, price)
+                VALUES (?, ?, ?, ?, ?)
+            """, (
+                entry.get("facility_name"),
+                entry.get("date_acquired"),
+                entry.get("unit_size"),
+                entry.get("unit_type"),
+                entry.get("price")
+            ))
+            success_count += 1
     conn.commit()
 
-    # Check if all rows were inserted
-    if success_count == len(results):
-        print(f"All {success_count} records successfully added to the database.")
-    else:
-        print(f"Warning: Only {success_count} out of {len(results)} records were added.")
+    print(f"{success_count} new records added to the database (duplicates skipped).")
 
     conn.close()
 
