@@ -12,7 +12,7 @@ import time
 import sqlite3
 import re
 
-def write_multiple_results_to_excel(sopris_results, storquest_results, storage_mart_results, all_hours_results, carbondale_results, excel_path="storage_results.xlsx"):
+def write_multiple_results_to_excel(sopris_results, storquest_results, storage_mart_results, all_hours_results, carbondale_results, basalt_results, excel_path="storage_results.xlsx"):
     """
     Write Sopris and StorQuest results to different sheets in a single Excel file.
     """
@@ -33,6 +33,10 @@ def write_multiple_results_to_excel(sopris_results, storquest_results, storage_m
         # Carbondale sheet
         df_carbondale = pd.DataFrame.from_dict(carbondale_results, orient='index', columns=['unit_size', 'unit_type', 'price'])
         df_carbondale.to_excel(writer, index=False, sheet_name=f"{today_str}_carbondale_results")
+        # Basalt Mini sheet
+        df_basalt = pd.DataFrame.from_dict(basalt_results, orient='index', columns=['unit_size', 'unit_type', 'price'])
+        df_basalt.to_excel(writer, index=False, sheet_name=f"{today_str}_basalt_results")
+
 
 def fetch_sopris_self_storage(url, html_path=None):
     if html_path is None:
@@ -427,8 +431,110 @@ def extract_carbondale(carbondale_soup):
 
     return results
 
+def fetch_basalt_mini(basalt_cc, basalt_reg, html_path=None):
+    if html_path is None:
+        today_str = datetime.date.today().isoformat()
+        html_path_reg = f"./web_data/{today_str}_basaltmini_reg.html"
+        html_path_cc = f"./web_data/{today_str}_basaltmini_cc.html"
+    # Ensure the directory exists
+    os.makedirs(os.path.dirname(html_path_reg), exist_ok=True)
+    os.makedirs(os.path.dirname(html_path_cc), exist_ok=True)
+    # Set up Selenium (Chrome)
+    options = webdriver.ChromeOptions()
+    options.add_argument('--headless')
+    options.add_argument('--disable-gpu')
+    driver = webdriver.Chrome(options=options)
 
-def combine_all_results(sopris_results, storquest_results, storage_mart_results, all_hours_results, carbondale_results):
+    # Navigate to the dynamic website
+    driver.get(basalt_reg)
+
+    delay = 20
+    try:
+        WebDriverWait(driver, delay).until(
+            EC.presence_of_element_located((By.XPATH, '//li[@class="list-group-item btn-primary ng-binding"]'))
+        )
+    except TimeoutException:
+        print("Timed out waiting for page to load")
+    
+    # Get the page source after the content is loaded
+    page_source = driver.page_source
+
+    with open(html_path_reg, 'w', encoding='utf-8') as f:
+        f.write(page_source)
+
+    # Parse the HTML with BeautifulSoup
+    soup1 = BeautifulSoup(page_source, "html.parser")
+
+    # Close the browser
+    driver.quit()
+
+    driver = webdriver.Chrome(options=options)
+    driver.get(basalt_cc)
+
+    delay = 20
+    try:
+        WebDriverWait(driver, delay).until(
+            EC.presence_of_element_located((By.XPATH, '//li[@class="list-group-item btn-primary ng-binding"]'))
+        )
+    except TimeoutException:
+        print("Timed out waiting for page to load")
+
+    # Get the page source after the content is loaded
+    page_source2 = driver.page_source
+
+    with open(html_path_cc, 'w', encoding='utf-8') as f:
+        f.write(page_source2)
+
+    # Parse the HTML with BeautifulSoup
+    soup2 = BeautifulSoup(page_source2, "html.parser")
+    # Close the browser
+    driver.quit()
+
+    return soup1, soup2
+
+def extract_basalt(basalt_soup1, basalt_soup2):
+    """
+    Extracts unit name and price from storquest_soup and removes duplicate (unit_name, price) pairs.
+    """
+    units_tables1 = {}
+    for idx, div in enumerate(basalt_soup1.find_all("div", class_="bs-component")):
+        units_tables1[f'unitsTable_{idx}'] = div.decode_contents()
+
+    units_tables2 = {}
+    for idx, div in enumerate(basalt_soup2.find_all("div", class_="bs-component")):
+        units_tables2[f'unitsTable_{idx}'] = div.decode_contents()
+
+    results1 = {}
+    results2 = {}
+
+    for idx, (key, table_html) in enumerate(units_tables1.items()):
+        table_soup = BeautifulSoup(table_html, "html.parser")
+        unit_name_span = table_soup.find("li", class_="list-group-item btn-primary ng-binding")
+        unit_name = unit_name_span.get_text(strip=True) if unit_name_span else None
+        price = table_soup.find("span", class_="ng-binding")
+        price_text = price.get_text(strip=True).replace("$", "") if price else None
+        unit_size = unit_name.split(" ")[0] if unit_name else None
+        unit_type = " ".join(unit_name.split(" ")[1:]) if unit_name.split(" ")[1:] else ""
+
+        results1[idx] = (unit_size, unit_type, price_text)
+          
+    for idx, (key, table_html) in enumerate(units_tables2.items()):
+        table_soup = BeautifulSoup(table_html, "html.parser")
+        unit_name_span = table_soup.find("li", class_="list-group-item btn-primary ng-binding")
+        unit_name = unit_name_span.get_text(strip=True) if unit_name_span else None
+        price = table_soup.find("span", class_="ng-binding")
+        price_text = price.get_text(strip=True).replace("$", "") if price else None
+        unit_size = unit_name.split(" ")[0] if unit_name else None
+        unit_type = " ".join(unit_name.split(" ")[1:]) if unit_name.split(" ")[1:] else ""
+
+        results2[idx] = (unit_size, unit_type, price_text)
+
+    combined_results = {**results1, **{idx + len(results1): v for idx, v in results2.items()}}
+
+    return combined_results
+
+
+def combine_all_results(sopris_results, storquest_results, storage_mart_results, all_hours_results, carbondale_results, basalt_results):
     """
     Combines all results from extract functions into a single list of dictionaries.
     Each dictionary contains: facility_name, date_acquired, unit_type, price
@@ -471,6 +577,14 @@ def combine_all_results(sopris_results, storquest_results, storage_mart_results,
     for idx, (unit_size, unit_type, price) in carbondale_results.items():
         combined.append({
             "facility_name": "Carbondale Mini Storage",
+            "date_acquired": today_str,
+            "unit_size": unit_size,
+            "unit_type": unit_type,
+            "price": price
+        })
+    for idx, (unit_size, unit_type, price) in basalt_results.items():
+        combined.append({
+            "facility_name": "Basalt Mini Storage",
             "date_acquired": today_str,
             "unit_size": unit_size,
             "unit_type": unit_type,

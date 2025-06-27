@@ -20,15 +20,19 @@ import pdb
 # storage_mart = 'https://www.storage-mart.com/basalt#unitstable'
 # all_hours = "https://www.aspenbasaltstorage.com/pages/rent"
 # carbondale = "https://carbondaleministorage.ccstorage.com/find_units"
-url = 'https://www.storquest.com/self-storage/co/carbondale/9160/unit-sizes-prices#/'
+# storquest = 'https://www.storquest.com/self-storage/co/carbondale/9160/unit-sizes-prices#/'
+url1 = 'https://www.spacecontroletrans.com/scStarOnlinePayment/index.html?CompanyId=327-SF&ConnectionType=Connection#/displaySizes'
+url2 = 'https://www.spacecontroletrans.com/scStarOnlinePayment/index.html?CompanyId=327-BS&ConnectionType=Connection#/displaySizes'
 
 
-def fetch_storquest_self_storage(url, html_path=None):
+def fetch_basalt_mini(url1, url2, html_path=None):
     if html_path is None:
         today_str = datetime.date.today().isoformat()
-        html_path = f"./web_data/{today_str}_storquestselfstorage.html"
+        html_path1 = f"./web_data/{today_str}_basaltmini_reg.html"
+        html_path2 = f"./web_data/{today_str}_basaltmini_cc.html"
     # Ensure the directory exists
-    os.makedirs(os.path.dirname(html_path), exist_ok=True)
+    os.makedirs(os.path.dirname(html_path1), exist_ok=True)
+    os.makedirs(os.path.dirname(html_path2), exist_ok=True)
     # Set up Selenium (Chrome)
     options = webdriver.ChromeOptions()
     options.add_argument('--headless')
@@ -36,59 +40,93 @@ def fetch_storquest_self_storage(url, html_path=None):
     driver = webdriver.Chrome(options=options)
 
     # Navigate to the dynamic website
-    driver.get(url)
+    driver.get(url1)
 
     delay = 20
     try:
-        view_all_units = WebDriverWait(driver, 10).until(
-        EC.element_to_be_clickable((By.XPATH, "//a[span[text()='View All Units']]"))
-    )
-        view_all_units.click()
-        
+        WebDriverWait(driver, delay).until(
+            EC.presence_of_element_located((By.XPATH, '//li[@class="list-group-item btn-primary ng-binding"]'))
+        )
     except TimeoutException:
         print("Timed out waiting for page to load")
-
+    
     # Get the page source after the content is loaded
     page_source = driver.page_source
 
-    with open(html_path, 'w', encoding='utf-8') as f:
+    with open(html_path1, 'w', encoding='utf-8') as f:
         f.write(page_source)
 
     # Parse the HTML with BeautifulSoup
-    soup = BeautifulSoup(page_source, "html.parser")
+    soup1 = BeautifulSoup(page_source, "html.parser")
 
     # Close the browser
     driver.quit()
 
-    return soup
+    driver = webdriver.Chrome(options=options)
+    driver.get(url2)
 
-def extract_storquest(storquest_soup):
+    delay = 20
+    try:
+        WebDriverWait(driver, delay).until(
+            EC.presence_of_element_located((By.XPATH, '//li[@class="list-group-item btn-primary ng-binding"]'))
+        )
+    except TimeoutException:
+        print("Timed out waiting for page to load")
+
+    # Get the page source after the content is loaded
+    page_source2 = driver.page_source
+
+    with open(html_path2, 'w', encoding='utf-8') as f:
+        f.write(page_source2)
+
+    # Parse the HTML with BeautifulSoup
+    soup2 = BeautifulSoup(page_source2, "html.parser")
+    # Close the browser
+    driver.quit()
+
+    return soup1, soup2
+
+def extract_storquest(basalt_soup1, basalt_soup2):
     """
     Extracts unit name and price from storquest_soup and removes duplicate (unit_name, price) pairs.
     """
-    units_tables = {}
-    for idx, div in enumerate(storquest_soup.find_all("div", class_="DesktopUnitTableCondensed_unit_3f_Tu Unit_unit_2YeZT")):
-        units_tables[f'unitsTable_{idx}'] = div.decode_contents()
+    units_tables1 = {}
+    for idx, div in enumerate(basalt_soup1.find_all("div", class_="bs-component")):
+        units_tables1[f'unitsTable_{idx}'] = div.decode_contents()
 
-    results = {}
-    seen = set()
-  
-    for idx, (key, table_html) in enumerate(units_tables.items()):
+    units_tables2 = {}
+    for idx, div in enumerate(basalt_soup2.find_all("div", class_="bs-component")):
+        units_tables2[f'unitsTable_{idx}'] = div.decode_contents()
+
+    results1 = {}
+    results2 = {}
+
+    for idx, (key, table_html) in enumerate(units_tables1.items()):
         table_soup = BeautifulSoup(table_html, "html.parser")
-        unit_name_span = table_soup.find("span", class_="UnitSize_name_21eud")
+        unit_name_span = table_soup.find("li", class_="list-group-item btn-primary ng-binding")
         unit_name = unit_name_span.get_text(strip=True) if unit_name_span else None
-        price = table_soup.find(class_="UnitPrices_price_21Ss8")
-        price_text = price.get_text(strip=True).replace("$", "") + ".00" if price else None
-        unit_size = unit_name.replace(" ", "")
-        unit_type = table_soup.find(class_="DesktopUnitTableCondensed_amenities-list-container_2vbvz").get_text(strip=True) if table_soup.find("span", class_="DesktopUnitTableCondensed_amenities-list-container_2vbvz") else ""
-        pdb.set_trace()
-        
-        # Only add unique (unit_size, unit_type, price_text)
-        if (unit_size, unit_type, price_text) not in seen:
-            results[idx] = (unit_size, unit_type, price_text)
-            seen.add((unit_size, unit_type, price_text))
+        price = table_soup.find("span", class_="ng-binding")
+        price_text = price.get_text(strip=True).replace("$", "") if price else None
+        unit_size = unit_name.split(" ")[0] if unit_name else None
+        unit_type = " ".join(unit_name.split(" ")[1:]) if unit_name.split(" ")[1:] else ""
 
-    return results
+        results1[idx] = (unit_size, unit_type, price_text)
+          
+    for idx, (key, table_html) in enumerate(units_tables2.items()):
+        table_soup = BeautifulSoup(table_html, "html.parser")
+        unit_name_span = table_soup.find("li", class_="list-group-item btn-primary ng-binding")
+        unit_name = unit_name_span.get_text(strip=True) if unit_name_span else None
+        price = table_soup.find("span", class_="ng-binding")
+        price_text = price.get_text(strip=True).replace("$", "") if price else None
+        unit_size = unit_name.split(" ")[0] if unit_name else None
+        unit_type = " ".join(unit_name.split(" ")[1:]) if unit_name.split(" ")[1:] else ""
 
-storquest_soup = fetch_storquest_self_storage(url)
-storquest_results = extract_storquest(storquest_soup)
+        results2[idx] = (unit_size, unit_type, price_text)
+
+    combined_results = {**results1, **{idx + len(results1): v for idx, v in results2.items()}}
+
+    return combined_results
+
+basalt_soup1, basalt_soup2 = fetch_basalt_mini(url1, url2)
+
+basalt_results = extract_storquest(basalt_soup1, basalt_soup2)
