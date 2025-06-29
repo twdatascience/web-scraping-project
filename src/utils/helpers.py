@@ -12,6 +12,8 @@ import time
 import sqlite3
 import re
 
+# TODO: Add cc vs non cc and teir distinctions to data
+
 def write_multiple_results_to_excel(sopris_results, storquest_results, storage_mart_results, all_hours_results, carbondale_results, basalt_results, excel_path="storage_results.xlsx"):
     """
     Write Sopris and StorQuest results to different sheets in a single Excel file.
