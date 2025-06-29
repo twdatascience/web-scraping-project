@@ -10,6 +10,11 @@ import numpy as np
 import re
 import pdb
 from dash import ctx  # Add this import for callback context
+from utils.helpers import sync_web_data_to_db
+
+
+# sync web data to database if needed
+sync_web_data_to_db(db_path="storage_data.db", web_data_dir="./web_data")
 
 # Convert data to DataFrame
 data = get_all_storage_results()
@@ -36,6 +41,7 @@ df['price'] = df['price'].astype(float)
 def parse_unit_size(size_str):
     """
     Parses a unit size string like '10x10x8', '13.5x18.5', or 'Outdoor' into (footprint, height).
+    Ensures footprint is always smaller_number x larger_number.
     Returns (footprint, height) as strings or np.nan for missing height.
     """
     if not isinstance(size_str, str):
@@ -45,10 +51,12 @@ def parse_unit_size(size_str):
     # Match patterns like 13.5x18.5x8 or 13.5x18.5
     match = re.match(r'^\s*(\d+(?:\.\d+)?)\s*[xX]\s*(\d+(?:\.\d+)?)(?:\s*[xX]\s*(\d+(?:\.\d+)?))?', size_str)
     if match:
-        width = match.group(1)
-        length = match.group(2)
+        width = float(match.group(1))
+        length = float(match.group(2))
         height = match.group(3)
-        footprint = f"{width}x{length}"
+        # Always order as smaller x larger
+        dim1, dim2 = sorted([width, length])
+        footprint = f"{dim1:g}x{dim2:g}"
         height_val = height if height is not None else np.nan
         return (footprint, height_val)
     return (np.nan, np.nan)
@@ -171,9 +179,18 @@ def update_all(selected_facilities, selected_sizes, reset_clicks):
     )
 
     fig = go.Figure()
-    facility_colors = {
-        facility: f"rgba({np.random.randint(0, 255)}, {np.random.randint(0, 255)}, {np.random.randint(0, 255)}, 0.7)"
-        for facility in filtered_df['facility_name'].unique()
+
+    # Define a fixed color palette
+    FACILITY_COLORS = [
+        "#2e8287", "#ef3023", "#67b471", "#17633d", "#ffc52e"
+    ]
+
+    # Create a dictionary mapping facility names to colors
+    unique_facilities = sorted(df['facility_name'].unique())
+    
+    facility_color_dict = {
+        facility: FACILITY_COLORS[i % len(FACILITY_COLORS)]
+        for i, facility in enumerate(unique_facilities)
     }
 
     for i, row in filtered_df.iterrows():
@@ -182,7 +199,7 @@ def update_all(selected_facilities, selected_sizes, reset_clicks):
                 x=[row['x_group']],
                 y=[row['price']],
                 name=row['facility_name'],
-                marker_color=facility_colors.get(row['facility_name'], 'gray'),
+                marker_color=facility_color_dict.get(row['facility_name'], "#333333"),
                 customdata=[[row['unit_type']]],
                 hovertemplate=(
                     f'Facility: {row["facility_name"]}<br>'
@@ -195,6 +212,12 @@ def update_all(selected_facilities, selected_sizes, reset_clicks):
                 showlegend=not any([t.name == row['facility_name'] for t in fig.data])
         )
         )
+    # Only show selected sizes on x-axis if any are selected, else show all available
+    if selected_sizes:
+        x_categories = [f for f in ordered_footprints if f in selected_sizes]
+    else:
+        x_categories = [f for f in ordered_footprints if f in available_footprints]
+
     fig.update_layout(
         title="Storage Unit Prices by Size",
         xaxis_title="Footprint (Size)",
@@ -204,7 +227,7 @@ def update_all(selected_facilities, selected_sizes, reset_clicks):
         yaxis=dict(type='linear', autorange=True),
         xaxis=dict(
             categoryorder='array',
-            categoryarray=[f for f in ordered_footprints if f in available_footprints]
+            categoryarray=x_categories
         )
     )
     return selected_facilities, unit_size_options, selected_sizes, fig

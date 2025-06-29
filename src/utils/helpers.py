@@ -674,3 +674,79 @@ def get_all_storage_results(db_path="storage_data.db"):
     ]
 
     return results
+
+def sync_web_data_to_db(db_path="storage_data.db", web_data_dir="./web_data"):
+    """
+    Checks if the database has the info from web_data. If not, loads HTML files,
+    processes them, and adds them to the database.
+    """
+    import glob
+
+    # Get all html files in web_data_dir
+    html_files = glob.glob(os.path.join(web_data_dir, "*.html"))
+    # Get all records in the DB
+    existing = get_all_storage_results(db_path=db_path)
+    existing_set = set(
+        (r["facility_name"], r["date_acquired"], r["unit_size"], r["unit_type"], r["price"])
+        for r in existing
+    )
+
+    # Map file patterns to extract functions and facility names
+    extract_map = [
+        ("soprisselfstorage", extract_sopris, "Sopris Self Storage"),
+        ("storquestselfstorage", extract_storquest, "StorQuest Self Storage"),
+        ("storage_mart", extract_storage_mart, "StorageMart"),
+        ("all_hours", extract_all_hours, "All Hours Storage"),
+        ("carbondale", extract_carbondale, "Carbondale Mini Storage"),
+        ("basaltmini_cc", lambda soup: extract_basalt(soup, BeautifulSoup("", "html.parser")), "Basalt Mini Storage"),
+        ("basaltmini_reg", lambda soup: extract_basalt(BeautifulSoup("", "html.parser"), soup), "Basalt Mini Storage"),
+    ]
+
+    new_results = []
+    for html_file in html_files:
+        for pattern, extract_func, facility_name in extract_map:
+            if pattern in html_file:
+                with open(html_file, encoding="utf-8") as f:
+                    soup = BeautifulSoup(f.read(), "html.parser")
+                # For basaltmini, need to handle both files together
+                if pattern == "basaltmini_cc" or pattern == "basaltmini_reg":
+                    # Only process if both files exist
+                    cc_file = os.path.join(web_data_dir, html_file.split("_")[0] + "_basaltmini_cc.html")
+                    reg_file = os.path.join(web_data_dir, html_file.split("_")[0] + "_basaltmini_reg.html")
+                    if os.path.exists(cc_file) and os.path.exists(reg_file):
+                        with open(cc_file, encoding="utf-8") as f1, open(reg_file, encoding="utf-8") as f2:
+                            soup1 = BeautifulSoup(f1.read(), "html.parser")
+                            soup2 = BeautifulSoup(f2.read(), "html.parser")
+                        results = extract_basalt(soup1, soup2)
+                        date_str = os.path.basename(html_file).split("_")[0]
+                        for idx, (unit_size, unit_type, price) in results.items():
+                            key = (facility_name, date_str, unit_size, unit_type, price)
+                            if key not in existing_set:
+                                new_results.append({
+                                    "facility_name": facility_name,
+                                    "date_acquired": date_str,
+                                    "unit_size": unit_size,
+                                    "unit_type": unit_type,
+                                    "price": price
+                                })
+                        break
+                else:
+                    results = extract_func(soup)
+                    date_str = os.path.basename(html_file).split("_")[0]
+                    for idx, (unit_size, unit_type, price) in results.items():
+                        key = (facility_name, date_str, unit_size, unit_type, price)
+                        if key not in existing_set:
+                            new_results.append({
+                                "facility_name": facility_name,
+                                "date_acquired": date_str,
+                                "unit_size": unit_size,
+                                "unit_type": unit_type,
+                                "price": price
+                            })
+                break
+
+    if new_results:
+        print(f"Adding {len(new_results)} new records from web_data to the database.")
+        insert_combined_results(new_results, db_path=db_path)
+    else:
+        print("No new records to add from web_data.")
