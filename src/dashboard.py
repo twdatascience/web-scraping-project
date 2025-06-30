@@ -13,6 +13,7 @@ import threading
 import webbrowser
 from dash import dash_table  # Add this import
 from utils.helpers import get_all_storage_results, sync_web_data_to_db
+import pdb
 
 # =========================
 # Data Sync & Load
@@ -60,8 +61,9 @@ def parse_unit_size(size_str):
         length = float(match.group(2))
         height = match.group(3)
         # Always order as smaller x larger
-        dim1, dim2 = sorted([width, length])
-        footprint = f"{dim1:g}x{dim2:g}"
+        # dim1, dim2 = sorted([width, length])
+        # footprint = f"{dim1:g}x{dim2:g}"
+        footprint = f"{width:g}x{length:g}"
         height_val = height if height is not None else np.nan
         return (footprint, height_val)
     return (np.nan, np.nan)
@@ -71,25 +73,21 @@ df[['footprint', 'height']] = df['unit_size'].apply(lambda x: pd.Series(parse_un
 # Helper for sorting footprints numerically, with "Parking" last
 def get_footprint_sort_key(footprint):
     if footprint == "Parking":
-        return float('inf')
+        return (float('inf'), float('inf'))
     try:
-        return float(footprint.split('x')[0])
+        parts = footprint.split('x')
+        if len(parts) == 2:
+            return (float(parts[0]), float(parts[1]))
+        else:
+            return (float(parts[0]), 0)
     except Exception:
-        return float('inf')
-
-# Add sort key and sort DataFrame
-df['footprint_sort'] = df['footprint'].apply(get_footprint_sort_key)
-df = df.sort_values(['footprint_sort', 'footprint', 'facility_name', 'price'])
-
-# =========================
-# Dropdown & Label Setup
-# =========================
+        return (float('inf'), float('inf'))
 
 # Ordered list of unique footprints for dropdowns and x-axis
 ordered_footprints = (
     df['footprint']
     .drop_duplicates()
-    .sort_values(key=lambda x: x.apply(get_footprint_sort_key))
+    .sort_values(key=lambda x: x.apply(lambda f: get_footprint_sort_key(f)))
     .tolist()
 )
 
@@ -108,7 +106,7 @@ app.title = "Storage Pricing Dashboard"
 # =========================
 
 app.layout = html.Div([
-    html.H1("Storage Unit Prices by Size"),
+    html.H1("Storage Unit Price Comparisons"),
 
     html.Div([
         html.Label("Facility"),
@@ -264,7 +262,7 @@ def update_all(selected_facilities, selected_sizes, reset_clicks):
             x_categories = [f for f in ordered_footprints if f in available_footprints]
 
         bar_fig.update_layout(
-            title="Storage Unit Prices by Size",
+            title="Storage Unit Prices by Size (Most Recent Data)",
             xaxis_title="Footprint (Size)",
             yaxis_title="Price ($)",
             barmode='group',
@@ -282,23 +280,15 @@ def update_all(selected_facilities, selected_sizes, reset_clicks):
         line_fig = px.line(title="No Data Available")
     else:
         line_fig = go.Figure()
-        # Add dummy traces for legend (one per facility)
-        for facility in sorted(filtered_df['facility_name'].unique()):
-            line_fig.add_trace(
-                go.Scatter(
-                    x=[None], y=[None],
-                    mode='lines',
-                    name=facility,
-                    line=dict(width=2, color=facility_color_dict.get(facility, "#333333")),
-                    showlegend=True,
-                    legendgroup=facility
-                )
-            )
         # Add real traces for each (facility, footprint, unit_type)
         group_cols = ['facility_name', 'footprint', 'unit_type']
-        grouped = filtered_df.groupby(group_cols)
+        grouped = filtered_df.groupby(group_cols, dropna=False)
         for (facility, footprint, unit_type), group in grouped:
+            # Ensure sorting and clean group
             group_sorted = group.sort_values('date_acquired')
+            # Skip if less than 2 points (optional)
+            if len(group_sorted) < 2:
+                continue
             line_fig.add_trace(
                 go.Scatter(
                     x=group_sorted['date_acquired'],
@@ -315,13 +305,14 @@ def update_all(selected_facilities, selected_sizes, reset_clicks):
                         'Date: %{x|%Y-%m-%d}<br>'
                         'Price: $%{y}<extra></extra>'
                     ),
-                    showlegend=False,
-                    legendgroup=facility
+                    showlegend=True,
+                    legendgroup=facility,
+                    connectgaps=True  # Ensures lines connect even if some dates are missing
                 )
             )
         line_fig.update_layout(
-            title="Price History Over Time",
-            xaxis_title="Date Acquired",
+            title="Price History",
+            xaxis_title="Date",
             yaxis_title="Price ($)",
             legend_title="Facility",
             hovermode="closest"

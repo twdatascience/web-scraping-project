@@ -32,22 +32,22 @@ def write_multiple_results_to_excel(
     with pd.ExcelWriter(excel_path) as writer:
         # Sopris sheet
         df_sopris = pd.DataFrame.from_dict(sopris_results, orient='index', columns=['unit_size', 'unit_type', 'price'])
-        df_sopris.to_excel(writer, index=False, sheet_name=f"{today_str}_sopris_results")
+        df_sopris.to_excel(writer, index=False, sheet_name=f"{today_str} Sopris Self Storage")
         # StorQuest sheet
         df_storquest = pd.DataFrame.from_dict(storquest_results, orient='index', columns=['unit_size', 'unit_type', 'price'])
-        df_storquest.to_excel(writer, index=False, sheet_name=f"{today_str}_storquest_results")
+        df_storquest.to_excel(writer, index=False, sheet_name=f"{today_str} StorQuest Self Storage")
         # Storage Mart sheet
         df_storage_mart = pd.DataFrame.from_dict(storage_mart_results, orient='index', columns=['unit_size', 'unit_type', 'price'])
-        df_storage_mart.to_excel(writer, index=False, sheet_name=f"{today_str}_storage_mart_results")
+        df_storage_mart.to_excel(writer, index=False, sheet_name=f"{today_str} StorageMart")
         # All Hours sheet
         df_all_hours = pd.DataFrame.from_dict(all_hours_results, orient='index', columns=['unit_size', 'unit_type', 'price'])
-        df_all_hours.to_excel(writer, index=False, sheet_name=f"{today_str}_all_hours_results")
+        df_all_hours.to_excel(writer, index=False, sheet_name=f"{today_str} All Hours Storage")
         # Carbondale sheet
         df_carbondale = pd.DataFrame.from_dict(carbondale_results, orient='index', columns=['unit_size', 'unit_type', 'price'])
-        df_carbondale.to_excel(writer, index=False, sheet_name=f"{today_str}_carbondale_results")
+        df_carbondale.to_excel(writer, index=False, sheet_name=f"{today_str} Carbondale Mini Storage")
         # Basalt Mini sheet
         df_basalt = pd.DataFrame.from_dict(basalt_results, orient='index', columns=['unit_size', 'unit_type', 'price'])
-        df_basalt.to_excel(writer, index=False, sheet_name=f"{today_str}_basalt_results")
+        df_basalt.to_excel(writer, index=False, sheet_name=f"{today_str} Basalt Mini Storage")
 
 # =========================
 # Sopris Self Storage
