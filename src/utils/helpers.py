@@ -601,19 +601,19 @@ def sync_web_data_to_db(db_path="storage_data.db", web_data_dir="./web_data"):
     ]
     new_results = []
     for html_file in html_files:
+        basename = os.path.basename(html_file)
         for pattern, extract_func, facility_name in extract_map:
-            if pattern in html_file:
-                with open(html_file, encoding="utf-8") as f:
-                    soup = BeautifulSoup(f.read(), "html.parser")
-                if pattern == "basaltmini_cc" or pattern == "basaltmini_reg":
-                    cc_file = os.path.join(web_data_dir, html_file.split("_")[0] + "_basaltmini_cc.html")
-                    reg_file = os.path.join(web_data_dir, html_file.split("_")[0] + "_basaltmini_reg.html")
+            if pattern in basename:
+                date_str = basename.split("_")[0]
+                # Special handling for Basalt Mini Storage (needs both cc and reg files)
+                if pattern == "basaltmini_cc":
+                    cc_file = os.path.join(web_data_dir, f"{date_str}_basaltmini_cc.html")
+                    reg_file = os.path.join(web_data_dir, f"{date_str}_basaltmini_reg.html")
                     if os.path.exists(cc_file) and os.path.exists(reg_file):
                         with open(cc_file, encoding="utf-8") as f1, open(reg_file, encoding="utf-8") as f2:
                             soup1 = BeautifulSoup(f1.read(), "html.parser")
                             soup2 = BeautifulSoup(f2.read(), "html.parser")
                         results = extract_basalt(soup1, soup2)
-                        date_str = os.path.basename(html_file).split("_")[0]
                         for idx, (unit_size, unit_type, price) in results.items():
                             key = (facility_name, date_str, unit_size, unit_type, price)
                             if key not in existing_set:
@@ -624,10 +624,14 @@ def sync_web_data_to_db(db_path="storage_data.db", web_data_dir="./web_data"):
                                     "unit_type": unit_type,
                                     "price": price
                                 })
-                        break
+                    break  # Don't process cc file again as reg
+                elif pattern == "basaltmini_reg":
+                    # Only process in cc block above
+                    break
                 else:
+                    with open(html_file, encoding="utf-8") as f:
+                        soup = BeautifulSoup(f.read(), "html.parser")
                     results = extract_func(soup)
-                    date_str = os.path.basename(html_file).split("_")[0]
                     for idx, (unit_size, unit_type, price) in results.items():
                         key = (facility_name, date_str, unit_size, unit_type, price)
                         if key not in existing_set:
@@ -638,7 +642,7 @@ def sync_web_data_to_db(db_path="storage_data.db", web_data_dir="./web_data"):
                                 "unit_type": unit_type,
                                 "price": price
                             })
-                break
+                    break
     if new_results:
         print(f"Adding {len(new_results)} new records from web_data to the database.")
         insert_combined_results(new_results, db_path=db_path)

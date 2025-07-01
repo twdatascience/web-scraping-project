@@ -21,6 +21,8 @@ expected_files = [
 # Check if all expected HTML files for today exist
 all_exist = all(os.path.exists(os.path.join(web_data_dir, fname)) for fname in expected_files)
 
+# Ensure DB and table exist
+helpers.create_db_and_table()
 # =========================
 # Main Scraping & Processing Logic
 # =========================
@@ -86,8 +88,7 @@ else:
         all_hours_results, carbondale_results, basalt_results
     )
 
-    # Ensure DB and table exist, then insert new results
-    helpers.create_db_and_table()
+    # Insert new results
     helpers.insert_combined_results(combined_results)
 
     # Write results to Excel file, one sheet per facility
