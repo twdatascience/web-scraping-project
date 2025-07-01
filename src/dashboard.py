@@ -70,6 +70,14 @@ def parse_unit_size(size_str):
 
 df[['footprint', 'height']] = df['unit_size'].apply(lambda x: pd.Series(parse_unit_size(x)))
 
+# Append height to unit_type if height is present
+def append_height_to_unit_type(row):
+    if pd.notna(row['height']):
+        return f"{row['unit_type']} height: {row['height']}"
+    return row['unit_type']
+
+df['unit_type'] = df.apply(append_height_to_unit_type, axis=1)
+
 # Helper for sorting footprints numerically, with "Parking" last
 def get_footprint_sort_key(footprint):
     if footprint == "Parking":
@@ -126,6 +134,39 @@ app.layout = html.Div([
             placeholder="Select footprint size",
             multi=True
         ),
+
+        html.Label("Climate Controlled"),
+        dcc.Dropdown(
+            id='climate-dropdown',
+            options=[
+                {"label": "All", "value": "all"},
+                {"label": "Yes", "value": "True"},
+                {"label": "No", "value": "False"}
+            ],
+            value="all",
+            clearable=False,
+            multi=False
+        ),
+
+        html.Label("Tier"),
+        dcc.Dropdown(
+            id='tier-dropdown',
+            options=[
+                {"label": "All", "value": "all"}
+            ] + [
+                {"label": t, "value": t}
+                for t in sorted(df['tier'].dropna().unique())
+                if t not in [None, "", "all"]
+            ],
+            value="all",
+            clearable=False,
+            multi=False
+        ),
+        html.Span(
+            "Disclaimer: All tiers are assigned and may not be accurate.",
+            style={"fontSize": "12px", "color": "#a00", "marginLeft": "10px"}
+        ),
+
         html.Button("Reset Filters", id="reset-filters-btn", n_clicks=0, style={"margin-top": "10px"})
     ], style={"width": "50%", "margin-bottom": "20px"}),
 
@@ -147,7 +188,7 @@ app.layout = html.Div([
             id='filtered-data-table',
             columns=[
                 {"name": col, "id": col}
-                for col in ["facility_name", "footprint", "unit_type", "price", "date_acquired"]
+                for col in ["facility_name", "footprint", "unit_type", "price", "date_acquired", "climate_controlled", "tier"]
                 if col in df.columns
             ],
             data=[],
@@ -167,21 +208,27 @@ app.layout = html.Div([
     Output('facility-dropdown', 'value'),
     Output('unit-size-dropdown', 'options'),
     Output('unit-size-dropdown', 'value'),
+    Output('climate-dropdown', 'value'),
+    Output('tier-dropdown', 'value'),
     Output('price-bar-graph', 'figure'),
     Output('price-line-graph', 'figure'),
     Output('filtered-data-table', 'data'),  # Add output for table
     Input('facility-dropdown', 'value'),
     Input('unit-size-dropdown', 'value'),
+    Input('climate-dropdown', 'value'),
+    Input('tier-dropdown', 'value'),
     Input('reset-filters-btn', 'n_clicks'),
     prevent_initial_call=False
 )
-def update_all(selected_facilities, selected_sizes, reset_clicks):
+def update_all(selected_facilities, selected_sizes, selected_climate, selected_tier, reset_clicks):
     triggered_id = ctx.triggered_id if hasattr(ctx, "triggered_id") else None
 
     # Reset filters if reset button is clicked
     if triggered_id == "reset-filters-btn":
         selected_facilities = []
         selected_sizes = []
+        selected_climate = "all"
+        selected_tier = "all"
 
     filtered_df = df.copy()
     # Filter to only the most recent date_acquired for bar chart
@@ -196,7 +243,17 @@ def update_all(selected_facilities, selected_sizes, reset_clicks):
         filtered_df_bar = filtered_df_bar[filtered_df_bar['facility_name'].isin(selected_facilities)]
         filtered_df = filtered_df[filtered_df['facility_name'].isin(selected_facilities)]
 
-    # Update available footprints based on filtered facilities
+    # Filter by climate_controlled
+    if selected_climate and selected_climate != "all":
+        filtered_df_bar = filtered_df_bar[filtered_df_bar['climate_controlled'].astype(str) == selected_climate]
+        filtered_df = filtered_df[filtered_df['climate_controlled'].astype(str) == selected_climate]
+
+    # Filter by tier
+    if selected_tier and selected_tier != "all":
+        filtered_df_bar = filtered_df_bar[filtered_df_bar['tier'] == selected_tier]
+        filtered_df = filtered_df[filtered_df['tier'] == selected_tier]
+
+    # Update available footprints based on filtered facilities and filters
     available_footprints = (
         filtered_df_bar['footprint']
         .drop_duplicates()
@@ -217,14 +274,21 @@ def update_all(selected_facilities, selected_sizes, reset_clicks):
         filtered_df = filtered_df[filtered_df['footprint'].isin(selected_sizes)]
 
     # --- Bar Chart & Color Dict ---
-    FACILITY_COLORS = [
-        "#2e8287", "#ef3023", "#67b471", "#17633d", "#ffc52e"
-    ]
-    unique_facilities = sorted(df['facility_name'].unique())
     facility_color_dict = {
-        facility: FACILITY_COLORS[i % len(FACILITY_COLORS)]
-        for i, facility in enumerate(unique_facilities)
+        # Assign colors to facilities in a consistent manner
+        # Using a predefined set of colors for better visibility
+        # Colors are assigned based on the order of unique facilities
+        # This ensures that the same facility always has the same color
+        # Feel free to adjust the colors as needed
+        "All Hours Storage": "#2f8e93",
+        "Basalt Mini Storage": "#f12e26",
+        "Carbondale Mini Storage": "#67b471",
+        "Sopris Self Storage": "#1a633b",
+        "StorageMart": "#ffc52e",
+        "StorQuest Self Storage": "#565a5e",
+        # Add more facilities and their colors as needed
     }
+
 
     # --- Bar Chart ---
     if filtered_df_bar.empty:
@@ -244,11 +308,13 @@ def update_all(selected_facilities, selected_sizes, reset_clicks):
                     y=[row['price']],
                     name=row['facility_name'],
                     marker_color=facility_color_dict.get(row['facility_name'], "#333333"),
-                    customdata=[[row['unit_type']]],
+                    customdata=[[row['unit_type'], row.get('climate_controlled', ''), row.get('tier', '')]],
                     hovertemplate=(
                         f'Facility: {row["facility_name"]}<br>'
                         f'Footprint: {row["footprint"]}<br>'
                         'Unit Type: %{customdata[0]}<br>'
+                        'Climate Controlled: %{customdata[1]}<br>'
+                        'Tier: %{customdata[2]}<br>'
                         'Price: $%{y}<extra></extra>'
                     ),
                     offsetgroup=row['facility_name'] + row['unit_type'],
@@ -289,6 +355,8 @@ def update_all(selected_facilities, selected_sizes, reset_clicks):
             # Skip if less than 2 points (optional)
             if len(group_sorted) < 2:
                 continue
+            # Prepare customdata for all points in this group
+            customdata = group_sorted[['unit_type', 'climate_controlled', 'tier']].values
             line_fig.add_trace(
                 go.Scatter(
                     x=group_sorted['date_acquired'],
@@ -297,11 +365,13 @@ def update_all(selected_facilities, selected_sizes, reset_clicks):
                     name=f"{facility} - {footprint} - {unit_type}",
                     marker=dict(size=7, color=facility_color_dict.get(facility, "#333333")),
                     line=dict(width=2, color=facility_color_dict.get(facility, "#333333")),
-                    customdata=group_sorted[['unit_type']],
+                    customdata=customdata,
                     hovertemplate=(
                         f'Facility: {facility}<br>'
                         f'Footprint: {footprint}<br>'
-                        f'Unit Type: {unit_type}<br>'
+                        'Unit Type: %{customdata[0]}<br>'
+                        'Climate Controlled: %{customdata[1]}<br>'
+                        'Tier: %{customdata[2]}<br>'
                         'Date: %{x|%Y-%m-%d}<br>'
                         'Price: $%{y}<extra></extra>'
                     ),
@@ -319,12 +389,21 @@ def update_all(selected_facilities, selected_sizes, reset_clicks):
         )
 
     # Prepare filtered data for table (show all filtered rows, not just bar chart)
-    table_columns = ["facility_name", "footprint", "unit_type", "price", "date_acquired"]
+    table_columns = ["facility_name", "footprint", "unit_type", "price", "date_acquired", "climate_controlled", "tier"]
     filtered_table_data = filtered_df[table_columns].sort_values(
         ["facility_name", "footprint", "unit_type", "date_acquired"]
     ).to_dict("records") if not filtered_df.empty else []
 
-    return selected_facilities, unit_size_options, selected_sizes, bar_fig, line_fig, filtered_table_data
+    return (
+        selected_facilities,
+        unit_size_options,
+        selected_sizes,
+        selected_climate,
+        selected_tier,
+        bar_fig,
+        line_fig,
+        filtered_table_data
+    )
 
 # =========================
 # Optional: Open in Browser

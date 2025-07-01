@@ -54,7 +54,7 @@ else:
 
     carbondale_soup = helpers.fetch_carbondale(carbondale_url)
 
-    basalt_soup1, basalt_soup2 = helpers.fetch_basalt_mini(basalt_cc_url, basalt_reg_url)
+    basalt_soup_reg, basalt_soup_cc = helpers.fetch_basalt_mini(basalt_cc_url, basalt_reg_url)
 
 
     # ----------- Extract data from HTML -----------
@@ -78,7 +78,7 @@ else:
     if not carbondale_results or len(carbondale_results) == 0:
         carbondale_results = {0: ("Something went wrong", "Contact Tyler Wilson", "")}
     
-    basalt_results = helpers.extract_basalt(basalt_soup1, basalt_soup2)
+    basalt_results = helpers.extract_basalt(basalt_soup_reg, basalt_soup_cc)
     if not basalt_results or len(basalt_results) == 0:
         basalt_results = {0: ("Something went wrong", "Contact Tyler Wilson", "")}
 
