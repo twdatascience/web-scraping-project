@@ -28,26 +28,32 @@ def write_multiple_results_to_excel(
     """
     Write results for each facility to separate sheets in a single Excel file.
     """
-    today_str = datetime.date.today().isoformat()
+    today_str = datetime.date.today().strftime("%m-%d")
     with pd.ExcelWriter(excel_path) as writer:
         # Sopris sheet
-        df_sopris = pd.DataFrame.from_dict(sopris_results, orient='index', columns=['unit_size', 'unit_type', 'price'])
-        df_sopris.to_excel(writer, index=False, sheet_name=f"{today_str} Sopris Self Storage")
+        df_sopris = pd.DataFrame.from_dict(sopris_results, orient='index', columns=['unit_size', 'unit_type', 'price', 'climate_controlled', 'tier'])
+        if not df_sopris.empty:
+            df_sopris.to_excel(writer, index=False, sheet_name=f"{today_str} Sopris Self Storage")
         # StorQuest sheet
-        df_storquest = pd.DataFrame.from_dict(storquest_results, orient='index', columns=['unit_size', 'unit_type', 'price'])
-        df_storquest.to_excel(writer, index=False, sheet_name=f"{today_str} StorQuest Self Storage")
+        df_storquest = pd.DataFrame.from_dict(storquest_results, orient='index', columns=['unit_size', 'unit_type', 'price', 'climate_controlled', 'tier'])
+        if not df_storquest.empty:
+            df_storquest.to_excel(writer, index=False, sheet_name=f"{today_str} StorQuest Self Storage")
         # Storage Mart sheet
-        df_storage_mart = pd.DataFrame.from_dict(storage_mart_results, orient='index', columns=['unit_size', 'unit_type', 'price'])
-        df_storage_mart.to_excel(writer, index=False, sheet_name=f"{today_str} StorageMart")
+        df_storage_mart = pd.DataFrame.from_dict(storage_mart_results, orient='index', columns=['unit_size', 'unit_type', 'price', 'climate_controlled', 'tier'])
+        if not df_storage_mart.empty:
+            df_storage_mart.to_excel(writer, index=False, sheet_name=f"{today_str} StorageMart")
         # All Hours sheet
-        df_all_hours = pd.DataFrame.from_dict(all_hours_results, orient='index', columns=['unit_size', 'unit_type', 'price'])
-        df_all_hours.to_excel(writer, index=False, sheet_name=f"{today_str} All Hours Storage")
+        df_all_hours = pd.DataFrame.from_dict(all_hours_results, orient='index', columns=['unit_size', 'unit_type', 'price', 'climate_controlled', 'tier'])
+        if not df_all_hours.empty:
+            df_all_hours.to_excel(writer, index=False, sheet_name=f"{today_str} All Hours Storage")
         # Carbondale sheet
-        df_carbondale = pd.DataFrame.from_dict(carbondale_results, orient='index', columns=['unit_size', 'unit_type', 'price'])
-        df_carbondale.to_excel(writer, index=False, sheet_name=f"{today_str} Carbondale Mini Storage")
+        df_carbondale = pd.DataFrame.from_dict(carbondale_results, orient='index', columns=['unit_size', 'unit_type', 'price', 'climate_controlled', 'tier'])
+        if not df_carbondale.empty:
+            df_carbondale.to_excel(writer, index=False, sheet_name=f"{today_str} Carbondale Mini Storage")
         # Basalt Mini sheet
-        df_basalt = pd.DataFrame.from_dict(basalt_results, orient='index', columns=['unit_size', 'unit_type', 'price'])
-        df_basalt.to_excel(writer, index=False, sheet_name=f"{today_str} Basalt Mini Storage")
+        df_basalt = pd.DataFrame.from_dict(basalt_results, orient='index', columns=['unit_size', 'unit_type', 'price', 'climate_controlled', 'tier'])
+        if not df_basalt.empty:
+            df_basalt.to_excel(writer, index=False, sheet_name=f"{today_str} Basalt Mini Storage")
 
 # =========================
 # Sopris Self Storage
@@ -805,7 +811,39 @@ def sync_web_data_to_db(db_path="storage_data.db", web_data_dir="./web_data"):
     else:
         print("No new records to add from web_data.")
 
+def load_and_extract_today_html(today_str, web_data_dir="./web_data"):
+    """
+    Loads today's HTML files from web_data and extracts results for each facility.
+    Returns: sopris_results, storquest_results, storage_mart_results, all_hours_results, carbondale_results, basalt_results
+    """
+    # Load HTML
+    with open(os.path.join(web_data_dir, f"{today_str}_soprisselfstorage.html"), encoding="utf-8") as f:
+        sopris_soup = BeautifulSoup(f.read(), "html.parser")
+    with open(os.path.join(web_data_dir, f"{today_str}_storquestselfstorage.html"), encoding="utf-8") as f:
+        storquest_soup = BeautifulSoup(f.read(), "html.parser")
+    with open(os.path.join(web_data_dir, f"{today_str}_storage_mart.html"), encoding="utf-8") as f:
+        storage_mart_soup = BeautifulSoup(f.read(), "html.parser")
+    with open(os.path.join(web_data_dir, f"{today_str}_all_hours.html"), encoding="utf-8") as f:
+        all_hours_soup = BeautifulSoup(f.read(), "html.parser")
+    with open(os.path.join(web_data_dir, f"{today_str}_carbondale.html"), encoding="utf-8") as f:
+        carbondale_soup = BeautifulSoup(f.read(), "html.parser")
+    with open(os.path.join(web_data_dir, f"{today_str}_basaltmini_reg.html"), encoding="utf-8") as f:
+        basalt_soup_reg = BeautifulSoup(f.read(), "html.parser")
+    with open(os.path.join(web_data_dir, f"{today_str}_basaltmini_cc.html"), encoding="utf-8") as f:
+        basalt_soup_cc = BeautifulSoup(f.read(), "html.parser")
 
+    # Extract
+    sopris_results = extract_sopris(sopris_soup)
+    storquest_results = extract_storquest(storquest_soup)
+    storage_mart_results = extract_storage_mart(storage_mart_soup)
+    all_hours_results = extract_all_hours(all_hours_soup)
+    carbondale_results = extract_carbondale(carbondale_soup)
+    basalt_results = extract_basalt(basalt_soup_reg, basalt_soup_cc)
+
+    return (
+        sopris_results, storquest_results, storage_mart_results,
+        all_hours_results, carbondale_results, basalt_results
+    )
 
 # =========================
 # END OF FILE

@@ -28,9 +28,19 @@ helpers.create_db_and_table()
 # =========================
 
 if all_exist:
-    # If today's data already exists, just sync to DB if needed
     print("Today's data already exists in web_data. Syncing to database if needed...")
     helpers.sync_web_data_to_db(db_path="storage_data.db", web_data_dir=web_data_dir)
+
+    # Use helper to load and extract today's HTML
+    (
+        sopris_results, storquest_results, storage_mart_results,
+        all_hours_results, carbondale_results, basalt_results
+    ) = helpers.load_and_extract_today_html(today_str, web_data_dir=web_data_dir)
+
+    helpers.write_multiple_results_to_excel(
+        sopris_results, storquest_results, storage_mart_results,
+        all_hours_results, carbondale_results, basalt_results
+    )
 else:
     # If not, fetch new data, extract, combine, store, and export
     helpers.sync_web_data_to_db(db_path="storage_data.db", web_data_dir=web_data_dir)
