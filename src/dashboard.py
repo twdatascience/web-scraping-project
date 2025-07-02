@@ -11,9 +11,9 @@ import re
 import os
 import threading
 import webbrowser
-from dash import dash_table  # Add this import
+from dash import dash_table  
 from utils.helpers import get_all_storage_results, sync_web_data_to_db
-import pdb
+from dash_extensions.enrich import DashProxy, html
 
 # =========================
 # Data Sync & Load
@@ -170,18 +170,31 @@ app.layout = html.Div([
         html.Button("Reset Filters", id="reset-filters-btn", n_clicks=0, style={"margin-top": "10px"})
     ], style={"width": "50%", "margin-bottom": "20px"}),
 
-    # Graphs side by side using flexbox
+    # Graphs stacked vertically
     html.Div([
-        dcc.Graph(id='price-bar-graph', style={"flex": "1", "min-width": "350px"}),
-        dcc.Graph(id='price-line-graph', style={"flex": "1", "min-width": "350px"})
+        html.Div([
+            html.Button(
+                "Toggle Legend", id="toggle-legend-btn", n_clicks=0,
+                style={"width": "150px", "margin-bottom": "10px", "float": "right"}
+            ),
+        ], style={"display": "flex", "justifyContent": "flex-end", "width": "100%"}),
+        dcc.Graph(id='price-line-graph', style={"flex": "1", "min-width": "350px"}),
+        dcc.Graph(id='price-bar-graph', style={"flex": "1", "min-width": "350px"})
     ], style={
         "display": "flex",
-        "flexWrap": "wrap",
+        "flexDirection": "column",
         "gap": "20px",
         "margin-bottom": "30px"
     }),
 
+    # Button to download data as XLSX
+    html.Div([
+        html.Button("Download Data as XLSX", id="btn_xslx", n_clicks=0, style={"margin-bottom": "20px"}),
+        dcc.Download(id="download_xslx")
+    ], style={"textAlign": "center"}),
+
     # Data table always shown under graphs
+    dcc.Store(id='filtered-table-store'),  # <--- Add this line
     html.Div([
         html.H3("Filtered Data"),
         dash_table.DataTable(
@@ -212,15 +225,17 @@ app.layout = html.Div([
     Output('tier-dropdown', 'value'),
     Output('price-bar-graph', 'figure'),
     Output('price-line-graph', 'figure'),
-    Output('filtered-data-table', 'data'),  # Add output for table
+    Output('filtered-data-table', 'data'),
+    Output('filtered-table-store', 'data'),  # <--- Add this line
     Input('facility-dropdown', 'value'),
     Input('unit-size-dropdown', 'value'),
     Input('climate-dropdown', 'value'),
     Input('tier-dropdown', 'value'),
     Input('reset-filters-btn', 'n_clicks'),
+    Input('toggle-legend-btn', 'n_clicks'),
     prevent_initial_call=False
 )
-def update_all(selected_facilities, selected_sizes, selected_climate, selected_tier, reset_clicks):
+def update_all(selected_facilities, selected_sizes, selected_climate, selected_tier, reset_clicks, toggle_legend_clicks):
     triggered_id = ctx.triggered_id if hasattr(ctx, "triggered_id") else None
 
     # Reset filters if reset button is clicked
@@ -341,6 +356,8 @@ def update_all(selected_facilities, selected_sizes, selected_climate, selected_t
         )
 
     # --- Line Chart ---
+    show_legend = (toggle_legend_clicks or 0) % 2 == 0  # Show legend on even clicks
+
     if filtered_df.empty:
         import plotly.express as px
         line_fig = px.line(title="No Data Available")
@@ -385,7 +402,8 @@ def update_all(selected_facilities, selected_sizes, selected_climate, selected_t
             xaxis_title="Date",
             yaxis_title="Price ($)",
             legend_title="Facility",
-            hovermode="closest"
+            hovermode="closest",
+            showlegend=show_legend  # Control legend visibility
         )
 
     # Prepare filtered data for table (show all filtered rows, not just bar chart)
@@ -402,12 +420,27 @@ def update_all(selected_facilities, selected_sizes, selected_climate, selected_t
         selected_tier,
         bar_fig,
         line_fig,
-        filtered_table_data
+        filtered_table_data,
+        filtered_table_data  # <--- Add this line
     )
 
-# =========================
-# Optional: Open in Browser
-# =========================
+@app.callback(
+    Output("download_xslx", "data"),
+    Input("btn_xslx", "n_clicks"),
+    State("filtered-table-store", "data"),  # <--- Use State to get the data
+    prevent_initial_call=True,
+)
+def generate_xlsx(n_clicks, filtered_table_data):
+    if not filtered_table_data:
+        return dash.no_update
+
+    df = pd.DataFrame(filtered_table_data)
+    def to_xlsx(bytes_io):
+        xslx_writer = pd.ExcelWriter(bytes_io, engine="xlsxwriter")
+        df.to_excel(xslx_writer, index=False, sheet_name="sheet1")
+        xslx_writer.close()
+
+    return dcc.send_bytes(to_xlsx, "data_download.xlsx")
 
 def open_browser():
     webbrowser.open_new("http://127.0.0.1:8050")
