@@ -421,7 +421,7 @@ def update_all(selected_facilities, selected_sizes, selected_climate, selected_t
         bar_fig,
         line_fig,
         filtered_table_data,
-        filtered_table_data  # <--- Add this line
+        filtered_table_data
     )
 
 @app.callback(

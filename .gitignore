@@ -45,3 +45,6 @@ Thumbs.db
 # Ignore everything in build/ and dist/
 build/
 dist/
+
+# Ignore .spec files
+*.spec
