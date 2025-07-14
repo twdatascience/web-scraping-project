@@ -1,0 +1,8 @@
+2025-07-12 16:41:41,568 [INFO] Database and table ensured.
+2025-07-12 16:41:41,568 [INFO] Fetching new data from web sources...
+2025-07-12 16:43:08,504 [INFO] Fetched HTML from all sources.
+2025-07-12 16:43:08,840 [INFO] Data combined, inserted into DB, and written to Excel.
+2025-07-13 10:25:00,678 [INFO] Database and table ensured.
+2025-07-13 10:25:00,678 [INFO] Fetching new data from web sources...
+2025-07-13 10:26:30,405 [INFO] Fetched HTML from all sources.
+2025-07-13 10:26:30,742 [INFO] Data combined, inserted into DB, and written to Excel.

@@ -1,0 +1,923 @@
+<html><head><style type="text/css">@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide{display:none !important;}ng\:form{display:block;}.ng-animate-block-transitions{transition:0s all!important;-webkit-transition:0s all!important;}</style>
+    <!-- System Scripts -->
+    <script src="scripts/angular.js"></script>
+    <script src="scripts/angular-route.js"></script>
+    <script src="scripts/angular-ui/ui-bootstrap-tpls.js"></script>
+    <script src="scripts/app.js"></script>
+    <script src="scripts/loading-bar.js"></script>
+
+    <!-- Controllers -->
+    <script src="controllers/headerCtrl.js"></script>
+    <script src="controllers/displaySizesCtrl.js"></script>
+    <script src="controllers/collectCustomerInfoCtrl.js"></script>
+    <script src="controllers/displayReceiptCtrl.js"></script>
+
+    <!-- Services -->
+    <script src="services/globalDataService.js"></script>
+
+    <!-- Style sheets -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="css/loading-bar.css" rel="stylesheet">
+    <link href="css/app.css" rel="stylesheet">
+
+    <title>Online Reservation</title>
+</head>
+
+<body ng-app="onlineReservation" ng-controller="headerCtrl" class="ng-scope">
+    <div class="container">
+        <div class="row">
+
+            <ul class="list-inline navForSCStar" style="vertical-align:middle">
+                <li style="vertical-align:bottom">
+                    <img class="pull-left" style="height:50px;margin-left:5px" ng-src="images/327-BS.png" src="images/327-BS.png">
+                </li>
+                <li style="vertical-align:super" class="ng-binding">Southfork</li>
+                <li style="vertical-align:super" class="ng-binding">400 W. Cody Lane</li>
+                <li style="vertical-align:super" class="ng-binding">Basalt, </li>
+                <li style="vertical-align:super" class="ng-binding">CO</li>
+                <li style="vertical-align:super" class="ng-binding">81621</li>
+                <li style="vertical-align:super" class="ng-binding">970-927-3700</li>
+            </ul>
+
+            <!-- SPA pages plug in here -->
+            <div>
+                <!-- ngView:  --><div ng-view="" class="ng-scope"><div class="ng-scope">
+    <div class="ng-binding">
+        
+    </div>
+   
+    <div ng-show="true" class="">
+        <div class="row">
+            <div class="col-md-12">
+               
+                <h1 style="text-align: center; font-size:25px; color:green " class="ng-binding">There is a $25 one-time administrative move-in fee. Tenant will be enrolled in the lowest available coverage of the Tenant Protection plan unless own insurance is provided</h1>
+               
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Select a Size</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="ng-binding">If you need a size that is not listed, please call us at: 970-927-3700</h3>
+            </div>
+        </div>
+        <div class="row">
+            <!-- ngRepeat: unitSize in unitSizes --><div class="col-md-3 ng-scope" ng-repeat="unitSize in unitSizes">
+                <div class="bs-component">
+                    <ul class="list-group">
+                        <li class="list-group-item btn-primary ng-binding">
+                            10x5 1st Floor Standard
+                        </li>
+                        <li class="list-group-item" style="padding-top: 0px; padding-bottom: 0px">
+                            <div ng-show="true" class="">
+                                <div>
+                                    <span>&nbsp;</span>
+                                </div>
+                                <div>
+                                    <span class="ng-binding">$220.00</span>
+                                </div>
+                            </div>
+                            <div ng-show="" class="ng-hide">
+                                <div>
+                                    <div>
+                                        <span>&nbsp;</span>
+                                        <span style="float:right" class="ng-binding"></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span style="text-decoration:line-through" class="ng-binding">$220.00</span>
+                                    <span style="float:right;font-weight:bold" class="ng-binding"></span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item" style="padding: 0px;height:100px; overflow: auto">
+                            <!-- ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">50 sq.ft.</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Wide roll up door (approx 8ft)</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Accessed from the hallway</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Towards the back of building </span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Furthest from the main entrance </span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Climate-controlled</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList -->
+                        </li>
+                        <li class="list-group-item">
+                            <button class="btn btn-primary" type="button" ng-click="reserveSpace(unitSize);">Reserve Now</button>
+                        </li>
+                    </ul>
+                </div>
+            </div><!-- end ngRepeat: unitSize in unitSizes --><div class="col-md-3 ng-scope" ng-repeat="unitSize in unitSizes">
+                <div class="bs-component">
+                    <ul class="list-group">
+                        <li class="list-group-item btn-primary ng-binding">
+                            10x5 1st Floor Premium
+                        </li>
+                        <li class="list-group-item" style="padding-top: 0px; padding-bottom: 0px">
+                            <div ng-show="true" class="">
+                                <div>
+                                    <span>&nbsp;</span>
+                                </div>
+                                <div>
+                                    <span class="ng-binding">$225.00</span>
+                                </div>
+                            </div>
+                            <div ng-show="" class="ng-hide">
+                                <div>
+                                    <div>
+                                        <span>&nbsp;</span>
+                                        <span style="float:right" class="ng-binding"></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span style="text-decoration:line-through" class="ng-binding">$225.00</span>
+                                    <span style="float:right;font-weight:bold" class="ng-binding"></span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item" style="padding: 0px;height:100px; overflow: auto">
+                            <!-- ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">50 sq.ft.</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Wide roll up door (approx 8ft)</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Accessed from the hallway</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Towards front of the building</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Near the main entrance</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Climate-controlled</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList -->
+                        </li>
+                        <li class="list-group-item">
+                            <button class="btn btn-primary" type="button" ng-click="reserveSpace(unitSize);">Reserve Now</button>
+                        </li>
+                    </ul>
+                </div>
+            </div><!-- end ngRepeat: unitSize in unitSizes --><div class="col-md-3 ng-scope" ng-repeat="unitSize in unitSizes">
+                <div class="bs-component">
+                    <ul class="list-group">
+                        <li class="list-group-item btn-primary ng-binding">
+                            5x5 2nd Floor Standard
+                        </li>
+                        <li class="list-group-item" style="padding-top: 0px; padding-bottom: 0px">
+                            <div ng-show="true" class="">
+                                <div>
+                                    <span>&nbsp;</span>
+                                </div>
+                                <div>
+                                    <span class="ng-binding">$110.00</span>
+                                </div>
+                            </div>
+                            <div ng-show="" class="ng-hide">
+                                <div>
+                                    <div>
+                                        <span>&nbsp;</span>
+                                        <span style="float:right" class="ng-binding"></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span style="text-decoration:line-through" class="ng-binding">$110.00</span>
+                                    <span style="float:right;font-weight:bold" class="ng-binding"></span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item" style="padding: 0px;height:100px; overflow: auto">
+                            <!-- ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">25 sq.ft.</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Furtherst from the elevator </span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Standard size roll up door (approx. 3.5ft.) </span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Accessed from the hallway</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Towards the back of building </span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Climate-controlled</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList -->
+                        </li>
+                        <li class="list-group-item">
+                            <button class="btn btn-primary" type="button" ng-click="reserveSpace(unitSize);">Reserve Now</button>
+                        </li>
+                    </ul>
+                </div>
+            </div><!-- end ngRepeat: unitSize in unitSizes --><div class="col-md-3 ng-scope" ng-repeat="unitSize in unitSizes">
+                <div class="bs-component">
+                    <ul class="list-group">
+                        <li class="list-group-item btn-primary ng-binding">
+                            5x5 2nd Floor Intermediate
+                        </li>
+                        <li class="list-group-item" style="padding-top: 0px; padding-bottom: 0px">
+                            <div ng-show="true" class="">
+                                <div>
+                                    <span>&nbsp;</span>
+                                </div>
+                                <div>
+                                    <span class="ng-binding">$115.00</span>
+                                </div>
+                            </div>
+                            <div ng-show="" class="ng-hide">
+                                <div>
+                                    <div>
+                                        <span>&nbsp;</span>
+                                        <span style="float:right" class="ng-binding"></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span style="text-decoration:line-through" class="ng-binding">$115.00</span>
+                                    <span style="float:right;font-weight:bold" class="ng-binding"></span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item" style="padding: 0px;height:100px; overflow: auto">
+                            <!-- ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">25 sq.ft.</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Standard size roll up door (approx. 3.5ft.) </span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Accessed from the hallway</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Middle of building</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Climate-controlled</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList -->
+                        </li>
+                        <li class="list-group-item">
+                            <button class="btn btn-primary" type="button" ng-click="reserveSpace(unitSize);">Reserve Now</button>
+                        </li>
+                    </ul>
+                </div>
+            </div><!-- end ngRepeat: unitSize in unitSizes --><div class="col-md-3 ng-scope" ng-repeat="unitSize in unitSizes">
+                <div class="bs-component">
+                    <ul class="list-group">
+                        <li class="list-group-item btn-primary ng-binding">
+                            5x5 2nd Floor Premium
+                        </li>
+                        <li class="list-group-item" style="padding-top: 0px; padding-bottom: 0px">
+                            <div ng-show="true" class="">
+                                <div>
+                                    <span>&nbsp;</span>
+                                </div>
+                                <div>
+                                    <span class="ng-binding">$120.00</span>
+                                </div>
+                            </div>
+                            <div ng-show="" class="ng-hide">
+                                <div>
+                                    <div>
+                                        <span>&nbsp;</span>
+                                        <span style="float:right" class="ng-binding"></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span style="text-decoration:line-through" class="ng-binding">$120.00</span>
+                                    <span style="float:right;font-weight:bold" class="ng-binding"></span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item" style="padding: 0px;height:100px; overflow: auto">
+                            <!-- ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">25 sq.ft.</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Near the elevator </span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Standard size roll up door (approx. 3.5ft.) </span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Accessed from the hallway</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Towards front of the building</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Climate-controlled</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList -->
+                        </li>
+                        <li class="list-group-item">
+                            <button class="btn btn-primary" type="button" ng-click="reserveSpace(unitSize);">Reserve Now</button>
+                        </li>
+                    </ul>
+                </div>
+            </div><!-- end ngRepeat: unitSize in unitSizes --><div class="col-md-3 ng-scope" ng-repeat="unitSize in unitSizes">
+                <div class="bs-component">
+                    <ul class="list-group">
+                        <li class="list-group-item btn-primary ng-binding">
+                            5x10 2nd Floor Standard
+                        </li>
+                        <li class="list-group-item" style="padding-top: 0px; padding-bottom: 0px">
+                            <div ng-show="true" class="">
+                                <div>
+                                    <span>&nbsp;</span>
+                                </div>
+                                <div>
+                                    <span class="ng-binding">$165.00</span>
+                                </div>
+                            </div>
+                            <div ng-show="" class="ng-hide">
+                                <div>
+                                    <div>
+                                        <span>&nbsp;</span>
+                                        <span style="float:right" class="ng-binding"></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span style="text-decoration:line-through" class="ng-binding">$165.00</span>
+                                    <span style="float:right;font-weight:bold" class="ng-binding"></span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item" style="padding: 0px;height:100px; overflow: auto">
+                            <!-- ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">50 sq.ft.</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Furtherst from the elevator </span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Standard size roll up door (approx. 3.5ft.) </span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Accessed from the hallway</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Towards the back of building </span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Climate-controlled</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList -->
+                        </li>
+                        <li class="list-group-item">
+                            <button class="btn btn-primary" type="button" ng-click="reserveSpace(unitSize);">Reserve Now</button>
+                        </li>
+                    </ul>
+                </div>
+            </div><!-- end ngRepeat: unitSize in unitSizes --><div class="col-md-3 ng-scope" ng-repeat="unitSize in unitSizes">
+                <div class="bs-component">
+                    <ul class="list-group">
+                        <li class="list-group-item btn-primary ng-binding">
+                            5x10 2nd Floor Intermediate
+                        </li>
+                        <li class="list-group-item" style="padding-top: 0px; padding-bottom: 0px">
+                            <div ng-show="true" class="">
+                                <div>
+                                    <span>&nbsp;</span>
+                                </div>
+                                <div>
+                                    <span class="ng-binding">$175.00</span>
+                                </div>
+                            </div>
+                            <div ng-show="" class="ng-hide">
+                                <div>
+                                    <div>
+                                        <span>&nbsp;</span>
+                                        <span style="float:right" class="ng-binding"></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span style="text-decoration:line-through" class="ng-binding">$175.00</span>
+                                    <span style="float:right;font-weight:bold" class="ng-binding"></span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item" style="padding: 0px;height:100px; overflow: auto">
+                            <!-- ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">50 sq.ft.</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Standard size roll up door (approx. 3.5ft.) </span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Accessed from the hallway</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Middle of building</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Climate-controlled</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList -->
+                        </li>
+                        <li class="list-group-item">
+                            <button class="btn btn-primary" type="button" ng-click="reserveSpace(unitSize);">Reserve Now</button>
+                        </li>
+                    </ul>
+                </div>
+            </div><!-- end ngRepeat: unitSize in unitSizes --><div class="col-md-3 ng-scope" ng-repeat="unitSize in unitSizes">
+                <div class="bs-component">
+                    <ul class="list-group">
+                        <li class="list-group-item btn-primary ng-binding">
+                            5x10 2nd Floor Premium
+                        </li>
+                        <li class="list-group-item" style="padding-top: 0px; padding-bottom: 0px">
+                            <div ng-show="true" class="">
+                                <div>
+                                    <span>&nbsp;</span>
+                                </div>
+                                <div>
+                                    <span class="ng-binding">$185.00</span>
+                                </div>
+                            </div>
+                            <div ng-show="" class="ng-hide">
+                                <div>
+                                    <div>
+                                        <span>&nbsp;</span>
+                                        <span style="float:right" class="ng-binding"></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span style="text-decoration:line-through" class="ng-binding">$185.00</span>
+                                    <span style="float:right;font-weight:bold" class="ng-binding"></span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item" style="padding: 0px;height:100px; overflow: auto">
+                            <!-- ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">50 sq.ft.</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Near the elevator </span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Standard size roll up door (approx. 3.5ft.) </span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Accessed from the hallway</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Towards front of the building</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Climate-controlled</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList -->
+                        </li>
+                        <li class="list-group-item">
+                            <button class="btn btn-primary" type="button" ng-click="reserveSpace(unitSize);">Reserve Now</button>
+                        </li>
+                    </ul>
+                </div>
+            </div><!-- end ngRepeat: unitSize in unitSizes --><div class="col-md-3 ng-scope" ng-repeat="unitSize in unitSizes">
+                <div class="bs-component">
+                    <ul class="list-group">
+                        <li class="list-group-item btn-primary ng-binding">
+                            10x5 2nd Floor Standard
+                        </li>
+                        <li class="list-group-item" style="padding-top: 0px; padding-bottom: 0px">
+                            <div ng-show="true" class="">
+                                <div>
+                                    <span>&nbsp;</span>
+                                </div>
+                                <div>
+                                    <span class="ng-binding">$189.00</span>
+                                </div>
+                            </div>
+                            <div ng-show="" class="ng-hide">
+                                <div>
+                                    <div>
+                                        <span>&nbsp;</span>
+                                        <span style="float:right" class="ng-binding"></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span style="text-decoration:line-through" class="ng-binding">$189.00</span>
+                                    <span style="float:right;font-weight:bold" class="ng-binding"></span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item" style="padding: 0px;height:100px; overflow: auto">
+                            <!-- ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">50 sq.ft.</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Furtherst from the elevator </span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Wide roll up door (approx 8ft)</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Accessed from the hallway</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Towards the back of building </span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Climate-controlled</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList -->
+                        </li>
+                        <li class="list-group-item">
+                            <button class="btn btn-primary" type="button" ng-click="reserveSpace(unitSize);">Reserve Now</button>
+                        </li>
+                    </ul>
+                </div>
+            </div><!-- end ngRepeat: unitSize in unitSizes --><div class="col-md-3 ng-scope" ng-repeat="unitSize in unitSizes">
+                <div class="bs-component">
+                    <ul class="list-group">
+                        <li class="list-group-item btn-primary ng-binding">
+                            10x5 2nd Floor Intermediate
+                        </li>
+                        <li class="list-group-item" style="padding-top: 0px; padding-bottom: 0px">
+                            <div ng-show="true" class="">
+                                <div>
+                                    <span>&nbsp;</span>
+                                </div>
+                                <div>
+                                    <span class="ng-binding">$200.00</span>
+                                </div>
+                            </div>
+                            <div ng-show="" class="ng-hide">
+                                <div>
+                                    <div>
+                                        <span>&nbsp;</span>
+                                        <span style="float:right" class="ng-binding"></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span style="text-decoration:line-through" class="ng-binding">$200.00</span>
+                                    <span style="float:right;font-weight:bold" class="ng-binding"></span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item" style="padding: 0px;height:100px; overflow: auto">
+                            <!-- ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">50 sq.ft.</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Wide roll up door (approx 8ft)</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Accessed from the hallway</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Middle of building</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Climate-controlled</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList -->
+                        </li>
+                        <li class="list-group-item">
+                            <button class="btn btn-primary" type="button" ng-click="reserveSpace(unitSize);">Reserve Now</button>
+                        </li>
+                    </ul>
+                </div>
+            </div><!-- end ngRepeat: unitSize in unitSizes --><div class="col-md-3 ng-scope" ng-repeat="unitSize in unitSizes">
+                <div class="bs-component">
+                    <ul class="list-group">
+                        <li class="list-group-item btn-primary ng-binding">
+                            10x5 2nd Floor Premium
+                        </li>
+                        <li class="list-group-item" style="padding-top: 0px; padding-bottom: 0px">
+                            <div ng-show="true" class="">
+                                <div>
+                                    <span>&nbsp;</span>
+                                </div>
+                                <div>
+                                    <span class="ng-binding">$210.00</span>
+                                </div>
+                            </div>
+                            <div ng-show="" class="ng-hide">
+                                <div>
+                                    <div>
+                                        <span>&nbsp;</span>
+                                        <span style="float:right" class="ng-binding"></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span style="text-decoration:line-through" class="ng-binding">$210.00</span>
+                                    <span style="float:right;font-weight:bold" class="ng-binding"></span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item" style="padding: 0px;height:100px; overflow: auto">
+                            <!-- ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">50 sq.ft.</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Near the elevator </span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Wide roll up door (approx 8ft)</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Accessed from the hallway</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Towards front of the building</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Climate-controlled</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList -->
+                        </li>
+                        <li class="list-group-item">
+                            <button class="btn btn-primary" type="button" ng-click="reserveSpace(unitSize);">Reserve Now</button>
+                        </li>
+                    </ul>
+                </div>
+            </div><!-- end ngRepeat: unitSize in unitSizes --><div class="col-md-3 ng-scope" ng-repeat="unitSize in unitSizes">
+                <div class="bs-component">
+                    <ul class="list-group">
+                        <li class="list-group-item btn-primary ng-binding">
+                            10x10 2nd Floor Standard
+                        </li>
+                        <li class="list-group-item" style="padding-top: 0px; padding-bottom: 0px">
+                            <div ng-show="true" class="">
+                                <div>
+                                    <span>&nbsp;</span>
+                                </div>
+                                <div>
+                                    <span class="ng-binding">$275.00</span>
+                                </div>
+                            </div>
+                            <div ng-show="" class="ng-hide">
+                                <div>
+                                    <div>
+                                        <span>&nbsp;</span>
+                                        <span style="float:right" class="ng-binding"></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span style="text-decoration:line-through" class="ng-binding">$275.00</span>
+                                    <span style="float:right;font-weight:bold" class="ng-binding"></span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item" style="padding: 0px;height:100px; overflow: auto">
+                            <!-- ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">100 sq.ft.</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Furtherst from the elevator </span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Wide roll up door (approx 8ft)</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Accessed from the hallway</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Towards the back of building </span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Climate-controlled</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList -->
+                        </li>
+                        <li class="list-group-item">
+                            <button class="btn btn-primary" type="button" ng-click="reserveSpace(unitSize);">Reserve Now</button>
+                        </li>
+                    </ul>
+                </div>
+            </div><!-- end ngRepeat: unitSize in unitSizes --><div class="col-md-3 ng-scope" ng-repeat="unitSize in unitSizes">
+                <div class="bs-component">
+                    <ul class="list-group">
+                        <li class="list-group-item btn-primary ng-binding">
+                            10x10 2nd Floor Premium
+                        </li>
+                        <li class="list-group-item" style="padding-top: 0px; padding-bottom: 0px">
+                            <div ng-show="true" class="">
+                                <div>
+                                    <span>&nbsp;</span>
+                                </div>
+                                <div>
+                                    <span class="ng-binding">$295.00</span>
+                                </div>
+                            </div>
+                            <div ng-show="" class="ng-hide">
+                                <div>
+                                    <div>
+                                        <span>&nbsp;</span>
+                                        <span style="float:right" class="ng-binding"></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span style="text-decoration:line-through" class="ng-binding">$295.00</span>
+                                    <span style="float:right;font-weight:bold" class="ng-binding"></span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item" style="padding: 0px;height:100px; overflow: auto">
+                            <!-- ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">100 sq.ft.</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Near the elevator </span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Wide roll up door (approx 8ft)</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Accessed from the hallway</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Towards front of the building</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList --><ul ng-repeat="feature in unitSize.FeatureList" class="ng-scope">
+                                <li style="margin-left: -40px; margin-bottom:0px;list-style-type:none;height:20px;line-height:10px;">
+                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;padding-bottom:15px"></span>
+                                    <span style="font-size:12px" class="ng-binding">Climate-controlled</span>
+                                </li>
+                            </ul><!-- end ngRepeat: feature in unitSize.FeatureList -->
+                        </li>
+                        <li class="list-group-item">
+                            <button class="btn btn-primary" type="button" ng-click="reserveSpace(unitSize);">Reserve Now</button>
+                        </li>
+                    </ul>
+                </div>
+            </div><!-- end ngRepeat: unitSize in unitSizes -->
+        </div>
+    </div>
+</div>
+</div>
+            </div>
+        </div>
+    </div>
+
+
+</body></html>
