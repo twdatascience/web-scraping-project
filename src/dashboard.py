@@ -173,11 +173,12 @@ app.layout = html.Div([
     # Graphs stacked vertically
     html.Div([
         html.Div([
+            html.Div(id="bar-chart-date-label", style={"fontWeight": "bold", "marginBottom": "10px"}),
             html.Button(
                 "Toggle Legend", id="toggle-legend-btn", n_clicks=0,
                 style={"width": "150px", "margin-bottom": "10px", "float": "right"}
             ),
-        ], style={"display": "flex", "justifyContent": "flex-end", "width": "100%"}),
+        ], style={"display": "flex", "justifyContent": "space-between", "width": "100%"}),
         dcc.Graph(id='price-line-graph', style={"flex": "1", "min-width": "350px"}),
         dcc.Graph(id='price-bar-graph', style={"flex": "1", "min-width": "350px"})
     ], style={
@@ -226,7 +227,8 @@ app.layout = html.Div([
     Output('price-bar-graph', 'figure'),
     Output('price-line-graph', 'figure'),
     Output('filtered-data-table', 'data'),
-    Output('filtered-table-store', 'data'),  # <--- Add this line
+    Output('filtered-table-store', 'data'),
+    Output('bar-chart-date-label', 'children'),  # <--- Add this line
     Input('facility-dropdown', 'value'),
     Input('unit-size-dropdown', 'value'),
     Input('climate-dropdown', 'value'),
@@ -245,13 +247,16 @@ def update_all(selected_facilities, selected_sizes, selected_climate, selected_t
         selected_climate = "all"
         selected_tier = "all"
 
-    filtered_df = df.copy()
+    filtered_df = df.copy() 
+
     # Filter to only the most recent date_acquired for bar chart
     if not filtered_df.empty and 'date_acquired' in filtered_df.columns:
         most_recent_date = filtered_df['date_acquired'].max()
         filtered_df_bar = filtered_df[filtered_df['date_acquired'] == most_recent_date]
+        bar_chart_date_label = f"Most Recent Data: {most_recent_date.strftime('%Y-%m-%d')}"
     else:
         filtered_df_bar = filtered_df
+        bar_chart_date_label = "No recent date available"
 
     # Filter by selected facilities
     if selected_facilities:
@@ -304,7 +309,6 @@ def update_all(selected_facilities, selected_sizes, selected_climate, selected_t
         # Add more facilities and their colors as needed
     }
 
-
     # --- Bar Chart ---
     if filtered_df_bar.empty:
         bar_fig = px.bar(title="No Data Available")
@@ -323,19 +327,20 @@ def update_all(selected_facilities, selected_sizes, selected_climate, selected_t
                     y=[row['price']],
                     name=row['facility_name'],
                     marker_color=facility_color_dict.get(row['facility_name'], "#333333"),
-                    customdata=[[row['unit_type'], row.get('climate_controlled', ''), row.get('tier', '')]],
+                    customdata=[[row['unit_type'], row.get('climate_controlled', ''), row.get('tier', ''), row.get('date_acquired', '')]],
                     hovertemplate=(
                         f'Facility: {row["facility_name"]}<br>'
                         f'Footprint: {row["footprint"]}<br>'
                         'Unit Type: %{customdata[0]}<br>'
                         'Climate Controlled: %{customdata[1]}<br>'
                         'Tier: %{customdata[2]}<br>'
+                        'Date: %{customdata[3]|%Y-%m-%d}<br>'
                         'Price: $%{y}<extra></extra>'
                     ),
                     offsetgroup=row['facility_name'] + row['unit_type'],
                     legendgroup=row['facility_name'],
                     showlegend=not any([t.name == row['facility_name'] for t in bar_fig.data])
-            )
+                )
             )
         if selected_sizes:
             x_categories = [f for f in ordered_footprints if f in selected_sizes]
@@ -367,11 +372,10 @@ def update_all(selected_facilities, selected_sizes, selected_climate, selected_t
         group_cols = ['facility_name', 'footprint', 'unit_type']
         grouped = filtered_df.groupby(group_cols, dropna=False)
         for (facility, footprint, unit_type), group in grouped:
-            # Ensure sorting and clean group
             group_sorted = group.sort_values('date_acquired')
-            # Skip if less than 2 points (optional)
-            if len(group_sorted) < 2:
-                continue
+            # Remove this check to include single-point groups
+            # if len(group_sorted) < 2:
+            #     continue
             # Prepare customdata for all points in this group
             customdata = group_sorted[['unit_type', 'climate_controlled', 'tier']].values
             line_fig.add_trace(
@@ -408,9 +412,10 @@ def update_all(selected_facilities, selected_sizes, selected_climate, selected_t
 
     # Prepare filtered data for table (show all filtered rows, not just bar chart)
     table_columns = ["facility_name", "footprint", "unit_type", "price", "date_acquired", "climate_controlled", "tier"]
-    filtered_table_data = filtered_df[table_columns].sort_values(
-        ["facility_name", "footprint", "unit_type", "date_acquired"]
-    ).to_dict("records") if not filtered_df.empty else []
+    filtered_table_data = df.copy()
+    # filtered_df[table_columns].sort_values(
+    #     ["facility_name", "footprint", "unit_type", "date_acquired"]
+    # ).to_dict("records") if not filtered_df.empty else []
 
     return (
         selected_facilities,
@@ -421,7 +426,8 @@ def update_all(selected_facilities, selected_sizes, selected_climate, selected_t
         bar_fig,
         line_fig,
         filtered_table_data,
-        filtered_table_data
+        filtered_table_data,
+        bar_chart_date_label  # <--- Add this line
     )
 
 @app.callback(
@@ -453,3 +459,4 @@ if __name__ == '__main__':
         dev_tools_ui=False,           # Disable Dash GUI in bottom right
         dev_tools_props_check=False   # Optional: disables extra property checks
     )
+
