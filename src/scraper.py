@@ -72,7 +72,7 @@ try:
         carbondale_url = "https://carbondaleministorage.ccstorage.com/find_units"
         basalt_cc_url = 'https://www.spacecontroletrans.com/scStarOnlinePayment/index.html?CompanyId=327-SF&ConnectionType=Connection#/displaySizes'
         basalt_reg_url = 'https://www.spacecontroletrans.com/scStarOnlinePayment/index.html?CompanyId=327-BS&ConnectionType=Connection#/displaySizes'
-
+        # TODO: make storage_mart go last and improve error handling
         try:
             sopris_soup = helpers.fetch_sopris_self_storage(sopris_url)
             storquest_soup = helpers.fetch_storquest_self_storage(storquest_url)
