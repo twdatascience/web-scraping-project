@@ -6,3 +6,53 @@
 2025-07-13 10:25:00,678 [INFO] Fetching new data from web sources...
 2025-07-13 10:26:30,405 [INFO] Fetched HTML from all sources.
 2025-07-13 10:26:30,742 [INFO] Data combined, inserted into DB, and written to Excel.
+2025-08-12 12:41:59,118 [INFO] Database and table ensured.
+2025-08-12 12:41:59,119 [INFO] Fetching new data from web sources...
+2025-08-12 12:43:35,841 [ERROR] Error fetching HTML: Message: 
+Stacktrace:
+	GetHandleVerifier [0x0x7ff60097e415+77285]
+	GetHandleVerifier [0x0x7ff60097e470+77376]
+	(No symbol) [0x0x7ff600749a6a]
+	(No symbol) [0x0x7ff6007a0406]
+	(No symbol) [0x0x7ff6007a06bc]
+	(No symbol) [0x0x7ff6007f3ac7]
+	(No symbol) [0x0x7ff6007c864f]
+	(No symbol) [0x0x7ff6007f087f]
+	(No symbol) [0x0x7ff6007c83e3]
+	(No symbol) [0x0x7ff600791521]
+	(No symbol) [0x0x7ff6007922b3]
+	GetHandleVerifier [0x0x7ff600c61efd+3107021]
+	GetHandleVerifier [0x0x7ff600c5c29d+3083373]
+	GetHandleVerifier [0x0x7ff600c7bedd+3213485]
+	GetHandleVerifier [0x0x7ff60099884e+184862]
+	GetHandleVerifier [0x0x7ff6009a055f+216879]
+	GetHandleVerifier [0x0x7ff600987084+113236]
+	GetHandleVerifier [0x0x7ff600987239+113673]
+	GetHandleVerifier [0x0x7ff60096e298+11368]
+	BaseThreadInitThunk [0x0x7ffe0f79e8d7+23]
+	RtlUserThreadStart [0x0x7ffe1115c34c+44]
+
+2025-08-12 12:43:35,841 [CRITICAL] Fatal error in main scraping logic: Message: 
+Stacktrace:
+	GetHandleVerifier [0x0x7ff60097e415+77285]
+	GetHandleVerifier [0x0x7ff60097e470+77376]
+	(No symbol) [0x0x7ff600749a6a]
+	(No symbol) [0x0x7ff6007a0406]
+	(No symbol) [0x0x7ff6007a06bc]
+	(No symbol) [0x0x7ff6007f3ac7]
+	(No symbol) [0x0x7ff6007c864f]
+	(No symbol) [0x0x7ff6007f087f]
+	(No symbol) [0x0x7ff6007c83e3]
+	(No symbol) [0x0x7ff600791521]
+	(No symbol) [0x0x7ff6007922b3]
+	GetHandleVerifier [0x0x7ff600c61efd+3107021]
+	GetHandleVerifier [0x0x7ff600c5c29d+3083373]
+	GetHandleVerifier [0x0x7ff600c7bedd+3213485]
+	GetHandleVerifier [0x0x7ff60099884e+184862]
+	GetHandleVerifier [0x0x7ff6009a055f+216879]
+	GetHandleVerifier [0x0x7ff600987084+113236]
+	GetHandleVerifier [0x0x7ff600987239+113673]
+	GetHandleVerifier [0x0x7ff60096e298+11368]
+	BaseThreadInitThunk [0x0x7ffe0f79e8d7+23]
+	RtlUserThreadStart [0x0x7ffe1115c34c+44]
+
