@@ -30,28 +30,29 @@ def write_multiple_results_to_excel(
     """
     today_str = datetime.date.today().strftime("%m-%d")
     with pd.ExcelWriter(excel_path) as writer:
+        sheet_columns = ['unit_size', 'unit_type', 'price', 'climate_controlled', 'tier']
         # Sopris sheet
-        df_sopris = pd.DataFrame.from_dict(sopris_results, orient='index', columns=['unit_size', 'unit_type', 'price', 'climate_controlled', 'tier'])
+        df_sopris = pd.DataFrame.from_dict(sopris_results, orient='index', columns=sheet_columns)
         if not df_sopris.empty:
             df_sopris.to_excel(writer, index=False, sheet_name=f"{today_str} Sopris Self Storage")
         # StorQuest sheet
-        df_storquest = pd.DataFrame.from_dict(storquest_results, orient='index', columns=['unit_size', 'unit_type', 'price', 'climate_controlled', 'tier'])
+        df_storquest = pd.DataFrame.from_dict(storquest_results, orient='index', columns=sheet_columns)
         if not df_storquest.empty:
             df_storquest.to_excel(writer, index=False, sheet_name=f"{today_str} StorQuest Self Storage")
         # Storage Mart sheet
-        df_storage_mart = pd.DataFrame.from_dict(storage_mart_results, orient='index', columns=['unit_size', 'unit_type', 'price', 'climate_controlled', 'tier'])
+        df_storage_mart = pd.DataFrame.from_dict(storage_mart_results, orient='index', columns=sheet_columns)
         if not df_storage_mart.empty:
             df_storage_mart.to_excel(writer, index=False, sheet_name=f"{today_str} StorageMart")
         # All Hours sheet
-        df_all_hours = pd.DataFrame.from_dict(all_hours_results, orient='index', columns=['unit_size', 'unit_type', 'price', 'climate_controlled', 'tier'])
+        df_all_hours = pd.DataFrame.from_dict(all_hours_results, orient='index', columns=sheet_columns)
         if not df_all_hours.empty:
             df_all_hours.to_excel(writer, index=False, sheet_name=f"{today_str} All Hours Storage")
         # Carbondale sheet
-        df_carbondale = pd.DataFrame.from_dict(carbondale_results, orient='index', columns=['unit_size', 'unit_type', 'price', 'climate_controlled', 'tier'])
+        df_carbondale = pd.DataFrame.from_dict(carbondale_results, orient='index', columns=sheet_columns)
         if not df_carbondale.empty:
             df_carbondale.to_excel(writer, index=False, sheet_name=f"{today_str} Carbondale Mini Storage")
         # Basalt Mini sheet
-        df_basalt = pd.DataFrame.from_dict(basalt_results, orient='index', columns=['unit_size', 'unit_type', 'price', 'climate_controlled', 'tier'])
+        df_basalt = pd.DataFrame.from_dict(basalt_results, orient='index', columns=sheet_columns)
         if not df_basalt.empty:
             df_basalt.to_excel(writer, index=False, sheet_name=f"{today_str} Basalt Mini Storage")
 
@@ -213,34 +214,42 @@ def fetch_storage_mart(url, html_path=None):
     driver = webdriver.Chrome(options=options)
     driver.get(url)
     element = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.XPATH, "//h3[@class='e39HRxPzw1eCSAWspRQoK']/div[@role='button'][contains(., 'Parking')]"))
+        EC.presence_of_element_located((By.XPATH, "//h3[@class='e39HRxPzw1eCSAWspRQoK']/div[@role='button'][contains(., 'Large')]"))
     )
     time.sleep(5)
-    parking = driver.find_element(By.XPATH, "//h3[@class='e39HRxPzw1eCSAWspRQoK']/div[@role='button'][contains(., 'Parking')]")
-    ActionChains(driver).scroll_to_element(parking).perform()
+    
+    # parking = driver.find_element(By.XPATH, "//h3[@class='e39HRxPzw1eCSAWspRQoK']/div[@role='button'][contains(., 'Parking')]")
+    h3_large = driver.find_element(By.XPATH, "//h3[@class='e39HRxPzw1eCSAWspRQoK']/div[@role='button'][contains(., 'Large')]")
+    ActionChains(driver).scroll_to_element(h3_large).perform()
+    ActionChains(driver).scroll_by_amount(0, 200).perform()
     time.sleep(2)
     try:
         h3_medium = driver.find_element(By.XPATH, "//h3[@class='e39HRxPzw1eCSAWspRQoK']/div[@role='button'][contains(., 'Medium')]")
         h3_medium.click()
     except Exception as e:
         print(f"could not find medium div\n{e}")
-    parking = driver.find_element(By.XPATH, "//h3[@class='e39HRxPzw1eCSAWspRQoK']/div[@role='button'][contains(., 'Parking')]")
-    ActionChains(driver).scroll_to_element(parking).perform()
+    # parking = driver.find_element(By.XPATH, "//h3[@class='e39HRxPzw1eCSAWspRQoK']/div[@role='button'][contains(., 'Parking')]")
+    # ActionChains(driver).scroll_to_element(parking).perform()
+    h3_large = driver.find_element(By.XPATH, "//h3[@class='e39HRxPzw1eCSAWspRQoK']/div[@role='button'][contains(., 'Large')]")
+    ActionChains(driver).scroll_to_element(h3_large).perform()
+    ActionChains(driver).scroll_by_amount(0, 200).perform()
     time.sleep(2)
     try:
         h3_large = driver.find_element(By.XPATH, "//h3[@class='e39HRxPzw1eCSAWspRQoK']/div[@role='button'][contains(., 'Large')]")
         h3_large.click()
     except:
         print("could not find large div")
-    parking = driver.find_element(By.XPATH, "//h3[@class='e39HRxPzw1eCSAWspRQoK']/div[@role='button'][contains(., 'Parking')]")
-    ActionChains(driver).scroll_to_element(parking).perform()
+    # parking = driver.find_element(By.XPATH, "//h3[@class='e39HRxPzw1eCSAWspRQoK']/div[@role='button'][contains(., 'Parking')]")
+    # ActionChains(driver).scroll_to_element(parking).perform()
+    h3_large = driver.find_element(By.XPATH, "//h3[@class='e39HRxPzw1eCSAWspRQoK']/div[@role='button'][contains(., 'Large')]")
+    ActionChains(driver).scroll_to_element(h3_large).perform()
     ActionChains(driver).scroll_by_amount(0, 200).perform()
     time.sleep(2)
-    try:
-        h3_parking = driver.find_element(By.XPATH, "//h3[@class='e39HRxPzw1eCSAWspRQoK']/div[@role='button'][contains(., 'Parking')]")
-        h3_parking.click()
-    except:
-        print("could not find parking div")
+    # try:
+    #     h3_parking = driver.find_element(By.XPATH, "//h3[@class='e39HRxPzw1eCSAWspRQoK']/div[@role='button'][contains(., 'Parking')]")
+    #     h3_parking.click()
+    # except:
+    #     print("could not find parking div")
     load_more_units_btns = driver.find_elements(By.XPATH, "//button[@class='rnl-Button themed-button themed-tertiary-button'][contains(., 'Load More Units')]")
     while len(load_more_units_btns) > 0:
         try:
@@ -722,7 +731,7 @@ def get_all_storage_results(db_path="storage_data.db"):
 # Sync Web Data to Database
 # =========================
 
-def sync_web_data_to_db(db_path="storage_data.db", web_data_dir="./web_data"):
+def sync_web_data_to_db(db_path="storage_data.db", web_data_dir="./web_data", check_all_data=False):
     """
     Checks if the database has the info from web_data. If not, loads HTML files,
     processes them, and adds them to the database.
@@ -744,6 +753,24 @@ def sync_web_data_to_db(db_path="storage_data.db", web_data_dir="./web_data"):
         ("basaltmini_reg", lambda soup: extract_basalt(soup, BeautifulSoup("", "html.parser")), "Basalt Mini Storage"),
     ]
     new_results = []
+
+    # If not checking all data, determine max date in DB and only process newer HTML files
+    if not check_all_data and existing:
+        # Get max date in DB (date_acquired)
+        try:
+            max_date = max([r["date_acquired"] for r in existing if r["date_acquired"]])
+        except Exception:
+            max_date = None
+        # Filter html_files for only those with date > max_date
+        html_files_filtered = []
+        for html_file in html_files:
+            basename = os.path.basename(html_file)
+            date_str = basename.split("_")[0]
+            # Only process if date_str > max_date (lexical works for ISO format)
+            if max_date is None or date_str > max_date:
+                html_files_filtered.append(html_file)
+        html_files = html_files_filtered
+
     for html_file in html_files:
         basename = os.path.basename(html_file)
         for pattern, extract_func, facility_name in extract_map:

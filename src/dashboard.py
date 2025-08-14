@@ -24,6 +24,7 @@ sync_web_data_to_db(db_path="storage_data.db", web_data_dir="./web_data")
 # Load all storage results into DataFrame
 data = get_all_storage_results()
 df = pd.DataFrame(data)
+# print(f"[DEBUG] Loaded {len(df)} rows into initial DataFrame.")
 
 # =========================
 # Data Cleaning & Parsing
@@ -195,7 +196,7 @@ app.layout = html.Div([
     ], style={"textAlign": "center"}),
 
     # Data table always shown under graphs
-    dcc.Store(id='filtered-table-store'),  # <--- Add this line
+    dcc.Store(id='filtered-table-store'), 
     html.Div([
         html.H3("Filtered Data"),
         dash_table.DataTable(
@@ -249,6 +250,8 @@ def update_all(selected_facilities, selected_sizes, selected_climate, selected_t
 
     filtered_df = df.copy() 
 
+    # print(f"[DEBUG] Filtered DataFrame after initial copy: {len(filtered_df)} rows")
+
     # Filter to only the most recent date_acquired for bar chart
     if not filtered_df.empty and 'date_acquired' in filtered_df.columns:
         most_recent_date = filtered_df['date_acquired'].max()
@@ -258,20 +261,28 @@ def update_all(selected_facilities, selected_sizes, selected_climate, selected_t
         filtered_df_bar = filtered_df
         bar_chart_date_label = "No recent date available"
 
+    # print(f"[DEBUG] Filtered DataFrame for bar chart: {len(filtered_df_bar)} rows")
+
     # Filter by selected facilities
     if selected_facilities:
         filtered_df_bar = filtered_df_bar[filtered_df_bar['facility_name'].isin(selected_facilities)]
         filtered_df = filtered_df[filtered_df['facility_name'].isin(selected_facilities)]
+
+    # print(f"[DEBUG] After facility filter: {len(filtered_df)} rows (table), {len(filtered_df_bar)} rows (bar)")
 
     # Filter by climate_controlled
     if selected_climate and selected_climate != "all":
         filtered_df_bar = filtered_df_bar[filtered_df_bar['climate_controlled'].astype(str) == selected_climate]
         filtered_df = filtered_df[filtered_df['climate_controlled'].astype(str) == selected_climate]
 
+    # print(f"[DEBUG] After climate filter: {len(filtered_df)} rows (table), {len(filtered_df_bar)} rows (bar)")
+
     # Filter by tier
     if selected_tier and selected_tier != "all":
         filtered_df_bar = filtered_df_bar[filtered_df_bar['tier'] == selected_tier]
         filtered_df = filtered_df[filtered_df['tier'] == selected_tier]
+
+    # print(f"[DEBUG] After tier filter: {len(filtered_df)} rows (table), {len(filtered_df_bar)} rows (bar)")
 
     # Update available footprints based on filtered facilities and filters
     available_footprints = (
@@ -292,6 +303,8 @@ def update_all(selected_facilities, selected_sizes, selected_climate, selected_t
     if selected_sizes:
         filtered_df_bar = filtered_df_bar[filtered_df_bar['footprint'].isin(selected_sizes)]
         filtered_df = filtered_df[filtered_df['footprint'].isin(selected_sizes)]
+
+    # print(f"[DEBUG] After size filter: {len(filtered_df)} rows (table), {len(filtered_df_bar)} rows (bar)")
 
     # --- Bar Chart & Color Dict ---
     facility_color_dict = {
@@ -318,6 +331,7 @@ def update_all(selected_facilities, selected_sizes, selected_climate, selected_t
             filtered_df_bar['footprint'].astype(str) +
             (filtered_df_bar.groupby(['facility_name', 'footprint']).cumcount() + 1).astype(str)
         )
+        
 
         bar_fig = go.Figure()
         for i, row in filtered_df_bar.iterrows():
@@ -369,6 +383,8 @@ def update_all(selected_facilities, selected_sizes, selected_climate, selected_t
     else:
         line_fig = go.Figure()
         # Add real traces for each (facility, footprint, unit_type)
+        # print(f"[DEBUG] Preparing line chart with {len(filtered_df)} rows")
+        # print(f"[DEBUG] Filtered DataFrame columns: {filtered_df.columns.tolist()}")
         group_cols = ['facility_name', 'footprint', 'unit_type']
         grouped = filtered_df.groupby(group_cols, dropna=False)
         for (facility, footprint, unit_type), group in grouped:
@@ -412,10 +428,9 @@ def update_all(selected_facilities, selected_sizes, selected_climate, selected_t
 
     # Prepare filtered data for table (show all filtered rows, not just bar chart)
     table_columns = ["facility_name", "footprint", "unit_type", "price", "date_acquired", "climate_controlled", "tier"]
-    filtered_table_data = df.copy()
-    # filtered_df[table_columns].sort_values(
-    #     ["facility_name", "footprint", "unit_type", "date_acquired"]
-    # ).to_dict("records") if not filtered_df.empty else []
+    filtered_table_data = filtered_df[table_columns].sort_values(
+        ["facility_name", "footprint", "unit_type", "date_acquired"]
+    ).to_dict("records") if not filtered_df.empty else []
 
     return (
         selected_facilities,

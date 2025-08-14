@@ -1,0 +1,1351 @@
+<html><head lang="en"><style type="text/css" data-tag-name="trix-editor">trix-editor {
+    display: block;
+}
+
+trix-editor:empty::before {
+    content: attr(placeholder);
+    color: graytext;
+    cursor: text;
+    pointer-events: none;
+    white-space: pre-line;
+}
+
+trix-editor a[contenteditable=false] {
+    cursor: text;
+}
+
+trix-editor img {
+    max-width: 100%;
+    height: auto;
+}
+
+trix-editor [data-trix-attachment] figcaption textarea {
+    resize: none;
+}
+
+trix-editor [data-trix-attachment] figcaption textarea.trix-autoresize-clone {
+    position: absolute;
+    left: -9999px;
+    max-height: 0px;
+}
+
+trix-editor [data-trix-attachment] figcaption[data-trix-placeholder]:empty::before {
+    content: attr(data-trix-placeholder);
+    color: graytext;
+}
+
+trix-editor [data-trix-cursor-target] {
+    display: inline-block !important;
+    width: 1px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+}
+
+trix-editor [data-trix-cursor-target=left] {
+    vertical-align: top !important;
+    margin-left: -1px !important;
+}
+
+trix-editor [data-trix-cursor-target=right] {
+    vertical-align: bottom !important;
+    margin-right: -1px !important;
+}</style><style type="text/css" data-tag-name="trix-toolbar">trix-toolbar {
+  display: block;
+}
+
+trix-toolbar {
+  white-space: nowrap;
+}
+
+trix-toolbar [data-trix-dialog] {
+  display: none;
+}
+
+trix-toolbar [data-trix-dialog][data-trix-active] {
+  display: block;
+}
+
+trix-toolbar [data-trix-dialog] [data-trix-validate]:invalid {
+  background-color: #ffdddd;
+}</style><style type="text/css">.turbo-progress-bar {
+  position: fixed;
+  display: block;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: #0076ff;
+  z-index: 2147483647;
+  transition:
+    width 300ms ease-out,
+    opacity 150ms 150ms ease-in;
+  transform: translate3d(0, 0, 0);
+}
+</style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="icon" href="/favicon.png">
+    <title>Carbondale Mini-Storage</title>
+    <meta name="csrf-param" content="authenticity_token">
+<meta name="csrf-token" content="OqOo0_hkFtjGGYnWqXXbQcY5GZxWwHGNP5NR92yYpi1-JgcT83DfaXlB_zs9iPkLwgKy0G_cexaAanRAI5k7Kw">
+    <meta name="csp-nonce">
+
+    
+    <script src="/vite/assets/application-CKTVuzt9.js" crossorigin="anonymous" type="module" data-turbo-track="reload"></script><link rel="stylesheet" href="/vite/assets/application-DDfBCAtH.css" media="screen" data-turbo-track="reload">
+    <link rel="stylesheet" href="/vite/assets/tailwind-C_iA40gj.css" data-turbo-track="reload">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700&amp;display=swap" rel="stylesheet">
+    
+  <script src="https://cdn.apple-mapkit.com/mk/5.x.x/mapkit.js" type="text/javascript" data-turbo-temporary="true"></script><style>.mk-map-view{width:100%;height:100%;overflow:hidden;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;cursor:default}.mk-map-view.mk-dragging-annotation{cursor:none}.mk-map-view.mk-disable-all-gestures{touch-action:none}.mk-map-view.mk-disable-pinch-gestures{touch-action:pan-x pan-y}.mk-map-view.mk-disable-zoom-gestures{touch-action:manipulation}.mk-map-view.mk-disable-pan-gestures{touch-action:none;touch-action:pinch-zoom}div.mk-map-view.mk-map-view img,div.mk-map-view.mk-map-view svg{margin:0;padding:0}.mk-annotation-container,.mk-map-view{z-index:0}.mk-map-view>*{position:absolute;left:0;-webkit-user-select:none;user-select:none}.mk-map-view .rt-root{letter-spacing:initial}.mk-map-view .mk-font-size-detector{position:absolute;height:1em;visibility:hidden;left:-100%;-webkit-text-size-adjust:none}.mk-controls-container{position:absolute;overflow:hidden;top:0;bottom:0;left:0;right:0;z-index:3;pointer-events:none}.mk-map-view.mk-dragging-cursor{cursor:grabbing}.mk-map-view>iframe{width:100%;height:100%;pointer-events:none;opacity:0;border:0}</style></head>
+
+  <body class=" bg-white text-gray-800" data-controller="company-admin-dashboard">
+
+    <div class="grow  md:pt-0">
+
+      <div class="page-content">
+
+        <div class="p-4 md:p-8">
+          <div class="relative">
+  <div class="z-10 gap-4 shadow -m-4 p-4 sm:-m-8 mb-12 sticky top-0 left-0 right-0 bg-white">
+    <div class="flex flex-col sm:flex-row gap-4 items-center justify-between max-w-screen-lg mx-4 md:mx-auto ">
+      <img class="h-16 object-contain" src="/assets/generic_company_logo-3ae2d5554a2019203cc493dc56c12639cf1ef4dab28cd38f67be8b7af4d05bde.svg">
+        <a class="font-display relative disabled:opacity-40 disabled:cursor-not-allowed transition-all inline-flex items-center justify-center font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:active:text-white disabled:bg-black disabled:hover:bg-black bg-black text-white border border-black hover:text-slate-100 hover:bg-slate-700 hover:border-black active:border-black active:bg-black active:text-slate-500 focus-visible:outline-black text-sm gap-1 py-2 px-4 rounded-full w-full sm:w-auto" href="/session/new"><span>Sign In</span></a>
+
+    </div>
+  </div>
+
+  <div class="mt-12 max-w-screen-lg mx-4 md:mx-auto"></div>
+
+    
+<div class="
+    mt-4 max-w-screen-lg mx-4 md:mx-auto bg-white border rounded-xl shadow-lg p-4
+  ">
+  <div class="gap-4 flex flex-col md:flex-row items-center">
+    <div class="w-full md:w-64 h-64 rounded-xl overflow-clip mb-4 md:mb-0">
+      <div class="bg-gray-300 w-full h-full rounded-xl" data-controller="mapkit" data-mapkit-jwt-value="eyJhbGciOiJFUzI1NiIsImtpZCI6IjQyQ0Y1OTZLN0EiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiIzRjlGNlNXTFdWIiwiaWF0IjoxNzU1MTEwNzM5LCJleHAiOjE3NTUxMTQzMzksIm9yaWdpbiI6Imh0dHBzOi8vY2FyYm9uZGFsZW1pbmlzdG9yYWdlLmNjc3RvcmFnZS5jb20ifQ.vxzHVSOQjDRIrGSRncwJbveSpapR0ckmxdskGN-f9X7CMYVlYML0mCv7FO8P18Z8XAVZp8DqX8YU7CZRyvuJ7g" data-mapkit-name-value="Carbondale Mini-Storage" data-mapkit-address-value="1676 County Road 100, Carbondale, CO 81623 USA" data-mapkit-annotations-value="[]"></div>
+    </div>
+
+    <div class="w-full flex-1">
+      <h1 class=" text-4xl font-bold font-display">Carbondale Mini-Storage</h1>
+      <div class="text-gray-500">1676 County Road 100,
+        Carbondale,
+        CO
+        81623</div>
+      <div class="flex items-center gap-4 flex-col md:flex-row mt-4">
+            <a class="font-display relative disabled:opacity-40 disabled:cursor-not-allowed transition-all inline-flex items-center justify-center font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:bg-white disabled:hover:bg-white bg-white font-normal border border-slate-300 disabled:hover:text-slate-700 text-slate-700 hover:bg-slate-100 hover:border-slate-400 hover:text-slate-900 active:bg-slate-100 active:text-slate-900 focus-visible:outline-slate-300 text-sm gap-1 py-2 px-4 rounded-full w-full sm:w-auto" href="tel:970-963-4500/After hours 760-579-1071"><svg class="h-5 w-5 "><svg id="phone-o" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"></path>
+</svg></svg><span>Call</span></a>
+
+            <a class="font-display relative disabled:opacity-40 disabled:cursor-not-allowed transition-all inline-flex items-center justify-center font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:bg-white disabled:hover:bg-white bg-white font-normal border border-slate-300 disabled:hover:text-slate-700 text-slate-700 hover:bg-slate-100 hover:border-slate-400 hover:text-slate-900 active:bg-slate-100 active:text-slate-900 focus-visible:outline-slate-300 text-sm gap-1 py-2 px-4 rounded-full w-full sm:w-auto" target="_blank" href="mailto:cministore@gmail.com"><svg class="h-5 w-5 "><svg id="envelope-o" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"></path>
+</svg></svg><span>Email</span></a>
+
+          <a class="font-display relative disabled:opacity-40 disabled:cursor-not-allowed transition-all inline-flex items-center justify-center font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:bg-white disabled:hover:bg-white bg-white font-normal border border-slate-300 disabled:hover:text-slate-700 text-slate-700 hover:bg-slate-100 hover:border-slate-400 hover:text-slate-900 active:bg-slate-100 active:text-slate-900 focus-visible:outline-slate-300 text-sm gap-1 py-2 px-4 rounded-full w-full sm:w-auto" target="_blank" href="https://maps.apple.com/?daddr=1676%20County%20Road%20100%20Carbondale%20CO%2081623%20USA"><svg class="h-5 w-5 "><svg id="map-pin-o" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"></path>
+  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"></path>
+</svg></svg><span>Directions</span></a>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<turbo-frame id="loc_5c7772d5f2499e42a234ed8ff294223d_storage_units">
+  <div class="
+      mt-6 max-w-screen-lg mx-4 md:mx-auto bg-white border rounded-xl shadow-lg px-4
+      flex
+    ">
+    <div class="flex gap-2 items-center text-gray-500"><svg class="w-5 h-5"><svg id="funnel-o" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 01-.659 1.591l-5.432 5.432a2.25 2.25 0 00-.659 1.591v2.927a2.25 2.25 0 01-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 00-.659-1.591L3.659 7.409A2.25 2.25 0 013 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0112 3z"></path>
+</svg></svg>
+      Filter</div>
+    <div class="border-l mx-4"></div>
+
+    <form data-controller="submit-on-change" action="/find_units" accept-charset="UTF-8" method="get" data-action="change-&gt;submit-on-change#submit input-&gt;submit-on-change#submit">
+      <div class="flex flex-col gap-2 py-2"><label class="font-display text-sm font-bold text-gray-700" for="size_category">Size category</label><select class="border-none !p-0 !bg-white w-full rounded-md font-display pl-3 py-2 placeholder-gray-400 sm:text-sm text-black focus:border-black focus:outline-none focus:ring-black transition-shadow border-gray-300 bg-gray-50 disabled:bg-gray-200 disabled:cursor-not-allowed disabled:text-gray-500 text-gray-900" name="size_category" id="size_category"><option value="">All</option></select></div>
+      <noscript>  <button name="button" type="submit" class="font-display relative disabled:opacity-40 disabled:cursor-not-allowed transition-all inline-flex items-center justify-center font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:active:text-white disabled:bg-black disabled:hover:bg-black bg-black text-white border border-black hover:text-slate-100 hover:bg-slate-700 hover:border-black active:border-black active:bg-black active:text-slate-500 focus-visible:outline-black text-sm gap-1 py-2 px-4 rounded-full w-full sm:w-auto">
+    <span>Submit</span>
+</button></noscript>
+</form>  </div>
+
+  <div class="mt-6 max-w-screen-lg mx-4 md:mx-auto mb-36">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+          <div class="bg-white rounded-xl shadow-xl border flex flex-col" data-test-type="sut_bf995d2ace343a02a74d11f8cd117b40">
+            <div class="
+                flex flex-col items-center sm:items-start sm:flex-row gap-4 p-4 grow
+              ">
+              <img loading="lazy" class="h-32 w-32 object-cover rounded-xl" src="/assets/storage_unit-7e0ae57fc8cf23ec1e6dfc1308a01ef8cb0725a54aecb1caac2903cf4d98c7c9.png">
+              <div class="w-full text-center sm:text-left">
+                <div>
+                  <p class="text-xl font-bold">10X20</p>
+                  <p>10 x 20
+                    </p>
+                </div>
+                <div class="mt-2 pt-2 border-t">
+                  <p class="font-medium">Amenities</p>
+                    <p class="text-sm">Double Unit/ Drive up access</p>
+                </div>
+              </div>
+            </div>
+            <div class="
+                p-4 flex flex-col sm:flex-row items-center gap-6 justify-between border-t
+              ">
+              <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 text-center items-center">
+
+                  <dl>
+                    <dt class="text-gray-500">Card</dt>
+                    <dd class="text-xl font-bold">$365.00</dd>
+                  </dl>
+                  <dl>
+                    <dt class="text-gray-500">Cash</dt>
+                    <dd class="text-xl font-bold">$365.00</dd>
+                  </dl>
+
+                <div class="text-xl">
+                  Monthly
+                </div>
+              </div>
+              <div class="text-center">
+                  <a class="font-display relative disabled:opacity-40 disabled:cursor-not-allowed transition-all inline-flex items-center justify-center font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:active:text-white disabled:bg-black disabled:hover:bg-black bg-black text-white border border-black hover:text-slate-100 hover:bg-slate-700 hover:border-black active:border-black active:bg-black active:text-slate-500 focus-visible:outline-black text-sm gap-1 py-2 px-4 rounded-full w-full sm:w-auto" data-turbo-frame="_top" href="/rental_requests/new?location_id=loc_5c7772d5f2499e42a234ed8ff294223d&amp;storage_unit_type_id=sut_bf995d2ace343a02a74d11f8cd117b40"><span>Join waiting list</span></a>
+
+                  <div class="text-red-600 pt-1 font-bold">No Units Available</div>
+              </div>
+            </div>
+</div>
+          <div class="bg-white rounded-xl shadow-xl border flex flex-col" data-test-type="sut_738e17d8e6cd91030b2f6c52d19645a7">
+            <div class="
+                flex flex-col items-center sm:items-start sm:flex-row gap-4 p-4 grow
+              ">
+              <img loading="lazy" class="h-32 w-32 object-cover rounded-xl" src="/assets/storage_unit-7e0ae57fc8cf23ec1e6dfc1308a01ef8cb0725a54aecb1caac2903cf4d98c7c9.png">
+              <div class="w-full text-center sm:text-left">
+                <div>
+                  <p class="text-xl font-bold">10x10</p>
+                  <p>10 x 10
+                    </p>
+                </div>
+                <div class="mt-2 pt-2 border-t">
+                  <p class="font-medium">Amenities</p>
+                    <p class="text-sm">Drive up access</p>
+                </div>
+              </div>
+            </div>
+              <div class="w-full bg-red-600 px-4 py-2 text-white text-center sm:text-left">
+                SPECIAL10X10
+                discount at checkout
+              </div>
+            <div class="
+                p-4 flex flex-col sm:flex-row items-center gap-6 justify-between border-t
+              ">
+              <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 text-center items-center">
+
+                  <dl>
+                    <dt class="text-gray-500">Card</dt>
+                    <dd class="text-xl font-bold">$199.00</dd>
+                  </dl>
+                  <dl>
+                    <dt class="text-gray-500">Cash</dt>
+                    <dd class="text-xl font-bold">$199.00</dd>
+                  </dl>
+
+                <div class="text-xl">
+                  Monthly
+                </div>
+              </div>
+              <div class="text-center">
+                  <a class="font-display relative disabled:opacity-40 disabled:cursor-not-allowed transition-all inline-flex items-center justify-center font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:active:text-white disabled:bg-black disabled:hover:bg-black bg-black text-white border border-black hover:text-slate-100 hover:bg-slate-700 hover:border-black active:border-black active:bg-black active:text-slate-500 focus-visible:outline-black text-sm gap-1 py-2 px-4 rounded-full w-full sm:w-auto" data-turbo-frame="_top" href="/rental_requests/new?location_id=loc_5c7772d5f2499e42a234ed8ff294223d&amp;storage_unit_type_id=sut_738e17d8e6cd91030b2f6c52d19645a7"><span>Rent Now</span></a>
+
+              </div>
+            </div>
+</div>
+          <div class="bg-white rounded-xl shadow-xl border flex flex-col" data-test-type="sut_1556bc817ed70f65652a67811b1e5772">
+            <div class="
+                flex flex-col items-center sm:items-start sm:flex-row gap-4 p-4 grow
+              ">
+              <img loading="lazy" class="h-32 w-32 object-cover rounded-xl" src="/assets/storage_unit-7e0ae57fc8cf23ec1e6dfc1308a01ef8cb0725a54aecb1caac2903cf4d98c7c9.png">
+              <div class="w-full text-center sm:text-left">
+                <div>
+                  <p class="text-xl font-bold">10x10</p>
+                  <p>10 x 10
+                    </p>
+                </div>
+                <div class="mt-2 pt-2 border-t">
+                  <p class="font-medium">Amenities</p>
+                    <p class="text-sm"> Non Climate Control- Indoor Access</p>
+                </div>
+              </div>
+            </div>
+            <div class="
+                p-4 flex flex-col sm:flex-row items-center gap-6 justify-between border-t
+              ">
+              <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 text-center items-center">
+
+                  <dl>
+                    <dt class="text-gray-500">Card</dt>
+                    <dd class="text-xl font-bold">$199.00</dd>
+                  </dl>
+                  <dl>
+                    <dt class="text-gray-500">Cash</dt>
+                    <dd class="text-xl font-bold">$199.00</dd>
+                  </dl>
+
+                <div class="text-xl">
+                  Monthly
+                </div>
+              </div>
+              <div class="text-center">
+                  <a class="font-display relative disabled:opacity-40 disabled:cursor-not-allowed transition-all inline-flex items-center justify-center font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:active:text-white disabled:bg-black disabled:hover:bg-black bg-black text-white border border-black hover:text-slate-100 hover:bg-slate-700 hover:border-black active:border-black active:bg-black active:text-slate-500 focus-visible:outline-black text-sm gap-1 py-2 px-4 rounded-full w-full sm:w-auto" data-turbo-frame="_top" href="/rental_requests/new?location_id=loc_5c7772d5f2499e42a234ed8ff294223d&amp;storage_unit_type_id=sut_1556bc817ed70f65652a67811b1e5772"><span>Rent Now</span></a>
+
+              </div>
+            </div>
+</div>
+          <div class="bg-white rounded-xl shadow-xl border flex flex-col" data-test-type="sut_f3d220aa057aba89afe753464a5820d7">
+            <div class="
+                flex flex-col items-center sm:items-start sm:flex-row gap-4 p-4 grow
+              ">
+              <img loading="lazy" class="h-32 w-32 object-cover rounded-xl" src="/assets/storage_unit-7e0ae57fc8cf23ec1e6dfc1308a01ef8cb0725a54aecb1caac2903cf4d98c7c9.png">
+              <div class="w-full text-center sm:text-left">
+                <div>
+                  <p class="text-xl font-bold">10x10 </p>
+                  <p>10 x 10
+                    </p>
+                </div>
+                <div class="mt-2 pt-2 border-t">
+                  <p class="font-medium">Amenities</p>
+                    <p class="text-sm">Climate Control- Indoor access</p>
+                </div>
+              </div>
+            </div>
+            <div class="
+                p-4 flex flex-col sm:flex-row items-center gap-6 justify-between border-t
+              ">
+              <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 text-center items-center">
+
+                  <dl>
+                    <dt class="text-gray-500">Card</dt>
+                    <dd class="text-xl font-bold">$260.00</dd>
+                  </dl>
+                  <dl>
+                    <dt class="text-gray-500">Cash</dt>
+                    <dd class="text-xl font-bold">$260.00</dd>
+                  </dl>
+
+                <div class="text-xl">
+                  Monthly
+                </div>
+              </div>
+              <div class="text-center">
+                  <a class="font-display relative disabled:opacity-40 disabled:cursor-not-allowed transition-all inline-flex items-center justify-center font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:active:text-white disabled:bg-black disabled:hover:bg-black bg-black text-white border border-black hover:text-slate-100 hover:bg-slate-700 hover:border-black active:border-black active:bg-black active:text-slate-500 focus-visible:outline-black text-sm gap-1 py-2 px-4 rounded-full w-full sm:w-auto" data-turbo-frame="_top" href="/rental_requests/new?location_id=loc_5c7772d5f2499e42a234ed8ff294223d&amp;storage_unit_type_id=sut_f3d220aa057aba89afe753464a5820d7"><span>Rent Now</span></a>
+
+              </div>
+            </div>
+</div>
+          <div class="bg-white rounded-xl shadow-xl border flex flex-col" data-test-type="sut_e9d14feeee200eaf552dd6dd6d8f5c84">
+            <div class="
+                flex flex-col items-center sm:items-start sm:flex-row gap-4 p-4 grow
+              ">
+              <img loading="lazy" class="h-32 w-32 object-cover rounded-xl" src="/assets/storage_unit-7e0ae57fc8cf23ec1e6dfc1308a01ef8cb0725a54aecb1caac2903cf4d98c7c9.png">
+              <div class="w-full text-center sm:text-left">
+                <div>
+                  <p class="text-xl font-bold">10x15</p>
+                  <p>10 x 15
+                    </p>
+                </div>
+                <div class="mt-2 pt-2 border-t">
+                  <p class="font-medium">Amenities</p>
+                    <p class="text-sm">Drive up access</p>
+                </div>
+              </div>
+            </div>
+            <div class="
+                p-4 flex flex-col sm:flex-row items-center gap-6 justify-between border-t
+              ">
+              <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 text-center items-center">
+
+                  <dl>
+                    <dt class="text-gray-500">Card</dt>
+                    <dd class="text-xl font-bold">$240.00</dd>
+                  </dl>
+                  <dl>
+                    <dt class="text-gray-500">Cash</dt>
+                    <dd class="text-xl font-bold">$240.00</dd>
+                  </dl>
+
+                <div class="text-xl">
+                  Monthly
+                </div>
+              </div>
+              <div class="text-center">
+                  <a class="font-display relative disabled:opacity-40 disabled:cursor-not-allowed transition-all inline-flex items-center justify-center font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:active:text-white disabled:bg-black disabled:hover:bg-black bg-black text-white border border-black hover:text-slate-100 hover:bg-slate-700 hover:border-black active:border-black active:bg-black active:text-slate-500 focus-visible:outline-black text-sm gap-1 py-2 px-4 rounded-full w-full sm:w-auto" data-turbo-frame="_top" href="/rental_requests/new?location_id=loc_5c7772d5f2499e42a234ed8ff294223d&amp;storage_unit_type_id=sut_e9d14feeee200eaf552dd6dd6d8f5c84"><span>Rent Now</span></a>
+
+              </div>
+            </div>
+</div>
+          <div class="bg-white rounded-xl shadow-xl border flex flex-col" data-test-type="sut_085b372b168603b407b68ffcedf0deb0">
+            <div class="
+                flex flex-col items-center sm:items-start sm:flex-row gap-4 p-4 grow
+              ">
+              <img loading="lazy" class="h-32 w-32 object-cover rounded-xl" src="/assets/storage_unit-7e0ae57fc8cf23ec1e6dfc1308a01ef8cb0725a54aecb1caac2903cf4d98c7c9.png">
+              <div class="w-full text-center sm:text-left">
+                <div>
+                  <p class="text-xl font-bold">10x15 </p>
+                  <p>10 x 15
+                    </p>
+                </div>
+                <div class="mt-2 pt-2 border-t">
+                  <p class="font-medium">Amenities</p>
+                    <p class="text-sm">Climate Control - Indoor access</p>
+                </div>
+              </div>
+            </div>
+            <div class="
+                p-4 flex flex-col sm:flex-row items-center gap-6 justify-between border-t
+              ">
+              <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 text-center items-center">
+
+                  <dl>
+                    <dt class="text-gray-500">Card</dt>
+                    <dd class="text-xl font-bold">$305.00</dd>
+                  </dl>
+                  <dl>
+                    <dt class="text-gray-500">Cash</dt>
+                    <dd class="text-xl font-bold">$305.00</dd>
+                  </dl>
+
+                <div class="text-xl">
+                  Monthly
+                </div>
+              </div>
+              <div class="text-center">
+                  <a class="font-display relative disabled:opacity-40 disabled:cursor-not-allowed transition-all inline-flex items-center justify-center font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:active:text-white disabled:bg-black disabled:hover:bg-black bg-black text-white border border-black hover:text-slate-100 hover:bg-slate-700 hover:border-black active:border-black active:bg-black active:text-slate-500 focus-visible:outline-black text-sm gap-1 py-2 px-4 rounded-full w-full sm:w-auto" data-turbo-frame="_top" href="/rental_requests/new?location_id=loc_5c7772d5f2499e42a234ed8ff294223d&amp;storage_unit_type_id=sut_085b372b168603b407b68ffcedf0deb0"><span>Join waiting list</span></a>
+
+                  <div class="text-red-600 pt-1 font-bold">No Units Available</div>
+              </div>
+            </div>
+</div>
+          <div class="bg-white rounded-xl shadow-xl border flex flex-col" data-test-type="sut_4b2fe265179c08dcb2f8325255729fcb">
+            <div class="
+                flex flex-col items-center sm:items-start sm:flex-row gap-4 p-4 grow
+              ">
+              <img loading="lazy" class="h-32 w-32 object-cover rounded-xl" src="/assets/storage_unit-7e0ae57fc8cf23ec1e6dfc1308a01ef8cb0725a54aecb1caac2903cf4d98c7c9.png">
+              <div class="w-full text-center sm:text-left">
+                <div>
+                  <p class="text-xl font-bold">10x20</p>
+                  <p>10 x 20
+                    </p>
+                </div>
+                <div class="mt-2 pt-2 border-t">
+                  <p class="font-medium">Amenities</p>
+                    <p class="text-sm">Drive up access</p>
+                </div>
+              </div>
+            </div>
+            <div class="
+                p-4 flex flex-col sm:flex-row items-center gap-6 justify-between border-t
+              ">
+              <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 text-center items-center">
+
+                  <dl>
+                    <dt class="text-gray-500">Card</dt>
+                    <dd class="text-xl font-bold">$365.00</dd>
+                  </dl>
+                  <dl>
+                    <dt class="text-gray-500">Cash</dt>
+                    <dd class="text-xl font-bold">$365.00</dd>
+                  </dl>
+
+                <div class="text-xl">
+                  Monthly
+                </div>
+              </div>
+              <div class="text-center">
+                  <a class="font-display relative disabled:opacity-40 disabled:cursor-not-allowed transition-all inline-flex items-center justify-center font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:active:text-white disabled:bg-black disabled:hover:bg-black bg-black text-white border border-black hover:text-slate-100 hover:bg-slate-700 hover:border-black active:border-black active:bg-black active:text-slate-500 focus-visible:outline-black text-sm gap-1 py-2 px-4 rounded-full w-full sm:w-auto" data-turbo-frame="_top" href="/rental_requests/new?location_id=loc_5c7772d5f2499e42a234ed8ff294223d&amp;storage_unit_type_id=sut_4b2fe265179c08dcb2f8325255729fcb"><span>Rent Now</span></a>
+
+              </div>
+            </div>
+</div>
+          <div class="bg-white rounded-xl shadow-xl border flex flex-col" data-test-type="sut_9a46fbbf41e2e402ef2e7ee8df6cccad">
+            <div class="
+                flex flex-col items-center sm:items-start sm:flex-row gap-4 p-4 grow
+              ">
+              <img loading="lazy" class="h-32 w-32 object-cover rounded-xl" src="/assets/storage_unit-7e0ae57fc8cf23ec1e6dfc1308a01ef8cb0725a54aecb1caac2903cf4d98c7c9.png">
+              <div class="w-full text-center sm:text-left">
+                <div>
+                  <p class="text-xl font-bold">10x25</p>
+                  <p>10 x 25
+                    </p>
+                </div>
+                <div class="mt-2 pt-2 border-t">
+                  <p class="font-medium">Amenities</p>
+                    <p class="text-sm">Drive up access</p>
+                </div>
+              </div>
+            </div>
+            <div class="
+                p-4 flex flex-col sm:flex-row items-center gap-6 justify-between border-t
+              ">
+              <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 text-center items-center">
+
+                  <dl>
+                    <dt class="text-gray-500">Card</dt>
+                    <dd class="text-xl font-bold">$405.00</dd>
+                  </dl>
+                  <dl>
+                    <dt class="text-gray-500">Cash</dt>
+                    <dd class="text-xl font-bold">$405.00</dd>
+                  </dl>
+
+                <div class="text-xl">
+                  Monthly
+                </div>
+              </div>
+              <div class="text-center">
+                  <a class="font-display relative disabled:opacity-40 disabled:cursor-not-allowed transition-all inline-flex items-center justify-center font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:active:text-white disabled:bg-black disabled:hover:bg-black bg-black text-white border border-black hover:text-slate-100 hover:bg-slate-700 hover:border-black active:border-black active:bg-black active:text-slate-500 focus-visible:outline-black text-sm gap-1 py-2 px-4 rounded-full w-full sm:w-auto" data-turbo-frame="_top" href="/rental_requests/new?location_id=loc_5c7772d5f2499e42a234ed8ff294223d&amp;storage_unit_type_id=sut_9a46fbbf41e2e402ef2e7ee8df6cccad"><span>Rent Now</span></a>
+
+              </div>
+            </div>
+</div>
+          <div class="bg-white rounded-xl shadow-xl border flex flex-col" data-test-type="sut_7c3bf850430b38c261da52fd1f466461">
+            <div class="
+                flex flex-col items-center sm:items-start sm:flex-row gap-4 p-4 grow
+              ">
+              <img loading="lazy" class="h-32 w-32 object-cover rounded-xl" src="/assets/storage_unit-7e0ae57fc8cf23ec1e6dfc1308a01ef8cb0725a54aecb1caac2903cf4d98c7c9.png">
+              <div class="w-full text-center sm:text-left">
+                <div>
+                  <p class="text-xl font-bold">10x30</p>
+                  <p>10 x 30
+                    </p>
+                </div>
+                <div class="mt-2 pt-2 border-t">
+                  <p class="font-medium">Amenities</p>
+                    <p class="text-sm">Drive up access</p>
+                </div>
+              </div>
+            </div>
+            <div class="
+                p-4 flex flex-col sm:flex-row items-center gap-6 justify-between border-t
+              ">
+              <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 text-center items-center">
+
+                  <dl>
+                    <dt class="text-gray-500">Card</dt>
+                    <dd class="text-xl font-bold">$475.00</dd>
+                  </dl>
+                  <dl>
+                    <dt class="text-gray-500">Cash</dt>
+                    <dd class="text-xl font-bold">$475.00</dd>
+                  </dl>
+
+                <div class="text-xl">
+                  Monthly
+                </div>
+              </div>
+              <div class="text-center">
+                  <a class="font-display relative disabled:opacity-40 disabled:cursor-not-allowed transition-all inline-flex items-center justify-center font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:active:text-white disabled:bg-black disabled:hover:bg-black bg-black text-white border border-black hover:text-slate-100 hover:bg-slate-700 hover:border-black active:border-black active:bg-black active:text-slate-500 focus-visible:outline-black text-sm gap-1 py-2 px-4 rounded-full w-full sm:w-auto" data-turbo-frame="_top" href="/rental_requests/new?location_id=loc_5c7772d5f2499e42a234ed8ff294223d&amp;storage_unit_type_id=sut_7c3bf850430b38c261da52fd1f466461"><span>Join waiting list</span></a>
+
+                  <div class="text-red-600 pt-1 font-bold">No Units Available</div>
+              </div>
+            </div>
+</div>
+          <div class="bg-white rounded-xl shadow-xl border flex flex-col" data-test-type="sut_40489faff9d73c2e5f0968e273dedcd2">
+            <div class="
+                flex flex-col items-center sm:items-start sm:flex-row gap-4 p-4 grow
+              ">
+              <img loading="lazy" class="h-32 w-32 object-cover rounded-xl" src="/assets/storage_unit-7e0ae57fc8cf23ec1e6dfc1308a01ef8cb0725a54aecb1caac2903cf4d98c7c9.png">
+              <div class="w-full text-center sm:text-left">
+                <div>
+                  <p class="text-xl font-bold">10x30 </p>
+                  <p>10 x 30
+                    </p>
+                </div>
+                <div class="mt-2 pt-2 border-t">
+                  <p class="font-medium">Amenities</p>
+                    <p class="text-sm">Climate Control</p>
+                </div>
+              </div>
+            </div>
+            <div class="
+                p-4 flex flex-col sm:flex-row items-center gap-6 justify-between border-t
+              ">
+              <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 text-center items-center">
+
+                  <dl>
+                    <dt class="text-gray-500">Card</dt>
+                    <dd class="text-xl font-bold">$450.00</dd>
+                  </dl>
+                  <dl>
+                    <dt class="text-gray-500">Cash</dt>
+                    <dd class="text-xl font-bold">$450.00</dd>
+                  </dl>
+
+                <div class="text-xl">
+                  Monthly
+                </div>
+              </div>
+              <div class="text-center">
+                  <a class="font-display relative disabled:opacity-40 disabled:cursor-not-allowed transition-all inline-flex items-center justify-center font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:active:text-white disabled:bg-black disabled:hover:bg-black bg-black text-white border border-black hover:text-slate-100 hover:bg-slate-700 hover:border-black active:border-black active:bg-black active:text-slate-500 focus-visible:outline-black text-sm gap-1 py-2 px-4 rounded-full w-full sm:w-auto" data-turbo-frame="_top" href="/rental_requests/new?location_id=loc_5c7772d5f2499e42a234ed8ff294223d&amp;storage_unit_type_id=sut_40489faff9d73c2e5f0968e273dedcd2"><span>Join waiting list</span></a>
+
+                  <div class="text-red-600 pt-1 font-bold">No Units Available</div>
+              </div>
+            </div>
+</div>
+          <div class="bg-white rounded-xl shadow-xl border flex flex-col" data-test-type="sut_ba6f6dc811530f8ccf1a66f5ed47d648">
+            <div class="
+                flex flex-col items-center sm:items-start sm:flex-row gap-4 p-4 grow
+              ">
+              <img loading="lazy" class="h-32 w-32 object-cover rounded-xl" src="/assets/storage_unit-7e0ae57fc8cf23ec1e6dfc1308a01ef8cb0725a54aecb1caac2903cf4d98c7c9.png">
+              <div class="w-full text-center sm:text-left">
+                <div>
+                  <p class="text-xl font-bold">12x20</p>
+                  <p>12 x 20
+                    </p>
+                </div>
+                <div class="mt-2 pt-2 border-t">
+                  <p class="font-medium">Amenities</p>
+                    <p class="text-sm">Drive up access</p>
+                </div>
+              </div>
+            </div>
+            <div class="
+                p-4 flex flex-col sm:flex-row items-center gap-6 justify-between border-t
+              ">
+              <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 text-center items-center">
+
+                  <dl>
+                    <dt class="text-gray-500">Card</dt>
+                    <dd class="text-xl font-bold">$385.00</dd>
+                  </dl>
+                  <dl>
+                    <dt class="text-gray-500">Cash</dt>
+                    <dd class="text-xl font-bold">$385.00</dd>
+                  </dl>
+
+                <div class="text-xl">
+                  Monthly
+                </div>
+              </div>
+              <div class="text-center">
+                  <a class="font-display relative disabled:opacity-40 disabled:cursor-not-allowed transition-all inline-flex items-center justify-center font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:active:text-white disabled:bg-black disabled:hover:bg-black bg-black text-white border border-black hover:text-slate-100 hover:bg-slate-700 hover:border-black active:border-black active:bg-black active:text-slate-500 focus-visible:outline-black text-sm gap-1 py-2 px-4 rounded-full w-full sm:w-auto" data-turbo-frame="_top" href="/rental_requests/new?location_id=loc_5c7772d5f2499e42a234ed8ff294223d&amp;storage_unit_type_id=sut_ba6f6dc811530f8ccf1a66f5ed47d648"><span>Join waiting list</span></a>
+
+                  <div class="text-red-600 pt-1 font-bold">No Units Available</div>
+              </div>
+            </div>
+</div>
+          <div class="bg-white rounded-xl shadow-xl border flex flex-col" data-test-type="sut_901b493ff15efe448d038eabbd0d9ffb">
+            <div class="
+                flex flex-col items-center sm:items-start sm:flex-row gap-4 p-4 grow
+              ">
+              <img loading="lazy" class="h-32 w-32 object-cover rounded-xl" src="/assets/storage_unit-7e0ae57fc8cf23ec1e6dfc1308a01ef8cb0725a54aecb1caac2903cf4d98c7c9.png">
+              <div class="w-full text-center sm:text-left">
+                <div>
+                  <p class="text-xl font-bold">12x20 </p>
+                  <p>12 x 20
+                    </p>
+                </div>
+                <div class="mt-2 pt-2 border-t">
+                  <p class="font-medium">Amenities</p>
+                    <p class="text-sm">Climate Control</p>
+                </div>
+              </div>
+            </div>
+            <div class="
+                p-4 flex flex-col sm:flex-row items-center gap-6 justify-between border-t
+              ">
+              <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 text-center items-center">
+
+                  <dl>
+                    <dt class="text-gray-500">Card</dt>
+                    <dd class="text-xl font-bold">$440.00</dd>
+                  </dl>
+                  <dl>
+                    <dt class="text-gray-500">Cash</dt>
+                    <dd class="text-xl font-bold">$440.00</dd>
+                  </dl>
+
+                <div class="text-xl">
+                  Monthly
+                </div>
+              </div>
+              <div class="text-center">
+                  <a class="font-display relative disabled:opacity-40 disabled:cursor-not-allowed transition-all inline-flex items-center justify-center font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:active:text-white disabled:bg-black disabled:hover:bg-black bg-black text-white border border-black hover:text-slate-100 hover:bg-slate-700 hover:border-black active:border-black active:bg-black active:text-slate-500 focus-visible:outline-black text-sm gap-1 py-2 px-4 rounded-full w-full sm:w-auto" data-turbo-frame="_top" href="/rental_requests/new?location_id=loc_5c7772d5f2499e42a234ed8ff294223d&amp;storage_unit_type_id=sut_901b493ff15efe448d038eabbd0d9ffb"><span>Rent Now</span></a>
+
+              </div>
+            </div>
+</div>
+          <div class="bg-white rounded-xl shadow-xl border flex flex-col" data-test-type="sut_fb9b13765eb1f09d07af9d05dabc97e7">
+            <div class="
+                flex flex-col items-center sm:items-start sm:flex-row gap-4 p-4 grow
+              ">
+              <img loading="lazy" class="h-32 w-32 object-cover rounded-xl" src="/assets/storage_unit-7e0ae57fc8cf23ec1e6dfc1308a01ef8cb0725a54aecb1caac2903cf4d98c7c9.png">
+              <div class="w-full text-center sm:text-left">
+                <div>
+                  <p class="text-xl font-bold">12x30 (CC)</p>
+                  <p>12 x 30
+                    </p>
+                </div>
+                <div class="mt-2 pt-2 border-t">
+                  <p class="font-medium">Amenities</p>
+                    <p class="text-sm">Climate Control</p>
+                </div>
+              </div>
+            </div>
+            <div class="
+                p-4 flex flex-col sm:flex-row items-center gap-6 justify-between border-t
+              ">
+              <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 text-center items-center">
+
+                  <dl>
+                    <dt class="text-gray-500">Card</dt>
+                    <dd class="text-xl font-bold">$570.00</dd>
+                  </dl>
+                  <dl>
+                    <dt class="text-gray-500">Cash</dt>
+                    <dd class="text-xl font-bold">$570.00</dd>
+                  </dl>
+
+                <div class="text-xl">
+                  Monthly
+                </div>
+              </div>
+              <div class="text-center">
+                  <a class="font-display relative disabled:opacity-40 disabled:cursor-not-allowed transition-all inline-flex items-center justify-center font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:active:text-white disabled:bg-black disabled:hover:bg-black bg-black text-white border border-black hover:text-slate-100 hover:bg-slate-700 hover:border-black active:border-black active:bg-black active:text-slate-500 focus-visible:outline-black text-sm gap-1 py-2 px-4 rounded-full w-full sm:w-auto" data-turbo-frame="_top" href="/rental_requests/new?location_id=loc_5c7772d5f2499e42a234ed8ff294223d&amp;storage_unit_type_id=sut_fb9b13765eb1f09d07af9d05dabc97e7"><span>Join waiting list</span></a>
+
+                  <div class="text-red-600 pt-1 font-bold">No Units Available</div>
+              </div>
+            </div>
+</div>
+          <div class="bg-white rounded-xl shadow-xl border flex flex-col" data-test-type="sut_ac0ba0ec3cc6d8ab241156ab402b0cdd">
+            <div class="
+                flex flex-col items-center sm:items-start sm:flex-row gap-4 p-4 grow
+              ">
+              <img loading="lazy" class="h-32 w-32 object-cover rounded-xl" src="/assets/storage_unit-7e0ae57fc8cf23ec1e6dfc1308a01ef8cb0725a54aecb1caac2903cf4d98c7c9.png">
+              <div class="w-full text-center sm:text-left">
+                <div>
+                  <p class="text-xl font-bold">12x35</p>
+                  <p>12 x 35
+                    </p>
+                </div>
+                <div class="mt-2 pt-2 border-t">
+                  <p class="font-medium">Amenities</p>
+                    <p class="text-sm">Drive up access</p>
+                </div>
+              </div>
+            </div>
+            <div class="
+                p-4 flex flex-col sm:flex-row items-center gap-6 justify-between border-t
+              ">
+              <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 text-center items-center">
+
+                  <dl>
+                    <dt class="text-gray-500">Card</dt>
+                    <dd class="text-xl font-bold">$470.00</dd>
+                  </dl>
+                  <dl>
+                    <dt class="text-gray-500">Cash</dt>
+                    <dd class="text-xl font-bold">$470.00</dd>
+                  </dl>
+
+                <div class="text-xl">
+                  Monthly
+                </div>
+              </div>
+              <div class="text-center">
+                  <a class="font-display relative disabled:opacity-40 disabled:cursor-not-allowed transition-all inline-flex items-center justify-center font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:active:text-white disabled:bg-black disabled:hover:bg-black bg-black text-white border border-black hover:text-slate-100 hover:bg-slate-700 hover:border-black active:border-black active:bg-black active:text-slate-500 focus-visible:outline-black text-sm gap-1 py-2 px-4 rounded-full w-full sm:w-auto" data-turbo-frame="_top" href="/rental_requests/new?location_id=loc_5c7772d5f2499e42a234ed8ff294223d&amp;storage_unit_type_id=sut_ac0ba0ec3cc6d8ab241156ab402b0cdd"><span>Join waiting list</span></a>
+
+                  <div class="text-red-600 pt-1 font-bold">No Units Available</div>
+              </div>
+            </div>
+</div>
+          <div class="bg-white rounded-xl shadow-xl border flex flex-col" data-test-type="sut_8a08919cbf787825ee85c821572c9512">
+            <div class="
+                flex flex-col items-center sm:items-start sm:flex-row gap-4 p-4 grow
+              ">
+              <img loading="lazy" class="h-32 w-32 object-cover rounded-xl" src="/assets/storage_unit-7e0ae57fc8cf23ec1e6dfc1308a01ef8cb0725a54aecb1caac2903cf4d98c7c9.png">
+              <div class="w-full text-center sm:text-left">
+                <div>
+                  <p class="text-xl font-bold">13x25</p>
+                  <p>13 x 25
+                    </p>
+                </div>
+                <div class="mt-2 pt-2 border-t">
+                  <p class="font-medium">Amenities</p>
+                    <p class="text-sm">Drive up access</p>
+                </div>
+              </div>
+            </div>
+            <div class="
+                p-4 flex flex-col sm:flex-row items-center gap-6 justify-between border-t
+              ">
+              <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 text-center items-center">
+
+                  <dl>
+                    <dt class="text-gray-500">Card</dt>
+                    <dd class="text-xl font-bold">$440.00</dd>
+                  </dl>
+                  <dl>
+                    <dt class="text-gray-500">Cash</dt>
+                    <dd class="text-xl font-bold">$440.00</dd>
+                  </dl>
+
+                <div class="text-xl">
+                  Monthly
+                </div>
+              </div>
+              <div class="text-center">
+                  <a class="font-display relative disabled:opacity-40 disabled:cursor-not-allowed transition-all inline-flex items-center justify-center font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:active:text-white disabled:bg-black disabled:hover:bg-black bg-black text-white border border-black hover:text-slate-100 hover:bg-slate-700 hover:border-black active:border-black active:bg-black active:text-slate-500 focus-visible:outline-black text-sm gap-1 py-2 px-4 rounded-full w-full sm:w-auto" data-turbo-frame="_top" href="/rental_requests/new?location_id=loc_5c7772d5f2499e42a234ed8ff294223d&amp;storage_unit_type_id=sut_8a08919cbf787825ee85c821572c9512"><span>Join waiting list</span></a>
+
+                  <div class="text-red-600 pt-1 font-bold">No Units Available</div>
+              </div>
+            </div>
+</div>
+          <div class="bg-white rounded-xl shadow-xl border flex flex-col" data-test-type="sut_bb69a71d992b9db9d0d0b80e5e23be51">
+            <div class="
+                flex flex-col items-center sm:items-start sm:flex-row gap-4 p-4 grow
+              ">
+              <img loading="lazy" class="h-32 w-32 object-cover rounded-xl" src="/assets/storage_unit-7e0ae57fc8cf23ec1e6dfc1308a01ef8cb0725a54aecb1caac2903cf4d98c7c9.png">
+              <div class="w-full text-center sm:text-left">
+                <div>
+                  <p class="text-xl font-bold">15x20</p>
+                  <p>15 x 20
+                    </p>
+                </div>
+                <div class="mt-2 pt-2 border-t">
+                  <p class="font-medium">Amenities</p>
+                    <p class="text-sm">Drive up access</p>
+                </div>
+              </div>
+            </div>
+            <div class="
+                p-4 flex flex-col sm:flex-row items-center gap-6 justify-between border-t
+              ">
+              <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 text-center items-center">
+
+                  <dl>
+                    <dt class="text-gray-500">Card</dt>
+                    <dd class="text-xl font-bold">$440.00</dd>
+                  </dl>
+                  <dl>
+                    <dt class="text-gray-500">Cash</dt>
+                    <dd class="text-xl font-bold">$440.00</dd>
+                  </dl>
+
+                <div class="text-xl">
+                  Monthly
+                </div>
+              </div>
+              <div class="text-center">
+                  <a class="font-display relative disabled:opacity-40 disabled:cursor-not-allowed transition-all inline-flex items-center justify-center font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:active:text-white disabled:bg-black disabled:hover:bg-black bg-black text-white border border-black hover:text-slate-100 hover:bg-slate-700 hover:border-black active:border-black active:bg-black active:text-slate-500 focus-visible:outline-black text-sm gap-1 py-2 px-4 rounded-full w-full sm:w-auto" data-turbo-frame="_top" href="/rental_requests/new?location_id=loc_5c7772d5f2499e42a234ed8ff294223d&amp;storage_unit_type_id=sut_bb69a71d992b9db9d0d0b80e5e23be51"><span>Join waiting list</span></a>
+
+                  <div class="text-red-600 pt-1 font-bold">No Units Available</div>
+              </div>
+            </div>
+</div>
+          <div class="bg-white rounded-xl shadow-xl border flex flex-col" data-test-type="sut_8ce23ad1894ba6a4277a864ff762ea91">
+            <div class="
+                flex flex-col items-center sm:items-start sm:flex-row gap-4 p-4 grow
+              ">
+              <img loading="lazy" class="h-32 w-32 object-cover rounded-xl" src="/assets/storage_unit-7e0ae57fc8cf23ec1e6dfc1308a01ef8cb0725a54aecb1caac2903cf4d98c7c9.png">
+              <div class="w-full text-center sm:text-left">
+                <div>
+                  <p class="text-xl font-bold">15x25</p>
+                  <p>15 x 25
+                    </p>
+                </div>
+                <div class="mt-2 pt-2 border-t">
+                  <p class="font-medium">Amenities</p>
+                    <p class="text-sm">Drive up access</p>
+                </div>
+              </div>
+            </div>
+            <div class="
+                p-4 flex flex-col sm:flex-row items-center gap-6 justify-between border-t
+              ">
+              <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 text-center items-center">
+
+                  <dl>
+                    <dt class="text-gray-500">Card</dt>
+                    <dd class="text-xl font-bold">$530.00</dd>
+                  </dl>
+                  <dl>
+                    <dt class="text-gray-500">Cash</dt>
+                    <dd class="text-xl font-bold">$530.00</dd>
+                  </dl>
+
+                <div class="text-xl">
+                  Monthly
+                </div>
+              </div>
+              <div class="text-center">
+                  <a class="font-display relative disabled:opacity-40 disabled:cursor-not-allowed transition-all inline-flex items-center justify-center font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:active:text-white disabled:bg-black disabled:hover:bg-black bg-black text-white border border-black hover:text-slate-100 hover:bg-slate-700 hover:border-black active:border-black active:bg-black active:text-slate-500 focus-visible:outline-black text-sm gap-1 py-2 px-4 rounded-full w-full sm:w-auto" data-turbo-frame="_top" href="/rental_requests/new?location_id=loc_5c7772d5f2499e42a234ed8ff294223d&amp;storage_unit_type_id=sut_8ce23ad1894ba6a4277a864ff762ea91"><span>Join waiting list</span></a>
+
+                  <div class="text-red-600 pt-1 font-bold">No Units Available</div>
+              </div>
+            </div>
+</div>
+          <div class="bg-white rounded-xl shadow-xl border flex flex-col" data-test-type="sut_faaecf67fe2899a03fef80bc614576fc">
+            <div class="
+                flex flex-col items-center sm:items-start sm:flex-row gap-4 p-4 grow
+              ">
+              <img loading="lazy" class="h-32 w-32 object-cover rounded-xl" src="/assets/storage_unit-7e0ae57fc8cf23ec1e6dfc1308a01ef8cb0725a54aecb1caac2903cf4d98c7c9.png">
+              <div class="w-full text-center sm:text-left">
+                <div>
+                  <p class="text-xl font-bold">3X2.7</p>
+                  <p>3 x 2
+                    </p>
+                </div>
+                <div class="mt-2 pt-2 border-t">
+                  <p class="font-medium">Amenities</p>
+                    <p class="text-sm text-gray-500">None listed</p>
+                </div>
+              </div>
+            </div>
+            <div class="
+                p-4 flex flex-col sm:flex-row items-center gap-6 justify-between border-t
+              ">
+              <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 text-center items-center">
+
+                  <dl>
+                    <dt class="text-gray-500">Card</dt>
+                    <dd class="text-xl font-bold">$50.00</dd>
+                  </dl>
+                  <dl>
+                    <dt class="text-gray-500">Cash</dt>
+                    <dd class="text-xl font-bold">$50.00</dd>
+                  </dl>
+
+                <div class="text-xl">
+                  Monthly
+                </div>
+              </div>
+              <div class="text-center">
+                  <a class="font-display relative disabled:opacity-40 disabled:cursor-not-allowed transition-all inline-flex items-center justify-center font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:active:text-white disabled:bg-black disabled:hover:bg-black bg-black text-white border border-black hover:text-slate-100 hover:bg-slate-700 hover:border-black active:border-black active:bg-black active:text-slate-500 focus-visible:outline-black text-sm gap-1 py-2 px-4 rounded-full w-full sm:w-auto" data-turbo-frame="_top" href="/rental_requests/new?location_id=loc_5c7772d5f2499e42a234ed8ff294223d&amp;storage_unit_type_id=sut_faaecf67fe2899a03fef80bc614576fc"><span>Rent Now</span></a>
+
+              </div>
+            </div>
+</div>
+          <div class="bg-white rounded-xl shadow-xl border flex flex-col" data-test-type="sut_91daaebe6d70bc0b1a9b02733129cd05">
+            <div class="
+                flex flex-col items-center sm:items-start sm:flex-row gap-4 p-4 grow
+              ">
+              <img loading="lazy" class="h-32 w-32 object-cover rounded-xl" src="/assets/storage_unit-7e0ae57fc8cf23ec1e6dfc1308a01ef8cb0725a54aecb1caac2903cf4d98c7c9.png">
+              <div class="w-full text-center sm:text-left">
+                <div>
+                  <p class="text-xl font-bold">5X4X4 </p>
+                  <p>5 x 4 x 4
+                    </p>
+                </div>
+                <div class="mt-2 pt-2 border-t">
+                  <p class="font-medium">Amenities</p>
+                    <p class="text-sm">Indoor Lockers</p>
+                </div>
+              </div>
+            </div>
+            <div class="
+                p-4 flex flex-col sm:flex-row items-center gap-6 justify-between border-t
+              ">
+              <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 text-center items-center">
+
+                  <dl>
+                    <dt class="text-gray-500">Card</dt>
+                    <dd class="text-xl font-bold">$80.00</dd>
+                  </dl>
+                  <dl>
+                    <dt class="text-gray-500">Cash</dt>
+                    <dd class="text-xl font-bold">$80.00</dd>
+                  </dl>
+
+                <div class="text-xl">
+                  Monthly
+                </div>
+              </div>
+              <div class="text-center">
+                  <a class="font-display relative disabled:opacity-40 disabled:cursor-not-allowed transition-all inline-flex items-center justify-center font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:active:text-white disabled:bg-black disabled:hover:bg-black bg-black text-white border border-black hover:text-slate-100 hover:bg-slate-700 hover:border-black active:border-black active:bg-black active:text-slate-500 focus-visible:outline-black text-sm gap-1 py-2 px-4 rounded-full w-full sm:w-auto" data-turbo-frame="_top" href="/rental_requests/new?location_id=loc_5c7772d5f2499e42a234ed8ff294223d&amp;storage_unit_type_id=sut_91daaebe6d70bc0b1a9b02733129cd05"><span>Rent Now</span></a>
+
+              </div>
+            </div>
+</div>
+          <div class="bg-white rounded-xl shadow-xl border flex flex-col" data-test-type="sut_3cbf5f8e6e7f4e8df547893007c0c928">
+            <div class="
+                flex flex-col items-center sm:items-start sm:flex-row gap-4 p-4 grow
+              ">
+              <img loading="lazy" class="h-32 w-32 object-cover rounded-xl" src="/assets/storage_unit-7e0ae57fc8cf23ec1e6dfc1308a01ef8cb0725a54aecb1caac2903cf4d98c7c9.png">
+              <div class="w-full text-center sm:text-left">
+                <div>
+                  <p class="text-xl font-bold">5X5X4</p>
+                  <p>5 x 5 x 4
+                    </p>
+                </div>
+                <div class="mt-2 pt-2 border-t">
+                  <p class="font-medium">Amenities</p>
+                    <p class="text-sm">Indoor Lockers</p>
+                </div>
+              </div>
+            </div>
+            <div class="
+                p-4 flex flex-col sm:flex-row items-center gap-6 justify-between border-t
+              ">
+              <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 text-center items-center">
+
+                  <dl>
+                    <dt class="text-gray-500">Card</dt>
+                    <dd class="text-xl font-bold">$85.00</dd>
+                  </dl>
+                  <dl>
+                    <dt class="text-gray-500">Cash</dt>
+                    <dd class="text-xl font-bold">$85.00</dd>
+                  </dl>
+
+                <div class="text-xl">
+                  Monthly
+                </div>
+              </div>
+              <div class="text-center">
+                  <a class="font-display relative disabled:opacity-40 disabled:cursor-not-allowed transition-all inline-flex items-center justify-center font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:active:text-white disabled:bg-black disabled:hover:bg-black bg-black text-white border border-black hover:text-slate-100 hover:bg-slate-700 hover:border-black active:border-black active:bg-black active:text-slate-500 focus-visible:outline-black text-sm gap-1 py-2 px-4 rounded-full w-full sm:w-auto" data-turbo-frame="_top" href="/rental_requests/new?location_id=loc_5c7772d5f2499e42a234ed8ff294223d&amp;storage_unit_type_id=sut_3cbf5f8e6e7f4e8df547893007c0c928"><span>Rent Now</span></a>
+
+              </div>
+            </div>
+</div>
+          <div class="bg-white rounded-xl shadow-xl border flex flex-col" data-test-type="sut_51c451477cefe7379412ee2c258489a6">
+            <div class="
+                flex flex-col items-center sm:items-start sm:flex-row gap-4 p-4 grow
+              ">
+              <img loading="lazy" class="h-32 w-32 object-cover rounded-xl" src="/assets/storage_unit-7e0ae57fc8cf23ec1e6dfc1308a01ef8cb0725a54aecb1caac2903cf4d98c7c9.png">
+              <div class="w-full text-center sm:text-left">
+                <div>
+                  <p class="text-xl font-bold">5X5X8</p>
+                  <p>5 x 5 x 8
+                    </p>
+                </div>
+                <div class="mt-2 pt-2 border-t">
+                  <p class="font-medium">Amenities</p>
+                    <p class="text-sm">Indoor Lockers</p>
+                </div>
+              </div>
+            </div>
+            <div class="
+                p-4 flex flex-col sm:flex-row items-center gap-6 justify-between border-t
+              ">
+              <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 text-center items-center">
+
+                  <dl>
+                    <dt class="text-gray-500">Card</dt>
+                    <dd class="text-xl font-bold">$90.00</dd>
+                  </dl>
+                  <dl>
+                    <dt class="text-gray-500">Cash</dt>
+                    <dd class="text-xl font-bold">$90.00</dd>
+                  </dl>
+
+                <div class="text-xl">
+                  Monthly
+                </div>
+              </div>
+              <div class="text-center">
+                  <a class="font-display relative disabled:opacity-40 disabled:cursor-not-allowed transition-all inline-flex items-center justify-center font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:active:text-white disabled:bg-black disabled:hover:bg-black bg-black text-white border border-black hover:text-slate-100 hover:bg-slate-700 hover:border-black active:border-black active:bg-black active:text-slate-500 focus-visible:outline-black text-sm gap-1 py-2 px-4 rounded-full w-full sm:w-auto" data-turbo-frame="_top" href="/rental_requests/new?location_id=loc_5c7772d5f2499e42a234ed8ff294223d&amp;storage_unit_type_id=sut_51c451477cefe7379412ee2c258489a6"><span>Rent Now</span></a>
+
+              </div>
+            </div>
+</div>
+          <div class="bg-white rounded-xl shadow-xl border flex flex-col" data-test-type="sut_cbce1b01c33c8a41a9aad571af0852a1">
+            <div class="
+                flex flex-col items-center sm:items-start sm:flex-row gap-4 p-4 grow
+              ">
+              <img loading="lazy" class="h-32 w-32 object-cover rounded-xl" src="/assets/storage_unit-7e0ae57fc8cf23ec1e6dfc1308a01ef8cb0725a54aecb1caac2903cf4d98c7c9.png">
+              <div class="w-full text-center sm:text-left">
+                <div>
+                  <p class="text-xl font-bold">5x10</p>
+                  <p>5 x 10
+                    </p>
+                </div>
+                <div class="mt-2 pt-2 border-t">
+                  <p class="font-medium">Amenities</p>
+                    <p class="text-sm">Drive up access</p>
+                </div>
+              </div>
+            </div>
+            <div class="
+                p-4 flex flex-col sm:flex-row items-center gap-6 justify-between border-t
+              ">
+              <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 text-center items-center">
+
+                  <dl>
+                    <dt class="text-gray-500">Card</dt>
+                    <dd class="text-xl font-bold">$165.00</dd>
+                  </dl>
+                  <dl>
+                    <dt class="text-gray-500">Cash</dt>
+                    <dd class="text-xl font-bold">$165.00</dd>
+                  </dl>
+
+                <div class="text-xl">
+                  Monthly
+                </div>
+              </div>
+              <div class="text-center">
+                  <a class="font-display relative disabled:opacity-40 disabled:cursor-not-allowed transition-all inline-flex items-center justify-center font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:active:text-white disabled:bg-black disabled:hover:bg-black bg-black text-white border border-black hover:text-slate-100 hover:bg-slate-700 hover:border-black active:border-black active:bg-black active:text-slate-500 focus-visible:outline-black text-sm gap-1 py-2 px-4 rounded-full w-full sm:w-auto" data-turbo-frame="_top" href="/rental_requests/new?location_id=loc_5c7772d5f2499e42a234ed8ff294223d&amp;storage_unit_type_id=sut_cbce1b01c33c8a41a9aad571af0852a1"><span>Join waiting list</span></a>
+
+                  <div class="text-red-600 pt-1 font-bold">No Units Available</div>
+              </div>
+            </div>
+</div>
+          <div class="bg-white rounded-xl shadow-xl border flex flex-col" data-test-type="sut_953a45277193690ddcfe6570306cfe35">
+            <div class="
+                flex flex-col items-center sm:items-start sm:flex-row gap-4 p-4 grow
+              ">
+              <img loading="lazy" class="h-32 w-32 object-cover rounded-xl" src="/assets/storage_unit-7e0ae57fc8cf23ec1e6dfc1308a01ef8cb0725a54aecb1caac2903cf4d98c7c9.png">
+              <div class="w-full text-center sm:text-left">
+                <div>
+                  <p class="text-xl font-bold">5x10 </p>
+                  <p>5 x 10
+                    </p>
+                </div>
+                <div class="mt-2 pt-2 border-t">
+                  <p class="font-medium">Amenities</p>
+                    <p class="text-sm">Climate Control- Indoor Access</p>
+                </div>
+              </div>
+            </div>
+            <div class="
+                p-4 flex flex-col sm:flex-row items-center gap-6 justify-between border-t
+              ">
+              <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 text-center items-center">
+
+                  <dl>
+                    <dt class="text-gray-500">Card</dt>
+                    <dd class="text-xl font-bold">$175.00</dd>
+                  </dl>
+                  <dl>
+                    <dt class="text-gray-500">Cash</dt>
+                    <dd class="text-xl font-bold">$175.00</dd>
+                  </dl>
+
+                <div class="text-xl">
+                  Monthly
+                </div>
+              </div>
+              <div class="text-center">
+                  <a class="font-display relative disabled:opacity-40 disabled:cursor-not-allowed transition-all inline-flex items-center justify-center font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:active:text-white disabled:bg-black disabled:hover:bg-black bg-black text-white border border-black hover:text-slate-100 hover:bg-slate-700 hover:border-black active:border-black active:bg-black active:text-slate-500 focus-visible:outline-black text-sm gap-1 py-2 px-4 rounded-full w-full sm:w-auto" data-turbo-frame="_top" href="/rental_requests/new?location_id=loc_5c7772d5f2499e42a234ed8ff294223d&amp;storage_unit_type_id=sut_953a45277193690ddcfe6570306cfe35"><span>Rent Now</span></a>
+
+              </div>
+            </div>
+</div>
+          <div class="bg-white rounded-xl shadow-xl border flex flex-col" data-test-type="sut_ec3d6e016c4d4972d5678eecf5630db7">
+            <div class="
+                flex flex-col items-center sm:items-start sm:flex-row gap-4 p-4 grow
+              ">
+              <img loading="lazy" class="h-32 w-32 object-cover rounded-xl" src="/assets/storage_unit-7e0ae57fc8cf23ec1e6dfc1308a01ef8cb0725a54aecb1caac2903cf4d98c7c9.png">
+              <div class="w-full text-center sm:text-left">
+                <div>
+                  <p class="text-xl font-bold">5x10 </p>
+                  <p>5 x 10
+                    </p>
+                </div>
+                <div class="mt-2 pt-2 border-t">
+                  <p class="font-medium">Amenities</p>
+                    <p class="text-sm">Drive up access</p>
+                </div>
+              </div>
+            </div>
+            <div class="
+                p-4 flex flex-col sm:flex-row items-center gap-6 justify-between border-t
+              ">
+              <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 text-center items-center">
+
+                  <dl>
+                    <dt class="text-gray-500">Card</dt>
+                    <dd class="text-xl font-bold">$175.00</dd>
+                  </dl>
+                  <dl>
+                    <dt class="text-gray-500">Cash</dt>
+                    <dd class="text-xl font-bold">$175.00</dd>
+                  </dl>
+
+                <div class="text-xl">
+                  Monthly
+                </div>
+              </div>
+              <div class="text-center">
+                  <a class="font-display relative disabled:opacity-40 disabled:cursor-not-allowed transition-all inline-flex items-center justify-center font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:active:text-white disabled:bg-black disabled:hover:bg-black bg-black text-white border border-black hover:text-slate-100 hover:bg-slate-700 hover:border-black active:border-black active:bg-black active:text-slate-500 focus-visible:outline-black text-sm gap-1 py-2 px-4 rounded-full w-full sm:w-auto" data-turbo-frame="_top" href="/rental_requests/new?location_id=loc_5c7772d5f2499e42a234ed8ff294223d&amp;storage_unit_type_id=sut_ec3d6e016c4d4972d5678eecf5630db7"><span>Join waiting list</span></a>
+
+                  <div class="text-red-600 pt-1 font-bold">No Units Available</div>
+              </div>
+            </div>
+</div>
+          <div class="bg-white rounded-xl shadow-xl border flex flex-col" data-test-type="sut_58e1b446fd555cba375a39d39ea3c76a">
+            <div class="
+                flex flex-col items-center sm:items-start sm:flex-row gap-4 p-4 grow
+              ">
+              <img loading="lazy" class="h-32 w-32 object-cover rounded-xl" src="/assets/storage_unit-7e0ae57fc8cf23ec1e6dfc1308a01ef8cb0725a54aecb1caac2903cf4d98c7c9.png">
+              <div class="w-full text-center sm:text-left">
+                <div>
+                  <p class="text-xl font-bold">7x25</p>
+                  <p>7 x 25
+                    </p>
+                </div>
+                <div class="mt-2 pt-2 border-t">
+                  <p class="font-medium">Amenities</p>
+                    <p class="text-sm">Drive up access</p>
+                </div>
+              </div>
+            </div>
+            <div class="
+                p-4 flex flex-col sm:flex-row items-center gap-6 justify-between border-t
+              ">
+              <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 text-center items-center">
+
+                  <dl>
+                    <dt class="text-gray-500">Card</dt>
+                    <dd class="text-xl font-bold">$260.00</dd>
+                  </dl>
+                  <dl>
+                    <dt class="text-gray-500">Cash</dt>
+                    <dd class="text-xl font-bold">$260.00</dd>
+                  </dl>
+
+                <div class="text-xl">
+                  Monthly
+                </div>
+              </div>
+              <div class="text-center">
+                  <a class="font-display relative disabled:opacity-40 disabled:cursor-not-allowed transition-all inline-flex items-center justify-center font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:active:text-white disabled:bg-black disabled:hover:bg-black bg-black text-white border border-black hover:text-slate-100 hover:bg-slate-700 hover:border-black active:border-black active:bg-black active:text-slate-500 focus-visible:outline-black text-sm gap-1 py-2 px-4 rounded-full w-full sm:w-auto" data-turbo-frame="_top" href="/rental_requests/new?location_id=loc_5c7772d5f2499e42a234ed8ff294223d&amp;storage_unit_type_id=sut_58e1b446fd555cba375a39d39ea3c76a"><span>Rent Now</span></a>
+
+              </div>
+            </div>
+</div>
+          <div class="bg-white rounded-xl shadow-xl border flex flex-col" data-test-type="sut_d2b4bb62d4450d9e7ecf798198760902">
+            <div class="
+                flex flex-col items-center sm:items-start sm:flex-row gap-4 p-4 grow
+              ">
+              <img loading="lazy" class="h-32 w-32 object-cover rounded-xl" src="/assets/storage_unit-7e0ae57fc8cf23ec1e6dfc1308a01ef8cb0725a54aecb1caac2903cf4d98c7c9.png">
+              <div class="w-full text-center sm:text-left">
+                <div>
+                  <p class="text-xl font-bold">Outdoor Parking</p>
+                  <p>
+                    </p>
+                </div>
+                <div class="mt-2 pt-2 border-t">
+                  <p class="font-medium">Amenities</p>
+                    <p class="text-sm">RV/Truck/Trailer Outdoor Parking/
+ Call (970)-963-4500 for more information.</p>
+                </div>
+              </div>
+            </div>
+            <div class="
+                p-4 flex flex-col sm:flex-row items-center gap-6 justify-between border-t
+              ">
+              <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 text-center items-center">
+
+                  <dl>
+                    <dt class="text-gray-500">Card</dt>
+                    <dd class="text-xl font-bold">$145.00</dd>
+                  </dl>
+                  <dl>
+                    <dt class="text-gray-500">Cash</dt>
+                    <dd class="text-xl font-bold">$145.00</dd>
+                  </dl>
+
+                <div class="text-xl">
+                  Monthly
+                </div>
+              </div>
+              <div class="text-center">
+                  <a class="font-display relative disabled:opacity-40 disabled:cursor-not-allowed transition-all inline-flex items-center justify-center font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:active:text-white disabled:bg-black disabled:hover:bg-black bg-black text-white border border-black hover:text-slate-100 hover:bg-slate-700 hover:border-black active:border-black active:bg-black active:text-slate-500 focus-visible:outline-black text-sm gap-1 py-2 px-4 rounded-full w-full sm:w-auto" data-turbo-frame="_top" href="/rental_requests/new?location_id=loc_5c7772d5f2499e42a234ed8ff294223d&amp;storage_unit_type_id=sut_d2b4bb62d4450d9e7ecf798198760902"><span>Reserve</span></a>
+
+              </div>
+            </div>
+</div>
+          <div class="bg-white rounded-xl shadow-xl border flex flex-col" data-test-type="sut_e91897ffcf7838a0d43806fb7b2c30f1">
+            <div class="
+                flex flex-col items-center sm:items-start sm:flex-row gap-4 p-4 grow
+              ">
+              <img loading="lazy" class="h-32 w-32 object-cover rounded-xl" src="/assets/storage_unit-7e0ae57fc8cf23ec1e6dfc1308a01ef8cb0725a54aecb1caac2903cf4d98c7c9.png">
+              <div class="w-full text-center sm:text-left">
+                <div>
+                  <p class="text-xl font-bold">Outdoor Parking</p>
+                  <p>
+                    </p>
+                </div>
+                <div class="mt-2 pt-2 border-t">
+                  <p class="font-medium">Amenities</p>
+                    <p class="text-sm">Car/Truck/Trailer Outdoor Parking/
+Call (970)-963-4500 for more information.</p>
+                </div>
+              </div>
+            </div>
+            <div class="
+                p-4 flex flex-col sm:flex-row items-center gap-6 justify-between border-t
+              ">
+              <div class="flex flex-col sm:flex-row gap-2 sm:gap-6 text-center items-center">
+
+                  <dl>
+                    <dt class="text-gray-500">Card</dt>
+                    <dd class="text-xl font-bold">$110.00</dd>
+                  </dl>
+                  <dl>
+                    <dt class="text-gray-500">Cash</dt>
+                    <dd class="text-xl font-bold">$110.00</dd>
+                  </dl>
+
+                <div class="text-xl">
+                  Monthly
+                </div>
+              </div>
+              <div class="text-center">
+                  <a class="font-display relative disabled:opacity-40 disabled:cursor-not-allowed transition-all inline-flex items-center justify-center font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:active:text-white disabled:bg-black disabled:hover:bg-black bg-black text-white border border-black hover:text-slate-100 hover:bg-slate-700 hover:border-black active:border-black active:bg-black active:text-slate-500 focus-visible:outline-black text-sm gap-1 py-2 px-4 rounded-full w-full sm:w-auto" data-turbo-frame="_top" href="/rental_requests/new?location_id=loc_5c7772d5f2499e42a234ed8ff294223d&amp;storage_unit_type_id=sut_e91897ffcf7838a0d43806fb7b2c30f1"><span>Join waiting list</span></a>
+
+                  <div class="text-red-600 pt-1 font-bold">No Units Available</div>
+              </div>
+            </div>
+</div>    </div>
+  </div>
+</turbo-frame>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <footer class="mt-4"></footer>
+
+    <div id="flash">
+</div>
+    <template id="confirm_template">
+      <dialog data-turbo-temporary="" data-controller="confirm-dialog" class="font-display backdrop:opacity-0 opacity-0 backdrop:transition-all backdrop:duration-500 animate fixed transition-opacity duration-350
+	ease-out inset-0 bg-transparent backdrop:animate-fade animate-shrink backdrop:bg-black/40">
+	<form method="dialog">
+		<div class="flex align-center justify-center w-full">
+			<div class="bg-white rounded-lg overflow-hidden relative transform text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+				<div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+					<div class="sm:flex sm:items-start">
+						<div class="text-red-600 mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+              <svg class="h-5 w-5"><svg id="exclamation-triangle-o" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"></path>
+</svg></svg>
+						</div>
+						<div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+							<h3 class="text-base font-semibold leading-6 text-gray-900" data-confirm-dialog-target="title">
+								Confirm
+							</h3>
+							<div class="text-sm text-gray-500 mt-2" data-confirm-dialog-target="body">Are you sure?</div>
+						</div>
+					</div>
+				</div>
+				<div class="flex flex-col bg-gray-50 gap-2 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+            <button name="button" type="submit" class="font-display relative disabled:opacity-40 disabled:cursor-not-allowed transition-all inline-flex items-center justify-center font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:active:text-white disabled:bg-black disabled:hover:bg-black bg-black text-white border border-black hover:text-slate-100 hover:bg-slate-700 hover:border-black active:border-black active:bg-black active:text-slate-500 focus-visible:outline-black text-sm gap-1 py-2 px-4 rounded-full w-full sm:w-auto" value="confirm" data-default="true" data-confirm-dialog-target="button">
+    <span>Ok</span>
+</button>
+            <button name="button" type="submit" class="font-display relative disabled:opacity-40 disabled:cursor-not-allowed transition-all inline-flex items-center justify-center font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:bg-red-500 disabled:hover:bg-red-500 bg-red-500 text-white border border-red-500 hover:text-slate-100 hover:bg-red-400 hover:border-red-400 active:border-red-800 active:bg-red-800 active:text-red-100 focus-visible:outline-red-600 text-sm gap-1 py-2 px-4 rounded-full w-full sm:w-auto" value="confirm" data-destructive="true" data-confirm-dialog-target="button">
+    <span>Ok</span>
+</button>
+            <button name="button" type="button" class="font-display relative disabled:opacity-40 disabled:cursor-not-allowed transition-all inline-flex items-center justify-center font-semibold focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 disabled:bg-white disabled:hover:bg-white bg-white font-normal border border-slate-300 disabled:hover:text-slate-700 text-slate-700 hover:bg-slate-100 hover:border-slate-400 hover:text-slate-900 active:bg-slate-100 active:text-slate-900 focus-visible:outline-slate-300 text-sm gap-1 py-2 px-4 rounded-full w-full sm:w-auto" data-action="confirm-dialog#close">
+    <span>Cancel</span>
+</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</dialog>
+    </template>
+  
+
+</body></html>

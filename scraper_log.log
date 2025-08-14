@@ -56,3 +56,103 @@ Stacktrace:
 	BaseThreadInitThunk [0x0x7ffe0f79e8d7+23]
 	RtlUserThreadStart [0x0x7ffe1115c34c+44]
 
+2025-08-12 14:13:18,539 [INFO] Database and table ensured.
+2025-08-12 14:13:18,539 [INFO] Fetching new data from web sources...
+2025-08-12 14:13:47,586 [ERROR] Error fetching HTML for Storage Mart: Message: 
+Stacktrace:
+	GetHandleVerifier [0x0x7ff60097e415+77285]
+	GetHandleVerifier [0x0x7ff60097e470+77376]
+	(No symbol) [0x0x7ff600749a6a]
+	(No symbol) [0x0x7ff6007a0406]
+	(No symbol) [0x0x7ff6007a06bc]
+	(No symbol) [0x0x7ff6007f3ac7]
+	(No symbol) [0x0x7ff6007c864f]
+	(No symbol) [0x0x7ff6007f087f]
+	(No symbol) [0x0x7ff6007c83e3]
+	(No symbol) [0x0x7ff600791521]
+	(No symbol) [0x0x7ff6007922b3]
+	GetHandleVerifier [0x0x7ff600c61efd+3107021]
+	GetHandleVerifier [0x0x7ff600c5c29d+3083373]
+	GetHandleVerifier [0x0x7ff600c7bedd+3213485]
+	GetHandleVerifier [0x0x7ff60099884e+184862]
+	GetHandleVerifier [0x0x7ff6009a055f+216879]
+	GetHandleVerifier [0x0x7ff600987084+113236]
+	GetHandleVerifier [0x0x7ff600987239+113673]
+	GetHandleVerifier [0x0x7ff60096e298+11368]
+	BaseThreadInitThunk [0x0x7ffe0f79e8d7+23]
+	RtlUserThreadStart [0x0x7ffe1115c34c+44]
+
+2025-08-12 14:14:07,210 [WARNING] Some sources failed to fetch: Storage Mart
+2025-08-12 14:14:07,315 [ERROR] Error extracting data: 'NoneType' object has no attribute 'find_all'
+2025-08-12 14:14:07,316 [CRITICAL] Fatal error in main scraping logic: 'NoneType' object has no attribute 'find_all'
+2025-08-13 12:10:38,197 [INFO] Database and table ensured.
+2025-08-13 12:10:38,197 [INFO] Fetching new data from web sources...
+2025-08-13 12:11:02,628 [INFO] Database and table ensured.
+2025-08-13 12:11:02,629 [INFO] Fetching new data from web sources...
+2025-08-13 12:11:29,387 [ERROR] Error fetching HTML for Storage Mart: Message: 
+Stacktrace:
+	GetHandleVerifier [0x0x7ff7d0496b25+79621]
+	GetHandleVerifier [0x0x7ff7d0496b80+79712]
+	(No symbol) [0x0x7ff7d022c0ea]
+	(No symbol) [0x0x7ff7d0282f56]
+	(No symbol) [0x0x7ff7d028320c]
+	(No symbol) [0x0x7ff7d02d65b7]
+	(No symbol) [0x0x7ff7d02ab17f]
+	(No symbol) [0x0x7ff7d02d33d0]
+	(No symbol) [0x0x7ff7d02aaf13]
+	(No symbol) [0x0x7ff7d0274151]
+	(No symbol) [0x0x7ff7d0274ee3]
+	GetHandleVerifier [0x0x7ff7d075683d+2962461]
+	GetHandleVerifier [0x0x7ff7d0750b5d+2938685]
+	GetHandleVerifier [0x0x7ff7d076f71d+3064573]
+	GetHandleVerifier [0x0x7ff7d04b0c6e+186446]
+	GetHandleVerifier [0x0x7ff7d04b8a3f+218655]
+	GetHandleVerifier [0x0x7ff7d049f914+115956]
+	GetHandleVerifier [0x0x7ff7d049fac9+116393]
+	GetHandleVerifier [0x0x7ff7d0485ef8+10968]
+	BaseThreadInitThunk [0x0x7ffa5d2ce8d7+23]
+	RtlUserThreadStart [0x0x7ffa5e19c34c+44]
+
+2025-08-13 12:11:48,768 [WARNING] Some sources failed to fetch: Storage Mart
+2025-08-13 12:11:48,881 [ERROR] Error extracting data: 'NoneType' object has no attribute 'find_all'
+2025-08-13 12:11:48,881 [CRITICAL] Fatal error in main scraping logic: 'NoneType' object has no attribute 'find_all'
+2025-08-13 12:14:49,613 [INFO] Database and table ensured.
+2025-08-13 12:14:49,613 [INFO] Fetching new data from web sources...
+2025-08-13 12:15:15,737 [ERROR] Error fetching HTML for Storage Mart: Message: 
+Stacktrace:
+	GetHandleVerifier [0x0x7ff7d0496b25+79621]
+	GetHandleVerifier [0x0x7ff7d0496b80+79712]
+	(No symbol) [0x0x7ff7d022c0ea]
+	(No symbol) [0x0x7ff7d0282f56]
+	(No symbol) [0x0x7ff7d028320c]
+	(No symbol) [0x0x7ff7d02d65b7]
+	(No symbol) [0x0x7ff7d02ab17f]
+	(No symbol) [0x0x7ff7d02d33d0]
+	(No symbol) [0x0x7ff7d02aaf13]
+	(No symbol) [0x0x7ff7d0274151]
+	(No symbol) [0x0x7ff7d0274ee3]
+	GetHandleVerifier [0x0x7ff7d075683d+2962461]
+	GetHandleVerifier [0x0x7ff7d0750b5d+2938685]
+	GetHandleVerifier [0x0x7ff7d076f71d+3064573]
+	GetHandleVerifier [0x0x7ff7d04b0c6e+186446]
+	GetHandleVerifier [0x0x7ff7d04b8a3f+218655]
+	GetHandleVerifier [0x0x7ff7d049f914+115956]
+	GetHandleVerifier [0x0x7ff7d049fac9+116393]
+	GetHandleVerifier [0x0x7ff7d0485ef8+10968]
+	BaseThreadInitThunk [0x0x7ffa5d2ce8d7+23]
+	RtlUserThreadStart [0x0x7ffa5e19c34c+44]
+
+2025-08-13 12:15:34,478 [WARNING] Some sources failed to fetch: Storage Mart
+2025-08-13 12:15:34,577 [ERROR] Error extracting data: 'NoneType' object has no attribute 'find_all'
+2025-08-13 12:15:34,578 [CRITICAL] Fatal error in main scraping logic: 'NoneType' object has no attribute 'find_all'
+2025-08-13 12:21:30,110 [INFO] Database and table ensured.
+2025-08-13 12:21:30,110 [INFO] Fetching new data from web sources...
+2025-08-13 12:22:21,804 [INFO] Fetched HTML from all sources.
+2025-08-13 12:22:22,158 [INFO] Data combined, inserted into DB, and written to Excel.
+2025-08-13 12:24:12,243 [INFO] Database and table ensured.
+2025-08-13 12:24:12,243 [INFO] Today's data already exists in web_data. Syncing to database if needed...
+2025-08-13 12:24:13,848 [INFO] Data loaded from existing HTML and written to Excel.
+2025-08-13 12:44:57,832 [INFO] Database and table ensured.
+2025-08-13 12:44:57,833 [INFO] Fetching new data from web sources...
+2025-08-13 12:45:51,870 [INFO] Fetched HTML from all sources.
+2025-08-13 12:45:52,231 [INFO] Data combined, inserted into DB, and written to Excel.

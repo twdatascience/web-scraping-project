@@ -1,7 +1,8 @@
 import utils.helpers as helpers
 import os
 import datetime
-import logging  # <-- Add logging import
+import logging
+
 
 # =========================
 # Logging Setup
@@ -72,17 +73,47 @@ try:
         carbondale_url = "https://carbondaleministorage.ccstorage.com/find_units"
         basalt_cc_url = 'https://www.spacecontroletrans.com/scStarOnlinePayment/index.html?CompanyId=327-SF&ConnectionType=Connection#/displaySizes'
         basalt_reg_url = 'https://www.spacecontroletrans.com/scStarOnlinePayment/index.html?CompanyId=327-BS&ConnectionType=Connection#/displaySizes'
-        # TODO: make storage_mart go last and improve error handling
+
+        sopris_soup = storquest_soup = storage_mart_soup = all_hours_soup = carbondale_soup = None
+        basalt_soup_reg = basalt_soup_cc = None
+        fetch_errors = []
         try:
-            sopris_soup = helpers.fetch_sopris_self_storage(sopris_url)
-            storquest_soup = helpers.fetch_storquest_self_storage(storquest_url)
-            storage_mart_soup = helpers.fetch_storage_mart(storage_mart_url)
-            all_hours_soup = helpers.fetch_all_hours(all_hours_url)
-            carbondale_soup = helpers.fetch_carbondale(carbondale_url)
-            basalt_soup_reg, basalt_soup_cc = helpers.fetch_basalt_mini(basalt_cc_url, basalt_reg_url)
-            logger.info("Fetched HTML from all sources.")
+            try:
+                sopris_soup = helpers.fetch_sopris_self_storage(sopris_url)
+            except Exception as e:
+                logger.error(f"Error fetching HTML for Sopris: {e}")
+                fetch_errors.append("Sopris")
+            try:
+                storquest_soup = helpers.fetch_storquest_self_storage(storquest_url)
+            except Exception as e:
+                logger.error(f"Error fetching HTML for Storquest: {e}")
+                fetch_errors.append("Storquest")
+            try:
+                storage_mart_soup = helpers.fetch_storage_mart(storage_mart_url)
+            except Exception as e:
+                logger.error(f"Error fetching HTML for Storage Mart: {e}")
+                fetch_errors.append("Storage Mart")
+            try:
+                all_hours_soup = helpers.fetch_all_hours(all_hours_url)
+            except Exception as e:
+                logger.error(f"Error fetching HTML for All Hours: {e}")
+                fetch_errors.append("All Hours")
+            try:
+                carbondale_soup = helpers.fetch_carbondale(carbondale_url)
+            except Exception as e:
+                logger.error(f"Error fetching HTML for Carbondale: {e}")
+                fetch_errors.append("Carbondale")
+            try:
+                basalt_soup_reg, basalt_soup_cc = helpers.fetch_basalt_mini(basalt_cc_url, basalt_reg_url)
+            except Exception as e:
+                logger.error(f"Error fetching HTML for Basalt Mini: {e}")
+                fetch_errors.append("Basalt Mini")
+            if fetch_errors:
+                logger.warning(f"Some sources failed to fetch: {', '.join(fetch_errors)}")
+            else:
+                logger.info("Fetched HTML from all sources.")
         except Exception as e:
-            logger.error(f"Error fetching HTML: {e}")
+            logger.error(f"Unexpected error during HTML fetching: {e}")
             raise
 
         # ----------- Extract data from HTML -----------
